@@ -19,7 +19,7 @@ spec:
       count: 1
       config:
         node.store.allow_mmap: false
-  http:
+  transport:
     tls:
-      selfSignedCertificate:
-        disabled: true
+      subjectAltNames:
+        - dns: elastic-search-es-default
