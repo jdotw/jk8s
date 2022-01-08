@@ -2,6 +2,20 @@ apiVersion: v1
 entries:
   jk8s:
   - apiVersion: v2
+    created: "2022-01-08T02:41:50.365167955Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 3.29.5
+    - name: argo-rollouts
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.8.0
+    digest: 3602ad14f7e667eb687d77a3df852f69dd7eca12d4049f1c7d32778cdaf2745d
+    name: jk8s
+    urls:
+    - https://github.com/jdotw/jk8s/releases/download/jk8s-1.0.6/jk8s-1.0.6.tgz
+    version: 1.0.6
+  - apiVersion: v2
     created: "2022-01-08T02:39:38.894906553Z"
     dependencies:
     - name: argo-cd
