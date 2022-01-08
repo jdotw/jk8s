@@ -18,14 +18,4 @@ spec:
     - name: default
       count: 1
       config:
-        node.roles: ["master"]
-      volumeClaimTemplates:
-        - metadata:
-            name: elasticsearch-data
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 10Gi
-            storageClassName: standard
+        node.store.allow_mmap: false
