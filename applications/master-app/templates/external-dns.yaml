@@ -1,4 +1,4 @@
-{{ if .Values.dns.externaldns.enabled }}
+{{ if .Values.dns.externalDNS.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,7 +17,7 @@ spec:
     helm:
       releaseName: external-dns
       parameters:
-      {{ if .Values.aws.serviceAccountName }}
+      {{ if .Values.dns.externalDNS.aws.serviceAccountName }}
         - name: serviceAccount.create
           value: "false"
         - name: serviceAccount.name

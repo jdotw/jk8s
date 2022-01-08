@@ -11,28 +11,28 @@ cluster:
 # Must be provided
 dns: 
   fqdn: <CLUSTER_FQDN>
-  externaldns:
+  externalDNS:
     enabled: false
     zoneID: <DNS_ZONE_ID>
     aws: 
       serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
 tls:
-  cert-manager:
+  certManager:
     enabled: true
     email: cert@jk8s.io
-    self-signed: 
+    selfSigned: 
       enabled: true
-    lets-encrypt-staging:
+    letsEncryptStaging:
       enabled: false
       aws: 
         serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
-    lets-encrypt-production:
+    letsEncryptProduction:
       enabled: false
       aws: 
         serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
 secrets:
-  external-secrets:
+  externalSecrets:
     enabled: false
     aws:
-      secrets-manager:
+      secretsManager:
         serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
