@@ -13,9 +13,9 @@ dns:
   fqdn: <CLUSTER_FQDN>
   externalDNS:
     enabled: true
-    zoneID: <DNS_ZONE_ID>
+    zoneID: ""
     aws: 
-      serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+      serviceAccountName: ""
 tls:
   certManager:
     enabled: true
@@ -25,14 +25,14 @@ tls:
     letsEncryptStaging:
       enabled: false
       aws: 
-        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+        serviceAccountName: ""
     letsEncryptProduction:
       enabled: false
       aws: 
-        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+        serviceAccountName: ""
 secrets:
   externalSecrets:
     enabled: false
     aws:
       secretsManager:
-        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+        serviceAccountName: ""
