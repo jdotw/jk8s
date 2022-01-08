@@ -18,7 +18,7 @@ export class OpenSearchStack extends Stack {
     const prodDomain = new opensearch.Domain(this, "Domain", {
       version: opensearch.EngineVersion.OPENSEARCH_1_0,
       capacity: {
-        masterNodes: 2,
+        masterNodes: 3,
         dataNodes: 10,
       },
       ebs: {
