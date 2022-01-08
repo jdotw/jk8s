@@ -1,13 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: argocd-cm
   labels:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/managed-by: Helm
-    meta.helm.sh/release-name: argocd
-    meta.helm.sh/release-namespace: argocd
 data:
   repositories: |
     - url: https://github.com/helm/charts.git

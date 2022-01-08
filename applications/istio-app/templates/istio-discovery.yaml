@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-discovery
+  namespace: {{ Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: istiod
+    targetRevision: "1.12.1"
+    helm:
+      releaseName: istiod
+      parameters:
+        - name: global.tracer.zipkin.address
+          value: jaeger-collector.telemetry:9411
+
+  destination:
+    namespace: istio-system
+    server: "{{ .Values.spec.destination.server }}"
+
+  syncPolicy:
+    automated:
+      prune: true

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-ingress
+  namespace: {{ Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: gateway
+    targetRevision: "1.12.1"
+    helm:
+      releaseName: istio-ingress
+      parameters:
+        - name: "labels.version"
+          value: "1.12.1"
+
+  destination:
+    namespace: istio-ingress
+    server: "{{ .Values.spec.destination.server }}"
+
+  syncPolicy:
+    automated:
+      prune: true

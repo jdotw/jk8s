@@ -7,33 +7,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/jdotw/jk8s.git
-    targetRevision: HEAD
-    path: applications/master-app
+    repoURL: {{ .Values.jk8s.apps.repoURL }}
+    targetRevision: {{ .Values.jk8s.apps.targetRevision }}
+    path: "{{ .Values.jk8s.apps.path }}/master-app"
     helm:
-      # parameters:
-      #   - name: fqdn
-      #     value: "{{ .Values.name }}.12kmps.com"
-      #   - name: zoneID
-      #     value: "{{ .Values.zoneID }}"
-      #   - name: dnsServiceAccountName
-      #     value: "{{ .Values.dnsServiceAccountName }}"
-      #   - name: dnsServiceAccountARN
-      #     value: "{{ .Values.dnsServiceAccountARN }}"
-      #   - name: secretsServiceAccountName
-      #     value: "{{ .Values.secretsServiceAccountName }}"
-      #   - name: secretsServiceAccountARN
-      #     value: "{{ .Values.secretsServiceAccountARN }}"
-      #   - name: certManagerServiceAccountName
-      #     value: "{{ .Values.certManagerServiceAccountName }}"
-      #   - name: certManagerServiceAccountARN
-      #     value: "{{ .Values.certManagerServiceAccountARN }}"
-      #   - name: name
-      #     value: "{{ .Values.name }}"
-      #   - name: wildcardCertARN
-      #     value: "{{ .Values.wildcardCertARN }}"
-      #   - name: certEmail
-      #     value: "{{ .Values.certEmail }}"
       values: |
         {{ toYaml .Values.jk8s | nindent 8 }}
   destination:

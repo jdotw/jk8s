@@ -9,6 +9,10 @@ cluster:
     namespace: "kube-system"
 
 # Must be provided
+apps:
+  repoURL: ""
+  path: ""
+  targetRevision: ""
 dns: 
   fqdn: ""
   externalDNS:

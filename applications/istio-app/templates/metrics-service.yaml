@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+  namespace: {{ Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/metrics-server/
+    chart: metrics-server
+    targetRevision: "3.7.0"
+    helm:
+      releaseName: metrics-server
+
+  destination:
+    namespace: kube-system
+    server: "{{ .Values.spec.destination.server }}"
+
+  syncPolicy:
+    automated:
+      prune: true
