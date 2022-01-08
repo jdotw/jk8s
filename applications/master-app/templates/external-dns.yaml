@@ -1,4 +1,12 @@
 {{ if .Values.dns.externalDNS.enabled }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-dns
+  labels:
+    istio-injection: enabled
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -43,4 +51,5 @@ spec:
   syncPolicy:
     automated:
       prune: true
+---
 {{ end }}
