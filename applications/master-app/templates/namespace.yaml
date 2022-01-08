@@ -10,15 +10,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: elastic-system
-  labels:
-    istio-injection: disabled
-  annotations:
-    argocd.argoproj.io/sync-wave: "-10"
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: app
   labels:
     istio-injection: enabled
