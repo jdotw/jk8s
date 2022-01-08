@@ -11,7 +11,7 @@ cluster:
 # Must be provided
 dns: 
   fqdn: <CLUSTER_FQDN>
-  external-dns:
+  externaldns:
     enabled: false
     zoneID: <DNS_ZONE_ID>
     aws: 

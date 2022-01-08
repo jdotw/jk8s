@@ -1,4 +1,4 @@
-{{- if .Values.dns.external-dns.enabled }}
+{{ if .Values.dns.externaldns.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,12 +17,12 @@ spec:
     helm:
       releaseName: external-dns
       parameters:
-      {{- if .Values.aws.serviceAccountName }}
+      {{ if .Values.aws.serviceAccountName }}
         - name: serviceAccount.create
           value: "false"
         - name: serviceAccount.name
           value: "{{ .Values.dns.aws.serviceAccountName }}"
-      {{- end }}
+      {{ end }}
         - name: domainFilters[0]
           value: "{{ .Values.dns.fqdn }}"
         - name: regexDomainExclusion
@@ -30,7 +30,7 @@ spec:
         - name: policy
           value: sync
         - name: txtOwnerId
-          value: "{{ .Values.dns.external-dns.zoneID }}"
+          value: "{{ .Values.dns.externaldns.zoneID }}"
         - name: sources[0]
           value: istio-virtualservice
         - name: sources[1]
@@ -43,4 +43,4 @@ spec:
   syncPolicy:
     automated:
       prune: true
-{{- end }}
+{{ end }}
