@@ -5,6 +5,8 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: "{{ .Release.Namespace }}"
+    meta.helm.sh/release-namespace: "{{ .Release.Name }}"
 data:
   repositories: |
     - url: https://github.com/helm/charts.git
