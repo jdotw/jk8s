@@ -21,7 +21,7 @@ spec:
         - name: serviceAccount.create
           value: "false"
         - name: serviceAccount.name
-          value: "{{ .Values.dns.aws.serviceAccountName }}"
+          value: "{{ .Values.dns.externalDNS.aws.serviceAccountName }}"
       {{ end }}
         - name: domainFilters[0]
           value: "{{ .Values.dns.fqdn }}"
@@ -30,7 +30,7 @@ spec:
         - name: policy
           value: sync
         - name: txtOwnerId
-          value: "{{ .Values.dns.externaldns.zoneID }}"
+          value: "{{ .Values.dns.externalDNS.zoneID }}"
         - name: sources[0]
           value: istio-virtualservice
         - name: sources[1]
