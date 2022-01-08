@@ -1,5 +1,5 @@
 name: jk8s
-version: 1.0.6
+version: 1.0.7
 apiVersion: v2
 dependencies:
 - name: argo-cd

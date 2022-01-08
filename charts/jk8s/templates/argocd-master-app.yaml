@@ -35,7 +35,7 @@ spec:
       #   - name: certEmail
       #     value: "{{ .Values.certEmail }}"
       values: |
-        {{ .Values.jk8s }}
+        {{ toYaml .Values.jk8s | indent 8 }}
   destination:
     namespace: {{ .Release.Namespace }}
     server: https://kubernetes.default.svc
