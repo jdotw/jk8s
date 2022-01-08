@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jaeger-operator
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  source:
+    repoURL: https://jaegertracing.github.io/helm-charts
+    chart: jaeger-operator
+    targetRevision: "2.27.1"
+    helm:
+      releaseName: jaeger-tracing
+  destination:
+    namespace: telemetry
+    server: "{{ .Values.spec.destination.server }}"
+  syncPolicy:
+    automated:
+      prune: true
