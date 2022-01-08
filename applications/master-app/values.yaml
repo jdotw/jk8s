@@ -12,7 +12,7 @@ cluster:
 dns: 
   fqdn: <CLUSTER_FQDN>
   externalDNS:
-    enabled: true
+    enabled: false
     zoneID: ""
     aws: 
       serviceAccountName: ""
