@@ -1,0 +1,8 @@
+argocd:
+  namespace: ""
+  fqdn: ""
+  service: ""
+
+dns:
+  fqdn: ""
+

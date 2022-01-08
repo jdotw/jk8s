@@ -14,6 +14,8 @@ spec:
       parameters:
         - name: "argocd.namespace"
           value: {{ .Release.Namespace }}
+        - name: "helm.releaseName"
+          value: {{ .Release.Name }}
       values: |
         {{ toYaml .Values.jk8s | nindent 8 }}
   destination:
