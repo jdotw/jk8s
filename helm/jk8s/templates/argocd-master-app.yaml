@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: master-app
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jdotw/jk8s.git
+    targetRevision: HEAD
+    path: applications/master-app
+    helm:
+      # parameters:
+      #   - name: fqdn
+      #     value: "{{ .Values.name }}.12kmps.com"
+      #   - name: zoneID
+      #     value: "{{ .Values.zoneID }}"
+      #   - name: dnsServiceAccountName
+      #     value: "{{ .Values.dnsServiceAccountName }}"
+      #   - name: dnsServiceAccountARN
+      #     value: "{{ .Values.dnsServiceAccountARN }}"
+      #   - name: secretsServiceAccountName
+      #     value: "{{ .Values.secretsServiceAccountName }}"
+      #   - name: secretsServiceAccountARN
+      #     value: "{{ .Values.secretsServiceAccountARN }}"
+      #   - name: certManagerServiceAccountName
+      #     value: "{{ .Values.certManagerServiceAccountName }}"
+      #   - name: certManagerServiceAccountARN
+      #     value: "{{ .Values.certManagerServiceAccountARN }}"
+      #   - name: name
+      #     value: "{{ .Values.name }}"
+      #   - name: wildcardCertARN
+      #     value: "{{ .Values.wildcardCertARN }}"
+      #   - name: certEmail
+      #     value: "{{ .Values.certEmail }}"
+      values: |
+        {{ .Values.jk8s }}
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true

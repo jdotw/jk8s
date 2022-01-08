@@ -1,0 +1,53 @@
+# jk8s Values
+jk8s:
+  cluster:
+    name: jk8s
+  dns: 
+    fqdn: <CLUSTER_FQDN>
+    external-dns:
+      enabled: false
+      zoneID: <DNS_ZONE_ID>
+      aws: 
+        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+  tls:
+    cert-manager:
+      enabled: true
+      email: cert@jk8s.io
+      self-signed: 
+        enabled: true
+      lets-encrypt-staging:
+        enabled: false
+        aws: 
+          serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+      lets-encrypt-production:
+        enabled: false
+        aws: 
+          serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+  secrets:
+    external-secrets:
+      enabled: false
+      aws:
+        secrets-manager:
+          serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+
+
+# Dependency Chart Values
+argo-cd:
+  controller:
+    metrics:
+      enabled: true
+  dex:
+    metrics:
+      enabled: true
+  server:
+    metrics:
+      enabled: true
+    extraArgs:
+      - --insecure
+  redis:
+    metrics:
+      enabled: true
+  repoServer:
+    metrics:
+      enabled: true
+
