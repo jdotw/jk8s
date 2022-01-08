@@ -1,0 +1,38 @@
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+cluster:
+  name: "in-cluster"
+  awsRegion: "ap-southeast-2"
+  clusterAutoscaler:
+    namespace: "kube-system"
+
+# Must be provided
+dns: 
+  fqdn: <CLUSTER_FQDN>
+  external-dns:
+    enabled: false
+    zoneID: <DNS_ZONE_ID>
+    aws: 
+      serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+tls:
+  cert-manager:
+    enabled: true
+    email: cert@jk8s.io
+    self-signed: 
+      enabled: true
+    lets-encrypt-staging:
+      enabled: false
+      aws: 
+        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+    lets-encrypt-production:
+      enabled: false
+      aws: 
+        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>
+secrets:
+  external-secrets:
+    enabled: false
+    aws:
+      secrets-manager:
+        serviceAccountName: <DNS_SERVICE_ACCOUNT_NAME>

@@ -1,7 +1,5 @@
 # jk8s Values
 jk8s:
-  cluster:
-    name: jk8s
   dns: 
     fqdn: <CLUSTER_FQDN>
     external-dns:
