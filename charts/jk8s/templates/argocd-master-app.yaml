@@ -37,7 +37,7 @@ spec:
       values: |
         {{ .Values.jk8s }}
   destination:
-    namespace: argocd
+    namespace: {{ .Release.Namespace }}
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
