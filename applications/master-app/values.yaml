@@ -15,7 +15,7 @@ dns:
     enabled: true
     zoneID: ""
     aws: 
-      serviceAccountName: ""
+      serviceAccountName: "test"
 tls:
   certManager:
     enabled: true
