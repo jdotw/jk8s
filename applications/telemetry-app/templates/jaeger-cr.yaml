@@ -33,4 +33,4 @@ spec:
   volumes:
     - name: certificates
       secret:
-        secretName: elastic-search-es-http-certs-public
+        secretName: elastic-search-es-default-es-transport-certs
