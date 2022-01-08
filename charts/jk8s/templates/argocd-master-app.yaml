@@ -34,8 +34,8 @@ spec:
       #     value: "{{ .Values.wildcardCertARN }}"
       #   - name: certEmail
       #     value: "{{ .Values.certEmail }}"
-      values: |-
-        {{ toYaml .Values.jk8s | indent 8 }}
+      values: |
+        {{ toYaml .Values.jk8s }}
   destination:
     namespace: {{ .Release.Namespace }}
     server: https://kubernetes.default.svc
