@@ -30,10 +30,17 @@ tls:
       serviceAccountName: ""
     selfSigned: 
       enabled: true
-    letsEncryptStaging:
-      enabled: false
-    letsEncryptProduction:
-      enabled: false
+    letsEncrypt:
+      staging:
+        enabled: false
+        email: ""
+        route53:
+          zoneID: ""
+      production:
+        enabled: false
+        email: ""
+        route53:
+          zoneID: ""
 secrets:
   externalSecrets:
     enabled: false

@@ -1,0 +1,23 @@
+externalSecrets:
+  aws:
+    secretsManager:
+      serviceAccountName: ""
+
+certManager:
+  letsEncrypt:
+    staging:
+      enabled: false
+      email: ""
+      route53:
+        zoneID: ""
+    production:
+      enabled: false
+      email: ""
+      route53:
+        zoneID: ""
+      
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
