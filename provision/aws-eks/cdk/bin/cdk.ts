@@ -9,6 +9,7 @@ import { VPCStack } from "../lib/vpc-stack";
 import { DNSStack } from "../lib/dns-stack";
 import { CertStack } from "../lib/cert-stack";
 import { SecretsStack } from "../lib/secrets-stack";
+import { OpenSearchStack } from "../lib/opensearch-stack";
 
 const name = process.env.STACK_NAME;
 
@@ -37,6 +38,8 @@ const cluster = new EKSStack(app, "EKSStack", {
   rds,
   dns,
 });
+
+const opensearch = new OpenSearchStack(app, "OpenSearchStack", { vpc });
 
 const cert = new CertStack(app, "CertStack", {
   name,
