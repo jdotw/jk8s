@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: istio-discovery
-  namespace: {{ Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   finalizers:
