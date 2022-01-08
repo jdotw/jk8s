@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: telemetry-app
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .Values.jk8s.apps.repoURL }}"
+    targetRevision: "{{ .Values.jk8s.apps.targetRevision }}"
+    path: "{{ .Values.jk8s.apps.path }}/telemetry-app"
+    helm:
+      parameters:
+        - name: dns.fqdn
+          value: "{{ .Values.dns.fqdn }}"
+        - name: argocd.namespace
+          value: "{{ .Values.argocd.namespace }}"
+
+  destination:
+    namespace: telemetry
+    server: "{{ .Values.spec.destination.server }}"
+
+  syncPolicy:
+    automated:
+      prune: true

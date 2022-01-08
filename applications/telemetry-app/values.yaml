@@ -1,0 +1,11 @@
+# Required
+dns:
+  fqdn: ""
+argocd:
+  namespace: ""
+
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
