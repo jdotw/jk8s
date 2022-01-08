@@ -10,7 +10,7 @@ cluster:
 
 # Must be provided
 dns: 
-  fqdn: <CLUSTER_FQDN>
+  fqdn: ""
   externalDNS:
     enabled: false
     zoneID: ""
@@ -19,7 +19,7 @@ dns:
 tls:
   certManager:
     enabled: true
-    email: cert@jk8s.io
+    email: ""
     selfSigned: 
       enabled: true
     letsEncryptStaging:
