@@ -1,0 +1,5 @@
+jk8s:
+  dns:
+    fqdn: local.dev
+    externalDNS:
+      enabled: true
