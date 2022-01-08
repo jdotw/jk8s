@@ -5,7 +5,7 @@ kind: Namespace
 metadata:
   name: external-dns
   labels:
-    istio-injection: enabled
+    istio-injection: disabled
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
