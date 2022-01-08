@@ -7,8 +7,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.jk8s.apps.repoURL }}
-    targetRevision: {{ .Values.jk8s.apps.targetRevision }}
+    repoURL: "{{ .Values.jk8s.apps.repoURL }}"
+    targetRevision: "{{ .Values.jk8s.apps.targetRevision }}"
     path: "{{ .Values.jk8s.apps.path }}/master-app"
     helm:
       values: |
