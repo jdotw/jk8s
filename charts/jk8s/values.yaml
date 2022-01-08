@@ -15,16 +15,14 @@ jk8s:
     certManager:
       enabled: true
       email: cert@jk8s.io
+      aws: 
+        serviceAccountName: ""
       selfSigned: 
         enabled: true
       letsEncryptStaging:
         enabled: false
-        aws: 
-          serviceAccountName: ""
       letsEncryptProduction:
         enabled: false
-        aws: 
-          serviceAccountName: ""
   secrets:
     externalSecrets:
       enabled: false

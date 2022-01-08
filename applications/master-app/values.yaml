@@ -26,16 +26,14 @@ tls:
   certManager:
     enabled: true
     email: ""
+    aws: 
+      serviceAccountName: ""
     selfSigned: 
       enabled: true
     letsEncryptStaging:
       enabled: false
-      aws: 
-        serviceAccountName: ""
     letsEncryptProduction:
       enabled: false
-      aws: 
-        serviceAccountName: ""
 secrets:
   externalSecrets:
     enabled: false
