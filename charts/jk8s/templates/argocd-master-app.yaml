@@ -34,7 +34,7 @@ spec:
       #     value: "{{ .Values.wildcardCertARN }}"
       #   - name: certEmail
       #     value: "{{ .Values.certEmail }}"
-      values: |
+      values: |-
         {{ toYaml .Values.jk8s | indent 8 }}
   destination:
     namespace: {{ .Release.Namespace }}
