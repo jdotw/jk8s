@@ -1,0 +1,46 @@
+{{- .Values.dns.external-dns.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: {{ .Release.Namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-6"
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/external-dns
+    chart: external-dns
+    targetRevision: "1.7.0"
+    helm:
+      releaseName: external-dns
+      parameters:
+      {{- if .Values.aws.serviceAccountName }}
+        - name: serviceAccount.create
+          value: "false"
+        - name: serviceAccount.name
+          value: "{{ .Values.dns.aws.serviceAccountName }}"
+      {{- end }}
+        - name: domainFilters[0]
+          value: "{{ .Values.dns.fqdn }}"
+        - name: regexDomainExclusion
+          value: "^\\*"
+        - name: policy
+          value: sync
+        - name: txtOwnerId
+          value: "{{ .Values.dns.external-dns.zoneID }}"
+        - name: sources[0]
+          value: istio-virtualservice
+        - name: sources[1]
+          value: istio-gateway
+        - name: extraArgs[0]
+          value: "--exclude-domains=*.{{ .Values.dns.fqdn }}"
+  destination:
+    namespace: external-dns
+    server: "{{ .Values.spec.destination.server }}"
+  syncPolicy:
+    automated:
+      prune: true
+{{- end }}
