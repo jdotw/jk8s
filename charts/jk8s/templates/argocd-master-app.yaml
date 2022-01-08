@@ -11,6 +11,9 @@ spec:
     targetRevision: "{{ .Values.jk8s.apps.targetRevision }}"
     path: "{{ .Values.jk8s.apps.path }}/master-app"
     helm:
+      parameters:
+        - name: "argocd.namespace"
+          value: {{ .Release.Namespace }}
       values: |
         {{ toYaml .Values.jk8s | nindent 8 }}
   destination:

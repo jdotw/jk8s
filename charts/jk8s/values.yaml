@@ -1,7 +1,5 @@
 # jk8s Values
 jk8s:
-  argocd: 
-    namespace: {{ .Release.Namespace }}
   apps:
     repoURL: https://github.com/jdotw/jk8s.git
     path: applications
