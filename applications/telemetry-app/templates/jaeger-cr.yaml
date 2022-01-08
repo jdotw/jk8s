@@ -12,7 +12,7 @@ spec:
           brokers: telemetry-kafka:9092
   ingester:
     options:
-      kafka: 
+      kafka:
         consumer:
           topic: jaeger-spans
           brokers: telemetry-kafka:9092
@@ -22,7 +22,7 @@ spec:
     type: elasticsearch
     options:
       es:
-        server-urls: https://elastic-search-es-default.telemetry.svc:9200
+        server-urls: https://elastic-search-es-http.telemetry.svc:9200
         tls:
           ca: /es/certificates/ca.crt
     secretName: elastic-credentials
