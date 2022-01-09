@@ -1,32 +1,33 @@
-# apiVersion: networking.istio.io/v1alpha3
-# kind: VirtualService
-# metadata:
-#   name: grafana-vs
-#   namespace: telemetry
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "1"
-# spec:
-#   hosts:
-#   - "grafana.{{ .Values.clusterFQDN }}"
-#   gateways:
-#   - istio-ingress/ingress-gateway
-#   http:
-#   - route:
-#     - destination:
-#         host: grafana
-#         port:
-#           number: 80
-# ---
-# apiVersion: networking.istio.io/v1alpha3
-# kind: DestinationRule
-# metadata:
-#   name: grafana
-#   namespace: telemetry
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-# spec:
-#   host: grafana
-#   trafficPolicy:
-#     tls:
-#       mode: DISABLE
-# ---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana-vs
+  namespace: telemetry
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  hosts:
+    - "grafana.{{ .Values.dns.fqdn }}"
+  gateways:
+    - istio-ingress/ingress-gateway
+  http:
+    - route:
+        - destination:
+            host: prometheus-grafana
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: grafana
+  namespace: telemetry
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  host: prometheus-grafana
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+
