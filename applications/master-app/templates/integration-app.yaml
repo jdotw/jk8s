@@ -7,8 +7,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.apps.repoURL }}
-    targetRevision: {{ .Values.apps.targetRevision }}
+    repoURL: "{{ .Values.apps.repoURL }}"
+    targetRevision: "{{ .Values.apps.targetRevision }}"
     path: "{{ .Values.apps.path }}/integration-app"
     helm:
       parameters:
@@ -30,7 +30,7 @@ spec:
           value: "{{ .Values.tls.certManager.letsEncrypt.production.route53.zoneID }}"
 
   destination:
-    namespace: argocd
+    namespace: "{{ .Values.argocd.namespace }}"
     server: "{{ .Values.spec.destination.server }}"
 
   syncPolicy:
