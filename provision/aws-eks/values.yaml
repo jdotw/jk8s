@@ -31,3 +31,5 @@ telemetry:
       es:
         enabled: true
         url: https://${ES_DOMAIN}
+      inMemory:
+        enabled: false

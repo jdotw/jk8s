@@ -18,17 +18,15 @@ spec:
           brokers: telemetry-kafka:9092
       ingester:
         deadlockInterval: 0
-    storage:
-      {{ if .Values.jaeger.storage.es.enabled }}
-      type: elasticsearch
-      options:
-        es:
-          server-urls: "{{ .Values.jaeger.storage.es.url }}"
-      {{ end }}
-      {{ if .Values.jaeger.storage.inMemory.enabled }}
-      storage:
-        type: memory
-        options:
-          memory:
-            max-traces: 100000    
-      {{ end }}
+  storage:
+    {{ if .Values.jaeger.storage.es.enabled }}
+    type: elasticsearch
+    options:
+      es:
+        server-urls: "{{ .Values.jaeger.storage.es.url }}"
+    {{ else if .Values.jaeger.storage.inMemory.enabled }}
+    type: memory
+    options:
+      memory:
+        max-traces: 100000    
+    {{ end }}
