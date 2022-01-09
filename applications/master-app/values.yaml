@@ -49,3 +49,11 @@ secrets:
     aws:
       secretsManager:
         serviceAccountName: ""
+telemetry:
+  jaeger:
+    storage:
+      es:
+        enabled: false
+        url: ""
+      inMemory:
+        enabled: true

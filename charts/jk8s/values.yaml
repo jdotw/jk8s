@@ -36,6 +36,15 @@ jk8s:
       aws:
         secretsManager:
           serviceAccountName: ""
+  telemetry:
+    jaeger:
+      storage:
+        es:
+          enabled: false
+          url: ""
+        inMemory:
+          enabled: true
+        
 
 
 # Dependency Chart Values

@@ -19,18 +19,16 @@ spec:
       ingester:
         deadlockInterval: 0
   storage:
+    {{ if .Values.jaeger.storage.es.enabled }}
     type: elasticsearch
     options:
       es:
-        server-urls: https://elastic-search-es-default:9200
-        tls:
-          ca: /es/certificates/ca.crt
-    secretName: elastic-credentials
-  volumeMounts:
-    - name: certificates
-      mountPath: /es/certificates/
-      readOnly: true
-  volumes:
-    - name: certificates
-      secret:
-        secretName: elastic-search-es-http-certs-internal
+        server-urls: "{{ .Values.jaeger.storage.es.url }}"
+    {{ end }}
+    {{ if .Values.jaeger.storage.inMemory.enabled }}
+    storage:
+      type: memory
+      options:
+        memory:
+          max-traces: 100000    
+    {{ end }}

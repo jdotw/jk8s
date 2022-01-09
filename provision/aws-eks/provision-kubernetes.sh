@@ -8,6 +8,8 @@ USER_ARN=$(aws iam get-user --query 'User.Arn' --output text)
 FQDN=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stacks[0].Outputs[?OutputKey=='FQDN'].OutputValue" --output text)
 ZONE_ID=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stacks[0].Outputs[?OutputKey=='ZoneID'].OutputValue" --output text)
 
+ES_DOMAIN=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='OpenSearchDomain'].OutputValue" --output text)
+
 EKSCTL_VERSION=$(eksctl version)
 if [[ $? != 0 ]]; then
   echo "ERROR: eksctl not installed"
@@ -20,6 +22,7 @@ echo "DNS: $DNS_ROLE_ARN"
 echo "USER: $USER_ARN"
 echo "FQDN: $FQDN"
 echo "ZONE_ID: $ZONE_ID"
+echo "ES_DOMAIN: $ES_DOMAIN"
 
 # Create Namespaces
 
@@ -61,4 +64,4 @@ helm repo add jk8s https://jdotw.github.io/jk8s
 helm repo update
 
 # Install jk8s bootstrap Helm Chart
-FQDN=$FQDN ZONE_ID=$ZONE_ID envsubst < values.yaml | helm upgrade jk8s jk8s/jk8s --install -n jk8s --create-namespace -f -
+FQDN=$FQDN ZONE_ID=$ZONE_ID ES_DOMAIN=$ES_DOMAIN envsubst < values.yaml | helm upgrade jk8s jk8s/jk8s --install -n jk8s --create-namespace -f -

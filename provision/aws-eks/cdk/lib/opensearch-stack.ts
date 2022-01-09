@@ -35,7 +35,7 @@ export class OpenSearchStack extends Stack {
     });
 
     new cdk.CfnOutput(this, "OpenSearchDomain", {
-      value: prodDomain.domainName,
+      value: prodDomain.domainEndpoint,
       description: "OpenSearch Domain",
       exportName: "OpenSearchDomain",
     });

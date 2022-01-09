@@ -3,6 +3,13 @@ dns:
   fqdn: ""
 argocd:
   namespace: ""
+jaeger:
+  storage:
+    es:
+      enabled: false
+      url: ""
+    inMemory:
+      enabled: true
 
 # Defaults
 spec:

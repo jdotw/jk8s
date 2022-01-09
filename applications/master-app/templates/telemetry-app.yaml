@@ -16,6 +16,12 @@ spec:
           value: "{{ .Values.dns.fqdn }}"
         - name: argocd.namespace
           value: "{{ .Values.argocd.namespace }}"
+        - name: jaeger.storage.es.enabled
+          value: "{{ .Values.telemetry.jaeger.storage.es.enabled }}"
+        - name: jaeger.storage.es.url
+          value: "{{ .Values.telemetry.jaeger.storage.es.url }} "
+        - name: jaeger.storage.inMemory.enabled
+          value: "{{ .Values.telemetry.jaeger.storage.inMemory.enabled }} "
 
   destination:
     namespace: telemetry

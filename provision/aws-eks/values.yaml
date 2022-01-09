@@ -25,3 +25,9 @@ secrets:
     aws:
       secretsManager:
         serviceAccountName: external-secrets
+telemetry:
+  jaeger:
+    storage:
+      es:
+        enabled: true
+        url: https://${ES_DOMAIN}
