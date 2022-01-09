@@ -44,11 +44,13 @@ eksctl create iamserviceaccount --cluster=$CLUSTER_NAME \
   --name=external-dns \
   --namespace=external-dns \
   --attach-policy-arn=$DNS_ROLE_ARN \
+  --override-existing-serviceaccounts \
   --approve
 eksctl create iamserviceaccount --cluster=$CLUSTER_NAME \
   --name=cert-manager \
   --namespace=cert-manager \
   --attach-policy-arn=$DNS_ROLE_ARN \
+  --override-existing-serviceaccounts \
   --approve  
 
 # Create Service Account for External Secrets 
@@ -57,6 +59,7 @@ eksctl create iamserviceaccount --cluster=$CLUSTER_NAME \
   --name=external-secrets \
   --namespace=jk8s \
   --attach-policy-arn=$SECRETS_ROLE_ARN \
+  --override-existing-serviceaccounts \
   --approve
 
 # Add Helm Chart Repo
