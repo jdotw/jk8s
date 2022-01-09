@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kiali-vs
-  namespace: istio-system
+  namespace: telemetry
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
@@ -21,7 +21,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: kiali
-  namespace: istio-system
+  namespace: telemetry
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
