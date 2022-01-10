@@ -19,7 +19,9 @@ export class OpenSearchStack extends Stack {
       version: opensearch.EngineVersion.OPENSEARCH_1_0,
       capacity: {
         masterNodes: 3,
-        dataNodes: 10,
+        masterNodeInstanceType: "m4.large.search",
+        dataNodes: 3,
+        dataNodeInstanceType: "m4.large.search",
       },
       ebs: {
         volumeSize: 20,
