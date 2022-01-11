@@ -1,7 +1,12 @@
+argocd:
+  namespace: ""
+
 externalSecrets:
   aws:
     secretsManager:
-      serviceAccountName: ""
+      argocdServiceAccountName: ""
+      telemetryServiceAccountName: ""
+      appServiceAccountName: ""
 
 certManager:
   letsEncrypt:

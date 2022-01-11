@@ -25,12 +25,15 @@ jk8s:
       enabled: true
       aws:
         secretsManager:
-          serviceAccountName: external-secrets
+          argocdServiceAccountName: external-secrets
+          telemetryServiceAccountName: external-secrets
+          appServiceAccountName: external-secrets
   telemetry:
     jaeger:
       storage:
         es:
           enabled: true
           url: https://${ES_DOMAIN}
+          credentialsSecretName: ${ES_SECRET}
         inMemory:
           enabled: false

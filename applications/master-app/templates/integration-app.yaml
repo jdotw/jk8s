@@ -13,8 +13,12 @@ spec:
     helm:
       parameters:
         # external-secrets
-        - name: externalSecrets.aws.secretsManager.serviceAccountName
-          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.serviceAccountName }}"
+        - name: externalSecrets.aws.secretsManager.argocdServiceAccountName
+          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.argocdServiceAccountName }}"
+        - name: externalSecrets.aws.secretsManager.telemetryServiceAccountName
+          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.telemetryServiceAccountName }}"
+        - name: externalSecrets.aws.secretsManager.appServiceAccountName
+          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.appServiceAccountName }}"
         # cert-manager
         - name: certManager.letsEncrypt.staging.enabled
           value: "{{ .Values.tls.certManager.letsEncrypt.staging.enabled }}"

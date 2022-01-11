@@ -13,13 +13,13 @@ spec:
     helm:
       parameters:
         - name: "argocd.namespace"
-          value: {{ .Release.Namespace }}
+          value: "{{ .Release.Namespace }}"
         - name: "helm.releaseName"
-          value: {{ .Release.Name }}
+          value: "{{ .Release.Name }}"
       values: |
         {{ toYaml .Values.jk8s | nindent 8 }}
   destination:
-    namespace: {{ .Release.Namespace }}
+    namespace: "{{ .Release.Namespace }}"
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:

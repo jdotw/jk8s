@@ -48,12 +48,15 @@ secrets:
     enabled: false
     aws:
       secretsManager:
-        serviceAccountName: ""
+        argocdServiceAccountName: ""
+        telemetryServiceAccountName: ""
+        appServiceAccountName: ""
 telemetry:
   jaeger:
     storage:
       es:
         enabled: false
         url: ""
+        credentialsSecretName: ""
       inMemory:
         enabled: true
