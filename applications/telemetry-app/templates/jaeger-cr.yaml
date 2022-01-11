@@ -24,6 +24,7 @@ spec:
     options:
       es:
         server-urls: "{{ .Values.jaeger.storage.es.url }}"
+    secretName: "{{ .Values.jaeger.storage.es.credentialsSecretName }}"
     {{ else if .Values.jaeger.storage.inMemory.enabled }}
     type: memory
     options:
