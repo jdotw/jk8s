@@ -19,14 +19,19 @@ export class OpenSearchStack extends Stack {
 
     const masterUserSecret = new secretsmanager.Secret(
       this,
-      "MasterUserSecret",
-      {
-        generateSecretString: {
-          secretStringTemplate: JSON.stringify({ username: "master-user" }),
-          generateStringKey: "password",
-        },
-      }
+      "MasterUserSecret"
     );
+
+    // const masterUserSecret = new secretsmanager.Secret(
+    //   this,
+    //   "MasterUserSecret",
+    //   {
+    //     generateSecretString: {
+    //       secretStringTemplate: JSON.stringify({ username: "master-user" }),
+    //       generateStringKey: "password",
+    //     },
+    //   }
+    // );
 
     const prodDomain = new opensearch.Domain(this, "Domain", {
       version: opensearch.EngineVersion.OPENSEARCH_1_0,
