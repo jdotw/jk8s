@@ -12,6 +12,8 @@ jaeger:
     inMemory:
       enabled: true
 
+password: "IT WAS ARGO ALL ALONG"
+
 # Defaults
 spec:
   destination:
