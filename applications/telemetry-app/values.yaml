@@ -12,7 +12,7 @@ jaeger:
     inMemory:
       enabled: true
 
-password: "IT WAS ARGO ALL ALONG"
+passwordSubstitution: "{{ .password | toString }}"
 
 # Defaults
 spec:
