@@ -25,6 +25,8 @@ spec:
       releaseName: external-dns
       parameters:
       {{ if .Values.dns.externalDNS.aws.serviceAccountName }}
+        - name: serviceAccount.create
+          value: "false"
         - name: serviceAccount.name
           value: "{{ .Values.dns.externalDNS.aws.serviceAccountName }}"
       {{ end }}
