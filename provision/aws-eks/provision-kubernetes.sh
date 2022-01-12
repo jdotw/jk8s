@@ -11,7 +11,8 @@ FQDN=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stacks[
 ZONE_ID=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stacks[0].Outputs[?OutputKey=='ZoneID'].OutputValue" --output text)
 
 ES_DOMAIN=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='OpenSearchDomain'].OutputValue" --output text)
-ES_SECRET=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='MasterUserSecretName'].OutputValue" --output text)
+
+ES_SECRET=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='MasterUserSecretName'].OutputValue" --output text | sed 's/.*:secret:\([^:]*\):.*/\1/' | sed 's/-[^-]*$//')
 
 KUBECTL_CONFIG=$(aws cloudformation describe-stacks --stack-name EKSStack --query "Stacks[0].Outputs[?starts_with(OutputKey, '${CLUSTER_NAME}ClusterConfigCommand')].OutputValue" --output text)
 /bin/sh -c "${KUBECTL_CONFIG}"

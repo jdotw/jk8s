@@ -16,10 +16,10 @@ export class OpenSearchStack extends Stack {
   constructor(scope: Construct, id: string, props?: OpenSearchStackProps) {
     super(scope, id, props);
 
-    const masterUserSecret = new secretsmanager.Secret(
-      this,
-      "MasterUserSecret"
-    );
+    // const masterUserSecret = new secretsmanager.Secret(
+    //   this,
+    //   "MasterUserSecret"
+    // );
 
     // const masterUserSecret = new secretsmanager.Secret(
     //   this,
@@ -58,11 +58,6 @@ export class OpenSearchStack extends Stack {
       },
       fineGrainedAccessControl: {
         masterUserName: "master-user",
-        masterUserPassword: secretsmanager.Secret.fromSecretAttributes(
-          this,
-          "MasterUserPassSecret",
-          { secretCompleteArn: masterUserSecret.secretFullArn }
-        ).secretValue,
       },
     });
 
@@ -73,7 +68,7 @@ export class OpenSearchStack extends Stack {
     });
 
     new cdk.CfnOutput(this, "MasterUserSecretName", {
-      value: masterUserSecret.secretName,
+      value: prodDomain.masterUserPassword?.toString()!,
       description: "OpenSearch Master User Secret Name",
       exportName: "MasterUserSecretName",
     });
