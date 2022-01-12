@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CLUSTER_NAME=$(aws cloudformation describe-stacks --stack-name EKSStack --query "Stacks[0].Outputs[?OutputKey=='ClusterName'].OutputValue" --output text)
-JK8S_SECRETS_ROLE_ARN=$(aws cloudformation describe-stacks --stack-name SecretsStack --query "Stacks[0].Outputs[?OutputKey=='JK8SSecretsPolicyARN'].OutputValue" --output text)
+ARGOCD_SECRETS_ROLE_ARN=$(aws cloudformation describe-stacks --stack-name SecretsStack --query "Stacks[0].Outputs[?OutputKey=='ArgoCDSecretsPolicyARN'].OutputValue" --output text)
 TELEMETRY_SECRETS_ROLE_ARN=$(aws cloudformation describe-stacks --stack-name SecretsStack --query "Stacks[0].Outputs[?OutputKey=='TelemetrySecretsPolicyARN'].OutputValue" --output text)
 APP_SECRETS_ROLE_ARN=$(aws cloudformation describe-stacks --stack-name SecretsStack --query "Stacks[0].Outputs[?OutputKey=='AppSecretsPolicyARN'].OutputValue" --output text)
 DNS_ROLE_ARN=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stacks[0].Outputs[?OutputKey=='ClusterDNSPolicyARN'].OutputValue" --output text)
@@ -13,6 +13,9 @@ ZONE_ID=$(aws cloudformation describe-stacks --stack-name DNSStack --query "Stac
 ES_DOMAIN=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='OpenSearchDomain'].OutputValue" --output text)
 ES_SECRET=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --query "Stacks[0].Outputs[?OutputKey=='MasterUserSecretName'].OutputValue" --output text)
 
+KUBECTL_CONFIG=$(aws cloudformation describe-stacks --stack-name EKSStack --query "Stacks[0].Outputs[?starts_with(OutputKey, '${CLUSTER_NAME}ClusterConfigCommand')].OutputValue" --output text)
+/bin/sh -c "${KUBECTL_CONFIG}"
+
 EKSCTL_VERSION=$(eksctl version)
 if [[ $? != 0 ]]; then
   echo "ERROR: eksctl not installed"
@@ -20,7 +23,7 @@ if [[ $? != 0 ]]; then
 fi
 
 echo "CLUSTER_NAME: $CLUSTER_NAME"
-echo "JK8S SECRETS: $JK8S_SECRETS_ROLE_ARN"
+echo "ARGOCD SECRETS: $ARGOCD_SECRETS_ROLE_ARN"
 echo "TELEMETRY SECRETS: $TELEMETRY_SECRETS_ROLE_ARN"
 echo "APP SECRETS: $APP_SECRETS_ROLE_ARN"
 echo "DNS: $DNS_ROLE_ARN"
@@ -69,7 +72,7 @@ eksctl create iamserviceaccount --cluster=$CLUSTER_NAME \
 eksctl create iamserviceaccount --cluster=$CLUSTER_NAME \
   --name=external-secrets \
   --namespace=jk8s \
-  --attach-policy-arn=$JK8S_SECRETS_ROLE_ARN \
+  --attach-policy-arn=$ARGOCD_SECRETS_ROLE_ARN \
   --override-existing-serviceaccounts \
   --approve
 
