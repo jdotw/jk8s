@@ -9,26 +9,30 @@ export class SecretsStack extends Stack {
   constructor(scope: Construct, id: string, props?: SecretsStackProps) {
     super(scope, id, props);
 
-    // Policy: JK8S (Default) Secrets Retrieval Policy
-    const jk8sSecretsPolicy = new iam.ManagedPolicy(this, "JK8SSecretsPolicy", {
-      managedPolicyName: "JK8SSecretsPolicy",
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          resources: ["*"],
-          actions: [
-            "secretsmanager:GetResourcePolicy",
-            "secretsmanager:GetSecretValue",
-            "secretsmanager:DescribeSecret",
-            "secretsmanager:ListSecretVersionIds",
-          ],
-        }),
-      ],
-    });
-    new cdk.CfnOutput(this, "JK8SSecretsPolicyARN", {
-      value: jk8sSecretsPolicy.managedPolicyArn,
-      description: "Policy for JK8S (Default) Secrets Retrieval",
-      exportName: "JK8SSecretsPolicyARN",
+    // Policy: ArgoCD Secrets Retrieval Policy
+    const argocdSecretsPolicy = new iam.ManagedPolicy(
+      this,
+      "ArgoCDSecretsPolicy",
+      {
+        managedPolicyName: "ArgoCDSecretsPolicy",
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            resources: ["*"],
+            actions: [
+              "secretsmanager:GetResourcePolicy",
+              "secretsmanager:GetSecretValue",
+              "secretsmanager:DescribeSecret",
+              "secretsmanager:ListSecretVersionIds",
+            ],
+          }),
+        ],
+      }
+    );
+    new cdk.CfnOutput(this, "ArgoCDSecretsPolicyARN", {
+      value: argocdSecretsPolicy.managedPolicyArn,
+      description: "Policy for ArgoCD Secrets Retrieval",
+      exportName: "ArgoCDSecretsPolicyARN",
     });
 
     // Policy: Telemetry Secrets Retrieval Policy

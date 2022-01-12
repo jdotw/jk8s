@@ -8,7 +8,6 @@ import { Vpc } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 import { DatabaseInstance } from "aws-cdk-lib/aws-rds";
 import { VPCStack } from "./vpc-stack";
-import { domain } from "process";
 
 export interface OpenSearchStackProps extends StackProps {
   vpc: VPCStack;
@@ -59,7 +58,11 @@ export class OpenSearchStack extends Stack {
       },
       fineGrainedAccessControl: {
         masterUserName: "master-user",
-        masterUserPassword: masterUserSecret.secretValue,
+        masterUserPassword: secretsmanager.Secret.fromSecretAttributes(
+          this,
+          "MasterUserPassSecret",
+          { secretCompleteArn: masterUserSecret.secretFullArn }
+        ).secretValue,
       },
     });
 
@@ -73,6 +76,12 @@ export class OpenSearchStack extends Stack {
       value: masterUserSecret.secretName,
       description: "OpenSearch Master User Secret Name",
       exportName: "MasterUserSecretName",
+    });
+
+    new cdk.CfnOutput(this, "MasterUserGeneratedPassword", {
+      value: prodDomain.masterUserPassword?.toString()!,
+      description: "OpenSearch Master User Generated Password",
+      exportName: "MasterUserGeneratedPassword",
     });
   }
 
