@@ -3,5 +3,6 @@ kind: Namespace
 metadata:
   name: app
   labels:
+    app.kubernetes.io/instance: master-app
     istio-injection: enabled
 
