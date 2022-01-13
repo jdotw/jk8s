@@ -39,11 +39,11 @@ export class RDSStack extends Stack {
       publiclyAccessible: false,
     });
 
-    new cdk.CfnOutput(this, "dbEndpoint", {
+    new cdk.CfnOutput(this, "Endpoint", {
       value: this.db.instanceEndpoint.hostname,
     });
 
-    new cdk.CfnOutput(this, "secretName", {
+    new cdk.CfnOutput(this, "SecretName", {
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       value: this.db.secret?.secretName!,
     });

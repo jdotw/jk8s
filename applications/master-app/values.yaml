@@ -46,6 +46,7 @@ tls:
 secrets:
   externalSecrets:
     enabled: false
+    rdsSecretName: ""
     aws:
       secretsManager:
         argocdServiceAccountName: ""

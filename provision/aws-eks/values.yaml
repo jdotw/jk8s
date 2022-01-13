@@ -23,6 +23,7 @@ jk8s:
   secrets:
     externalSecrets:
       enabled: true
+      rdsSecretName: ${RDS_SECRET}
       aws:
         secretsManager:
           argocdServiceAccountName: external-secrets

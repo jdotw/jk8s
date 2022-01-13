@@ -13,6 +13,10 @@ spec:
     helm:
       parameters:
         # external-secrets
+        - name: externalSecrets.aws.secretsManager.enabled
+          value: "{{ .Values.secrets.externalSecrets.enabled }}"
+        - name: externalSecrets.aws.secretsManager.rdsSecretName
+          value: "{{ .Values.secrets.externalSecrets.rdsSecretName }}"
         - name: externalSecrets.aws.secretsManager.argocdServiceAccountName
           value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.argocdServiceAccountName }}"
         - name: externalSecrets.aws.secretsManager.telemetryServiceAccountName
