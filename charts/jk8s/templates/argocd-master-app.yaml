@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.jk8s.apps.repoURL }}"
-    targetRevision: "{{ .Values.jk8s.apps.targetRevision }}"
-    path: "{{ .Values.jk8s.apps.path }}/master-app"
+    repoURL: "{{ .Values.jk8s.masterApp.repoURL }}"
+    targetRevision: "{{ .Values.jk8s.masterApp.targetRevision }}"
+    path: "{{ .Values.jk8s.masterApp.path }}/master-app"
     helm:
       parameters:
         - name: "argocd.namespace"

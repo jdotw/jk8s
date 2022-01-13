@@ -1,0 +1,21 @@
+{{ $server := .Values.spec.destination.server  }}
+{{ range .Values.apps }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{ .name }}"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .repoURL }}"
+    targetRevision: "{{ .targetRevision }}"
+    path: "{{ .path }}"
+  destination:
+    namespace: "app"
+    server: "{{ $server }}"
+  syncPolicy:
+    automated:
+      prune: true
+{{ end }}

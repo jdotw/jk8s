@@ -1,6 +1,6 @@
 # jk8s Values
 jk8s:
-  apps:
+  masterApp:
     repoURL: https://github.com/jdotw/jk8s.git
     path: applications
     targetRevision: HEAD
@@ -48,6 +48,11 @@ jk8s:
           credentialsSecretName: ""
         inMemory:
           enabled: true
+  apps: []
+    # - name: ""
+    #   repoURL: ""
+    #   path: ""
+    #   targetRevision: ""
         
 
 

@@ -13,10 +13,6 @@ helm:
   releaseName: ""
 argocd: 
   namespace: ""
-apps:
-  repoURL: ""
-  path: ""
-  targetRevision: ""
 dns: 
   fqdn: ""
   externalDNS:
@@ -61,3 +57,8 @@ telemetry:
         credentialsSecretName: ""
       inMemory:
         enabled: true
+apps: []
+  # - name: ""
+  #   repoURL: ""
+  #   path: ""
+  #   targetRevision: ""
