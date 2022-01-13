@@ -1,4 +1,5 @@
 {{ $server := .Values.spec.destination.server  }}
+{{ $fqdn := .Values.dns.fqdn }}
 {{ range .Values.apps }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -12,6 +13,10 @@ spec:
     repoURL: "{{ .repoURL }}"
     targetRevision: "{{ .targetRevision }}"
     path: "{{ .path }}"
+    helm:
+      parameters:
+        - name: fqdn
+          value: "{{ $fqdn }}"
   destination:
     namespace: "app"
     server: "{{ $server }}"
