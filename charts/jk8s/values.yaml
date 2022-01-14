@@ -48,6 +48,8 @@ jk8s:
           credentialsSecretName: ""
         inMemory:
           enabled: true
+  rds:
+    host: ""
   apps: []
     # - name: ""
     #   repoURL: ""

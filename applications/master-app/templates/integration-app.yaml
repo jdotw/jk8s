@@ -36,7 +36,9 @@ spec:
           value: "{{ .Values.tls.certManager.letsEncrypt.production.email }}"
         - name: certManager.letsEncrypt.production.route53.zoneID
           value: "{{ .Values.tls.certManager.letsEncrypt.production.route53.zoneID }}"
-
+        # rds
+        - name: rds.host
+          value: "{{ .Values.rds.host }}"
   destination:
     namespace: "{{ .Values.argocd.namespace }}"
     server: "{{ .Values.spec.destination.server }}"
