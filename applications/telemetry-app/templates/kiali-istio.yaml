@@ -7,7 +7,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   hosts:
-    - "kiali.{{ .Values.dns.fqdn }}"
+    - "kiali-demo.{{ .Values.dns.fqdn }}"
   gateways:
     - istio-ingress/ingress-gateway
   http:
