@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: rds-svc-pgsql
+spec:
+  hosts:
+  - "{{ .Values.rds.host }}"
+  location: MESH_EXTERNAL
+  ports:
+  - number: 5432
+    name: pgsql
+    protocol: TLS
+  resolution: DNS

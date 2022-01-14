@@ -22,7 +22,10 @@ certManager:
       email: ""
       route53:
         zoneID: ""
-      
+
+rds:
+  host: ""
+
 # Defaults
 spec:
   destination:
