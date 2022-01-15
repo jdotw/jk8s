@@ -12,6 +12,6 @@ kind: Namespace
 metadata:
   name: app
   labels:
-    istio-injection: enabled
+    istio-injection: disabled
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
