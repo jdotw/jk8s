@@ -39,7 +39,7 @@ export class RDSStack extends Stack {
       publiclyAccessible: false,
     });
 
-    new cdk.CfnOutput(this, "Endpoint", {
+    new cdk.CfnOutput(this, "Host", {
       value: this.db.instanceEndpoint.hostname,
     });
 

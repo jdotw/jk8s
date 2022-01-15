@@ -16,6 +16,8 @@ ES_SECRET=$(aws cloudformation describe-stacks --stack-name OpenSearchStack --qu
 
 RDS_SECRET=$(aws cloudformation describe-stacks --stack-name RDSStack --query "Stacks[0].Outputs[?OutputKey=='SecretName'].OutputValue" --output text)
 
+RDS_HOST=$(aws cloudformation describe-stacks --stack-name RDSStack --query "Stacks[0].Outputs[?OutputKey=='Host'].OutputValue" --output text)
+
 KUBECTL_CONFIG=$(aws cloudformation describe-stacks --stack-name EKSStack --query "Stacks[0].Outputs[?starts_with(OutputKey, '${CLUSTER_NAME}ClusterConfigCommand')].OutputValue" --output text)
 /bin/sh -c "${KUBECTL_CONFIG}"
 
@@ -35,6 +37,8 @@ echo "FQDN: $FQDN"
 echo "ZONE_ID: $ZONE_ID"
 echo "ES_DOMAIN: $ES_DOMAIN"
 echo "ES_SECRET: $ES_SECRET"
+echo "RDS_SECRET: $RDS_SECRET"
+echo "RDS_HOST: $RDS_HOST"
 
 # Create Namespaces
 
@@ -106,4 +110,5 @@ FQDN=$FQDN \
   ES_DOMAIN=$ES_DOMAIN \
   ES_SECRET=$ES_SECRET \
   RDS_SECRET=$RDS_SECRET \
+  RDS_HOST=$RDS_HOST \
   envsubst < values.yaml | helm upgrade jk8s jk8s/jk8s --install -n jk8s --create-namespace -f -
