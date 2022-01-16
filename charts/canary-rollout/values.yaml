@@ -5,6 +5,8 @@ app:
       value: ""
   image: ""
   containerPort: 8080
+  replicas: 2
+  revisionHistoryLimit: 2
 virtualService:
   hosts: []
 db:
