@@ -16,7 +16,7 @@ spec:
       releaseName: istiod
       parameters:
         - name: global.tracer.zipkin.address
-          value: jaeger-collector.telemetry:9411
+          value: jaeger-tracing-collector.telemetry:9411
 
   destination:
     namespace: istio-system
