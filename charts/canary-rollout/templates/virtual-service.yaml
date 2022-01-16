@@ -1,18 +1,17 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: "{{ .Values.app.name }}-rollout-vs"
+  name: "{{ .Values.app.name }}-vs"
 spec:
-  hosts:
-    {{ toYaml .Values.virtualService.hosts | nindent 4}}
+  hosts: "{{ toYaml .Values.virtualService.hosts | nindent 4}}"
   gateways:
     - istio-ingress/ingress-gateway
   http:
     - name: primary
       route:
         - destination:
-            host: "{{ .Values.app.name }}-rollout-stable"
+            host: "{{ .Values.app.name }}-svc-stable"
           weight: 100
         - destination:
-            host: "{{ .Values.app.name }}-rollout-canary"
+            host: "{{ .Values.app.name }}-svc-canary"
           weight: 0
