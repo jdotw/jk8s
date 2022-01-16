@@ -111,4 +111,4 @@ FQDN=$FQDN \
   ES_SECRET=$ES_SECRET \
   RDS_SECRET=$RDS_SECRET \
   RDS_HOST=$RDS_HOST \
-  envsubst < values.yaml | helm upgrade jk8s jk8s/jk8s --install -n jk8s --create-namespace -f -
+  envsubst < values.yaml | helm upgrade jk8s jk8s/bootstrap --install -n jk8s --create-namespace -f -
