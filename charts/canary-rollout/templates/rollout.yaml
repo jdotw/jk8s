@@ -26,7 +26,7 @@ spec:
             - secretRef:
                 name: rds
           env: |
-            {{ toYaml .Values.app.env | nindent 2 }}
+            {{ toYaml .Values.app.extraEnv | nindent 12 }}
   strategy:
     canary:
       steps: |

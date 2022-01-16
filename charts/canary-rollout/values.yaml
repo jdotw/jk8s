@@ -1,6 +1,6 @@
 app:
   name: ""
-  env:
+  extraEnv:
     AUTH0_DOMAIN: ""
   image: ""
   containerPort: 8080
