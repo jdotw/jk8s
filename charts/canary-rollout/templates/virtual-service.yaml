@@ -1,3 +1,4 @@
+{{- if .Values.virtualService.hosts }}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -16,3 +17,4 @@ spec:
         - destination:
             host: "{{ .Values.app.name }}-svc-canary"
           weight: 0
+{{- end }}
