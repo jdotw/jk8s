@@ -14,6 +14,7 @@ spec:
         protocol: HTTP
       hosts:
         - "*.{{ .Values.dns.fqdn }}"
+        - "{{ .Values.dns.fqdn }}"
     - port:
         number: 443
         name: https
@@ -23,3 +24,4 @@ spec:
         credentialName: ingress-gateway-tls
       hosts:
         - "*.{{ .Values.dns.fqdn }}"
+        - "{{ .Values.dns.fqdn }}"
