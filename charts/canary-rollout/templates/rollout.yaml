@@ -24,7 +24,7 @@ spec:
             - containerPort: "{{ .Values.app.image }}"
           env: |
             {{ toYaml .Values.app.env | nindent 2 }}
-          envFrom:
+          envFrom: |
             - secretRef:
                 name: rds
   strategy:
