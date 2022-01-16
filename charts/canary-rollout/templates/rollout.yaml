@@ -21,7 +21,7 @@ spec:
           image: "{{ .Values.app.image }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: {{ .Values.app.image }}
+            - containerPort: {{ int .Values.app.containerPort }}
           envFrom:
             - secretRef:
                 name: rds

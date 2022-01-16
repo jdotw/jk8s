@@ -1,7 +1,8 @@
 app:
   name: ""
   extraEnv:
-    AUTH0_DOMAIN: ""
+    - name: AUTH0_DOMAIN
+      value: ""
   image: ""
   containerPort: 8080
 virtualService:
