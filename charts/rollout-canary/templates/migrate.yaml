@@ -1,0 +1,54 @@
+{{ if .Values.db.migrations.image }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.app.name }}-sql-migration-cm"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.yaml: |
+    container:
+      dialect: postgres
+      datasource: dbname={{ .Values.db.name }} host=${POSTGRES_HOST} user=${POSTGRES_USERNAME} password=${POSTGRES_PASSWORD} sslmode={{ .Values.db.sslmode }}
+      dir: {{ .Values.db.migrations.path }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Values.app.name }}-sql-migration-job"
+  labels: {}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      name: "migration-job-pod"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: "{{ .Values.app.name }}-sql-migration"
+          image: "{{ .Values.db.migration.image }}"
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - |
+                git clone --single-branch --branch main {{ .Values.repoURL }} repo &&
+                cd repo &&
+                /bin/sql-migrate up -config=/config/config.yaml -env="container"
+          envFrom:
+            - secretRef: 
+                name: rds
+          volumeMounts:
+            - name: "{{ .Values.app.name }}-sql-migration-config"
+              mountPath: "/config/config.yaml"
+              subPath: "config.yaml"
+              readOnly: true
+      volumes:
+        - name: "{{ .Values.app.name }}-sql-migration-config"
+          configMap:
+            name: "{{ .Values.app.name }}-sql-migration-cm"
+            items:
+            - key: "config.yaml"
+              path: "config.yaml"
+{{ end }}

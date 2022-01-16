@@ -1,0 +1,41 @@
+# This example demonstrates a Rollout using the canary update strategy with a customized rollout
+# plan. The prescribed steps initially sets a canary weight of 20%, then pauses indefinitely. Once
+# resumed, the rollout performs a gradual, automated 20% weight increase until it reaches 100%.
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: "{{ .Values.app.name }}-rollout"
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: "{{ .Values.app.name }}-rollout"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.app.name }}-rollout"
+    spec:
+      containers:
+        - name: "{{ .Values.app.name }}"
+          image: "{{ .Values.app.image }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: "{{ .Values.app.image }}"
+          env: |
+            {{ toYaml .Values.app.env | nindent 2 }}
+          envFrom:
+            - secretRef:
+                name: rds
+  strategy:
+    canary:
+      steps: |
+        {{ toYaml .Values.strategy.canary.steps | nindent 8 }}
+      canaryService: "{{ .Values.app.name }}-svc-canary"
+      stableService: "{{ .Values.app.name }}-svc-stable"
+      trafficRouting:
+        istio:
+          virtualService:
+            name: "{{ .Values.aoo.name }}-vs"
+            routes:
+              - primary

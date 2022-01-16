@@ -1,0 +1,23 @@
+app:
+  name: ""
+  env:
+    AUTH0_DOMAIN: ""
+  image: ""
+  containerPort: 8080
+virtualService:
+  hosts: []
+db:
+  name: ""
+  sslmode: require
+  migrations:
+    image: ""
+    repoURL: ""
+    path: ""
+strategy:
+  canary:
+    steps:
+      - setWeight: 5
+      - pause: {}
+      - setWeight: 50
+      - pause:
+          duration: 60
