@@ -9,7 +9,7 @@ virtualService:
 db:
   name: ""
   sslmode: require
-  migrations:
+  migration:
     image: ""
     repoURL: ""
     path: ""

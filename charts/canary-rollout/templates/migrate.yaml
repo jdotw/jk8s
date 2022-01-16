@@ -1,4 +1,4 @@
-{{ if .Values.db.migrations.image }}
+{{ if .Values.db.migration.image }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,7 +10,7 @@ data:
     container:
       dialect: postgres
       datasource: dbname={{ .Values.db.name }} host=${POSTGRES_HOST} user=${POSTGRES_USERNAME} password=${POSTGRES_PASSWORD} sslmode={{ .Values.db.sslmode }}
-      dir: {{ .Values.db.migrations.path }}
+      dir: {{ .Values.db.migration.path }}
 ---
 apiVersion: batch/v1
 kind: Job
