@@ -3,7 +3,8 @@ kind: VirtualService
 metadata:
   name: "{{ .Values.app.name }}-vs"
 spec:
-  hosts: "{{ toYaml .Values.virtualService.hosts | nindent 4}}"
+  hosts: 
+    {{ toYaml .Values.virtualService.hosts | nindent 4 }}
   gateways:
     - istio-ingress/ingress-gateway
   http:
