@@ -36,6 +36,6 @@ spec:
       trafficRouting:
         istio:
           virtualService:
-            name: "{{ .Values.aoo.name }}-vs"
+            name: "{{ .Values.app.name }}-vs"
             routes:
               - primary
