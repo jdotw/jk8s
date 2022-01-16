@@ -21,15 +21,15 @@ spec:
           image: "{{ .Values.app.image }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: "{{ .Values.app.image }}"
+            - containerPort: {{ .Values.app.image }}
           envFrom:
             - secretRef:
                 name: rds
-          env: |
+          env:
             {{ toYaml .Values.app.extraEnv | nindent 12 }}
   strategy:
     canary:
-      steps: |
+      steps: 
         {{ toYaml .Values.strategy.canary.steps | nindent 8 }}
       canaryService: "{{ .Values.app.name }}-svc-canary"
       stableService: "{{ .Values.app.name }}-svc-stable"
