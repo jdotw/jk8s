@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: "{{ .Values.app.name }}-rollout"
+        version: "{{ .Values.app.version }}"
     spec:
       containers:
         - name: "{{ .Values.app.name }}"

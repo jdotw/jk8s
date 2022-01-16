@@ -1,5 +1,6 @@
 app:
   name: ""
+  version: "1.0.0"
   extraEnv:
     - name: AUTH0_DOMAIN
       value: ""
