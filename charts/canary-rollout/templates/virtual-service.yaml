@@ -8,6 +8,7 @@ spec:
     {{ toYaml .Values.virtualService.hosts | nindent 4 }}
   gateways:
     - istio-ingress/ingress-gateway
+    - mesh
   http:
     - name: primary
       route:
