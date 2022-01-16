@@ -17,6 +17,13 @@ entries:
     version: 1.1.0
   canary-rollout:
   - apiVersion: v2
+    created: "2022-01-16T20:15:29.750939576Z"
+    digest: 970d920fe60b1e71d0e92c9301a9985e0c34a7ebef5b159f58dce460b78b6a93
+    name: canary-rollout
+    urls:
+    - https://github.com/jdotw/jk8s/releases/download/canary-rollout-1.0.10/canary-rollout-1.0.10.tgz
+    version: 1.0.10
+  - apiVersion: v2
     created: "2022-01-16T20:09:41.202596058Z"
     digest: 3d639fb42e41cb26ba830b7c57527b5b48ba854f792402260640479204459c14
     name: canary-rollout
