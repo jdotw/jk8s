@@ -15,6 +15,14 @@ entries:
     urls:
     - https://github.com/jdotw/jk8s/releases/download/bootstrap-1.1.0/bootstrap-1.1.0.tgz
     version: 1.1.0
+  canary-rollout:
+  - apiVersion: v2
+    created: "2022-01-16T06:53:53.179344175Z"
+    digest: b6d4e7c58ab7a68073bc4dfa9d021a835fc53c353910142468e636ddb20262cd
+    name: canary-rollout
+    urls:
+    - https://github.com/jdotw/jk8s/releases/download/canary-rollout-1.0.0/canary-rollout-1.0.0.tgz
+    version: 1.0.0
   isvanilla-app:
   - apiVersion: v2
     created: "2022-01-16T06:51:42.739298208Z"
