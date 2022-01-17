@@ -1,9 +1,8 @@
 # jk8s Values
-jk8s:
-  masterApp:
-    repoURL: https://github.com/jdotw/jk8s.git
-    path: applications
-    targetRevision: HEAD
+bootstrap:
+  repoURL: https://github.com/jdotw/jk8s.git
+  path: applications/bootstrap-app
+  targetRevision: HEAD
   dns: 
     fqdn: "example.jk8s.io" # Required
     externalDNS:

@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.jk8s.masterApp.repoURL }}"
-    targetRevision: "{{ .Values.jk8s.masterApp.targetRevision }}"
-    path: "{{ .Values.jk8s.masterApp.path }}/master-app"
+    repoURL: "{{ .Values.bootstrap.repoURL }}"
+    targetRevision: "{{ .Values.bootstrap.targetRevision }}"
+    path: "{{ .Values.bootstrap.path }}"
     helm:
       parameters:
         - name: "argocd.namespace"
@@ -17,7 +17,7 @@ spec:
         - name: "helm.releaseName"
           value: "{{ .Release.Name }}"
       values: |
-        {{ toYaml .Values.jk8s | nindent 8 }}
+        {{ toYaml .Values.bootstrap | nindent 8 }}
   destination:
     namespace: "{{ .Release.Namespace }}"
     server: https://kubernetes.default.svc

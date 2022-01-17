@@ -1,4 +1,4 @@
-jk8s:
+bootstrap:
   dns:
     fqdn: ${FQDN}
     externalDNS:
