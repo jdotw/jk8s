@@ -24,6 +24,9 @@ spec:
     options:
       es:
         server-urls: "{{ .Values.jaeger.storage.es.url }}"
+      dependencies:
+        enabled: true
+        elasticsearchNodesWanOnly: true
     secretName: "jaeger-es"
     {{ else if .Values.jaeger.storage.inMemory.enabled }}
     type: memory
