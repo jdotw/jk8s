@@ -19,6 +19,10 @@ spec:
           resources:
             - nodes/proxy
           verbs: [ "get", "list", "watch" ]
+        - apiGroups: [ "" ]
+          resources:
+            - namespaces
+          verbs: [ "get", "list", "watch" ]
 
   destination:
     namespace: telemetry
