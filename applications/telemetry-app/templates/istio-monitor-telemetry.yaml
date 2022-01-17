@@ -5,7 +5,7 @@ metadata:
   namespace: telemetry
   labels:
     monitoring: istio-proxies
-    release: istio
+    release: prometheus
 spec:
   selector:
     matchExpressions:
@@ -43,7 +43,7 @@ metadata:
   namespace: telemetry
   labels:
     monitoring: istio-components
-    release: istio
+    release: prometheus
 spec:
   jobLabel: istio
   targetLabels: [app]
