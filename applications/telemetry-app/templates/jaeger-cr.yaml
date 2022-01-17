@@ -1,38 +1,38 @@
-apiVersion: jaegertracing.io/v1
-kind: Jaeger
-metadata:
-  name: jaeger-tracing
-spec:
-  strategy: streaming
-  ingress:
-    enabled: false
-  collector:
-    options:
-      kafka:
-        producer:
-          topic: jaeger-spans
-          brokers: telemetry-kafka:9092
-  ingester:
-    options:
-      kafka:
-        consumer:
-          topic: jaeger-spans
-          brokers: telemetry-kafka:9092
-      ingester:
-        deadlockInterval: 0
-  storage:
-    {{ if .Values.jaeger.storage.es.enabled }}
-    type: elasticsearch
-    options:
-      es:
-        server-urls: "{{ .Values.jaeger.storage.es.url }}"
-      dependencies:
-        enabled: true
-        elasticsearchNodesWanOnly: true
-    secretName: "jaeger-es"
-    {{ else if .Values.jaeger.storage.inMemory.enabled }}
-    type: memory
-    options:
-      memory:
-        max-traces: 100000    
-    {{ end }}
+# apiVersion: jaegertracing.io/v1
+# kind: Jaeger
+# metadata:
+#   name: jaeger-tracing
+# spec:
+#   strategy: streaming
+#   ingress:
+#     enabled: false
+#   collector:
+#     options:
+#       kafka:
+#         producer:
+#           topic: jaeger-spans
+#           brokers: telemetry-kafka:9092
+#   ingester:
+#     options:
+#       kafka:
+#         consumer:
+#           topic: jaeger-spans
+#           brokers: telemetry-kafka:9092
+#       ingester:
+#         deadlockInterval: 0
+#   storage:
+#     {{ if .Values.jaeger.storage.es.enabled }}
+#     type: elasticsearch
+#     options:
+#       es:
+#         server-urls: "{{ .Values.jaeger.storage.es.url }}"
+#       dependencies:
+#         enabled: true
+#         elasticsearchNodesWanOnly: true
+#     secretName: "jaeger-es"
+#     {{ else if .Values.jaeger.storage.inMemory.enabled }}
+#     type: memory
+#     options:
+#       memory:
+#         max-traces: 100000    
+#     {{ end }}
