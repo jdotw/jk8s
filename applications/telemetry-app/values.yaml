@@ -12,7 +12,9 @@ jaeger:
     inMemory:
       enabled: true
 
-passwordSubstitution: "{{ .password | toString }}"
+# Dependencies
+jaeger-operator:
+  rbac.clusterRole: true
 
 # Defaults
 spec:
