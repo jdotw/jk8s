@@ -14,7 +14,6 @@ spec:
     targetRevision: "27.2.0"
     helm:
       releaseName: prometheus
-
   destination:
     namespace: telemetry
     server: "{{ .Values.spec.destination.server }}"
