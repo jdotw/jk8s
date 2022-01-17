@@ -4,6 +4,8 @@ metadata:
   name: jaeger-tracing
 spec:
   strategy: streaming
+  ingress:
+    enabled: false
   collector:
     options:
       kafka:
