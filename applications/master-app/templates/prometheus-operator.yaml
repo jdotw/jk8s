@@ -14,6 +14,12 @@ spec:
     targetRevision: "27.2.0"
     helm:
       releaseName: prometheus
+      values: |
+        - apiGroups: [ "" ]
+          resources:
+            - nodes/proxy
+          verbs: [ "get", "list", "watch" ]
+
   destination:
     namespace: telemetry
     server: "{{ .Values.spec.destination.server }}"
