@@ -3,8 +3,14 @@ version: 1.0.0
 apiVersion: v2
 dependencies:
 - name: jaeger-operator
-  version: "2.27.1"
+  version: "~2.27.1"
   repository: "https://jaegertracing.github.io/helm-charts"
 - name: kube-prometheus-stack
-  version: "27.2.0"
+  version: "~27.2.0"
   repository: "https://prometheus-community.github.io/helm-charts"
+- name: kiali-operator
+  version: "~1.44.0"
+  repository: "https://kiali.org/helm-charts"
+- name: kubernetes-secret-generator
+  version: "~3.3.4"
+  repository: "https://helm.mittwald.de"
