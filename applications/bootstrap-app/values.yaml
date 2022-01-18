@@ -59,6 +59,7 @@ telemetry:
         enabled: true
 rds:
   host: ""
+  
 apps: []
   # - name: ""
   #   repoURL: ""

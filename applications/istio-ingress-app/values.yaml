@@ -1,0 +1,17 @@
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
+# Ingress
+dns:
+  fqdn: ""
+argocd:
+  namespace: ""
+  fqdn: ""
+  service: ""
+
+# Dependencies
+gateway:
+  labels:
+    version: "1.12.1"

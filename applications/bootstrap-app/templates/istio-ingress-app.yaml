@@ -1,7 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-ingress
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-app
+  name: istio-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -9,7 +16,7 @@ spec:
   source:
     repoURL: {{ .Values.bootstrapApp.repoURL }}
     targetRevision: {{ .Values.bootstrapApp.targetRevision }}
-    path: "{{ .Values.bootstrapApp.appsPath }}/ingress-app"
+    path: "{{ .Values.bootstrapApp.appsPath }}/istio-ingress-app"
     helm:
       parameters:
         - name: dns.fqdn
@@ -20,9 +27,11 @@ spec:
           value: "argocd.{{ .Values.dns.fqdn }}"
         - name: argocd.service
           value: "{{ .Values.helm.releaseName }}-argocd-server"
+
   destination:
     namespace: istio-ingress
     server: "{{ .Values.spec.destination.server }}"
+
   syncPolicy:
     automated:
       prune: true

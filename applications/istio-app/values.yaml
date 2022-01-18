@@ -2,3 +2,15 @@
 spec:
   destination:
     server: https://kubernetes.default.svc
+
+# Service Entries
+serviceEntries:
+  rds:
+    host: ""
+
+# Dependencies
+istiod:
+  global:
+    tracer:
+      zipkin:
+        address: jaeger-tracing-collector.telemetry:9411

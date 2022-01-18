@@ -4,7 +4,7 @@ metadata:
   name: rds-svc-pgsql
 spec:
   hosts:
-  - "{{ .Values.rds.host }}"
+  - "{{ .Values.serviceEntries.rds.host }}"
   location: MESH_EXTERNAL
   ports:
   - number: 5432

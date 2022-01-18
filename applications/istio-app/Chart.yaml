@@ -1,3 +1,10 @@
 name: istio-app
 version: 1.0.0
 apiVersion: v2
+dependencies:
+  - name: istio-base
+    version: "~1.12.1"
+    repository: "https://istio-release.storage.googleapis.com/charts"
+  - name: istiod
+    version: "~1.12.1"
+    repository: "https://istio-release.storage.googleapis.com/charts"

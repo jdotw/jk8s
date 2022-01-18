@@ -16,6 +16,8 @@ aws:
     argocdServiceAccountName: ""
     telemetryServiceAccountName: ""
     appServiceAccountName: ""
+argocd:
+  namespace: ""
 
 # Dependencies
 external-secrets:
