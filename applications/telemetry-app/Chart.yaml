@@ -2,6 +2,9 @@ name: telemetry-app
 version: 1.0.0
 apiVersion: v2
 dependencies:
+- name: kafka
+  version: "~14.8.1"
+  repository: "https://charts.bitnami.com/bitnami"
 - name: jaeger-operator
   version: "~2.27.1"
   repository: "https://jaegertracing.github.io/helm-charts"
