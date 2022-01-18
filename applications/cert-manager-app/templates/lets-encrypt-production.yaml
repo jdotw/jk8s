@@ -1,4 +1,4 @@
-{{ if .Values.certManager.letsEncrypt.production.enabled }}
+{{ if .Values.letsEncrypt.production.enabled }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -7,14 +7,14 @@ metadata:
 spec:
   acme:
     server: https://acme-production-v02.api.letsencrypt.org/directory
-    email: "{{ .Values.certManager.letsEncrypt.production.email }}"
+    email: "{{ .Values.letsEncrypt.production.email }}"
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:
-    {{ if .Values.certManager.letsEncrypt.production.route53.zoneID }}
+    {{ if .Values.letsEncrypt.production.route53.zoneID }}
     - dns01:
         route53:
           region: us-east-1
-          hostedZoneID: "{{ .Values.certManager.letsEncrypt.production.route53.zoneID }}"
+          hostedZoneID: "{{ .Values.letsEncrypt.production.route53.zoneID }}"
     {{ end }}
 {{ end }}

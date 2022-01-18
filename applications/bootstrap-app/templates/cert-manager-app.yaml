@@ -24,12 +24,26 @@ spec:
     chart: "{{ .Values.bootstrapApp.appsPath }}/cert-manager-app"
     helm:
       parameters:
-      {{ if .Values.tls.certManager.aws.serviceAccountName }}
+        # cert-manager dependency
+        {{- if .Values.tls.certManager.aws.serviceAccountName }}
         - name: cert-manager.serviceAccount.create
           value: "false"
         - name: cert-manager.serviceAccount.name
           value: "{{ .Values.tls.certManager.aws.serviceAccountName }}"
-      {{ end }}
+        {{- end }}
+        # cert-manager-app
+        - name: letsEncrypt.staging.enabled
+          value: "{{ .Values.tls.certManager.letsEncrypt.staging.enabled }}"
+        - name: letsEncrypt.staging.email
+          value: "{{ .Values.tls.certManager.letsEncrypt.staging.email }}"
+        - name: letsEncrypt.staging.route53.zoneID
+          value: "{{ .Values.tls.certManager.letsEncrypt.staging.route53.zoneID }}"
+        - name: letsEncrypt.production.enabled
+          value: "{{ .Values.tls.certManager.letsEncrypt.production.enabled }}"
+        - name: letsEncrypt.production.email
+          value: "{{ .Values.tls.certManager.letsEncrypt.production.email }}"
+        - name: letsEncrypt.production.route53.zoneID
+          value: "{{ .Values.tls.certManager.letsEncrypt.production.route53.zoneID }}"
   destination:
     namespace: cert-manager
     server: "{{ .Values.spec.destination.server }}"

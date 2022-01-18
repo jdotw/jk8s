@@ -1,4 +1,4 @@
-{{ if .Values.certManager.letsEncrypt.staging.enabled }}
+{{ if .Values.letsEncrypt.staging.enabled }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -7,14 +7,14 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: "{{ .Values.certManager.letsEncrypt.staging.email }}"
+    email: "{{ .Values.letsEncrypt.staging.email }}"
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    {{ if .Values.certManager.letsEncrypt.staging.route53.zoneID }}
+    {{ if .Values.letsEncrypt.staging.route53.zoneID }}
     - dns01:
         route53:
           region: us-east-1
-          hostedZoneID: "{{ .Values.certManager.letsEncrypt.staging.route53.zoneID }}"
+          hostedZoneID: "{{ .Values.letsEncrypt.staging.route53.zoneID }}"
     {{ end }}
 {{ end }}
