@@ -1,0 +1,22 @@
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+cluster:
+  name: "in-cluster"
+  awsRegion: "ap-southeast-2"
+  clusterAutoscaler:
+    namespace: "kube-system"
+
+# External Secrets
+enabled: false
+rdsSecretName: ""
+aws:
+  secretsManager:
+    argocdServiceAccountName: ""
+    telemetryServiceAccountName: ""
+    appServiceAccountName: ""
+
+# Dependencies
+external-secrets:
+  installCRDs: true

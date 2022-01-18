@@ -12,30 +12,6 @@ spec:
     path: "{{ .Values.bootstrapApp.appsPath }}/integration-app"
     helm:
       parameters:
-        # external-secrets
-        - name: externalSecrets.enabled
-          value: "{{ .Values.secrets.externalSecrets.enabled }}"
-        - name: externalSecrets.rdsSecretName
-          value: "{{ .Values.secrets.externalSecrets.rdsSecretName }}"
-        - name: externalSecrets.aws.secretsManager.argocdServiceAccountName
-          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.argocdServiceAccountName }}"
-        - name: externalSecrets.aws.secretsManager.telemetryServiceAccountName
-          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.telemetryServiceAccountName }}"
-        - name: externalSecrets.aws.secretsManager.appServiceAccountName
-          value: "{{ .Values.secrets.externalSecrets.aws.secretsManager.appServiceAccountName }}"
-        # cert-manager
-        - name: certManager.letsEncrypt.staging.enabled
-          value: "{{ .Values.tls.certManager.letsEncrypt.staging.enabled }}"
-        - name: certManager.letsEncrypt.staging.email
-          value: "{{ .Values.tls.certManager.letsEncrypt.staging.email }}"
-        - name: certManager.letsEncrypt.staging.route53.zoneID
-          value: "{{ .Values.tls.certManager.letsEncrypt.staging.route53.zoneID }}"
-        - name: certManager.letsEncrypt.production.enabled
-          value: "{{ .Values.tls.certManager.letsEncrypt.production.enabled }}"
-        - name: certManager.letsEncrypt.production.email
-          value: "{{ .Values.tls.certManager.letsEncrypt.production.email }}"
-        - name: certManager.letsEncrypt.production.route53.zoneID
-          value: "{{ .Values.tls.certManager.letsEncrypt.production.route53.zoneID }}"
         # rds
         - name: rds.host
           value: "{{ .Values.rds.host }}"

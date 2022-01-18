@@ -1,0 +1,7 @@
+name: external-secrets-app
+version: 1.0.0
+apiVersion: v2
+dependencies:
+  - name: external-secrets
+    version: "~0.3.11"
+    repository: "https://charts.external-secrets.io"

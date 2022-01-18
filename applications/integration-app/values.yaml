@@ -1,27 +1,7 @@
 argocd:
   namespace: ""
 
-externalSecrets:
-  enabled: false
-  rdsSecretName: ""
-  aws:
-    secretsManager:
-      argocdServiceAccountName: ""
-      telemetryServiceAccountName: ""
-      appServiceAccountName: ""
 
-certManager:
-  letsEncrypt:
-    staging:
-      enabled: false
-      email: ""
-      route53:
-        zoneID: ""
-    production:
-      enabled: false
-      email: ""
-      route53:
-        zoneID: ""
 
 rds:
   host: ""
