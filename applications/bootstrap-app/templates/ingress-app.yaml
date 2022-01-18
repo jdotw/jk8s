@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.masterApp.repoURL }}
-    targetRevision: {{ .Values.masterApp.targetRevision }}
-    path: "{{ .Values.masterApp.path }}/ingress-app"
+    repoURL: {{ .Values.bootstrapApp.repoURL }}
+    targetRevision: {{ .Values.bootstrapApp.targetRevision }}
+    path: "{{ .Values.bootstrapApp.appsPath }}/ingress-app"
     helm:
       parameters:
         - name: dns.fqdn

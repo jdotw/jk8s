@@ -20,9 +20,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.masterApp.repoURL }}
-    targetRevision: {{ .Values.masterApp.targetRevision }}
-    path: "{{ .Values.masterApp.path }}/istio-app"
+    repoURL: {{ .Values.bootstrapApp.repoURL }}
+    targetRevision: {{ .Values.bootstrapApp.targetRevision }}
+    path: "{{ .Values.bootstrapApp.appsPath }}/istio-app"
 
   destination:
     namespace: {{ .Values.argocd.namespace }}

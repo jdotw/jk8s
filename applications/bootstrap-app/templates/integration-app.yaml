@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.masterApp.repoURL }}"
-    targetRevision: "{{ .Values.masterApp.targetRevision }}"
-    path: "{{ .Values.masterApp.path }}/integration-app"
+    repoURL: "{{ .Values.bootstrapApp.repoURL }}"
+    targetRevision: "{{ .Values.bootstrapApp.targetRevision }}"
+    path: "{{ .Values.bootstrapApp.appsPath }}/integration-app"
     helm:
       parameters:
         # external-secrets
