@@ -1,16 +1,17 @@
 {{ if .Values.tls.certManager.enabled }}
----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: cert-manager
   labels:
     istio-injection: disabled
----
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+---    
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: cert-manager-app
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
@@ -18,27 +19,21 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: "v1.6.1"
+    repoURL: {{ .Values.bootstrapApp.repoURL }}
+    targetRevision: {{ .Values.bootstrapApp.targetRevision }}
+    chart: "{{ .Values.bootstrapApp.appsPath }}/cert-manager-app"
     helm:
       parameters:
-        - name: installCRDs
-          value: "true"
       {{ if .Values.tls.certManager.aws.serviceAccountName }}
-        - name: serviceAccount.create
+        - name: cert-manager.serviceAccount.create
           value: "false"
-        - name: serviceAccount.name
+        - name: cert-manager.serviceAccount.name
           value: "{{ .Values.tls.certManager.aws.serviceAccountName }}"
       {{ end }}
-        - name: securityContext.fsGroup
-          value: "1001"
-      releaseName: cert-manager
   destination:
     namespace: cert-manager
     server: "{{ .Values.spec.destination.server }}"
   syncPolicy:
     automated:
       prune: true
----
 {{ end }}
