@@ -7,7 +7,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-app
+  name: istio
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
   finalizers:
@@ -17,7 +17,7 @@ spec:
   source:
     repoURL: {{ .Values.bootstrapApp.repoURL }}
     targetRevision: {{ .Values.bootstrapApp.targetRevision }}
-    path: "{{ .Values.bootstrapApp.appsPath }}/istio-app"
+    path: "{{ .Values.bootstrapApp.appsPath }}/istio"
     helm:
       parameters:
         - name: serviceEntries.rds.host

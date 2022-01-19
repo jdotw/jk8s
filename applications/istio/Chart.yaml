@@ -1,4 +1,4 @@
-name: istio-app
+name: istio
 version: 1.0.0
 apiVersion: v2
 dependencies:
