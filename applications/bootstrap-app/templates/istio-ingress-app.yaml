@@ -6,7 +6,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-app
+  name: istio-ingress-app
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
   finalizers:
