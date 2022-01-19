@@ -11,8 +11,3 @@ argocd:
   fqdn: ""
   service: ""
 
-# Dependencies
-gateway:
-  labels:
-    version: "1.12.1"
-  additionalProperties: true

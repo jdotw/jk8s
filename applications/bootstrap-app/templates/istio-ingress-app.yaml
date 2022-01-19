@@ -6,6 +6,30 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: istio-ingress
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-6"
+spec:
+  project: default
+  source:
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: gateway
+    targetRevision: "~1.12.1"
+    helm:
+      releaseName: istio-ingress
+      parameters:
+  destination:
+    namespace: istio-ingress
+    server: "{{ .Values.spec.destination.server }}"
+  syncPolicy:
+    automated:
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: istio-ingress-app
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
@@ -27,11 +51,9 @@ spec:
           value: "argocd.{{ .Values.dns.fqdn }}"
         - name: argocd.service
           value: "{{ .Values.helm.releaseName }}-argocd-server"
-
   destination:
     namespace: istio-ingress
     server: "{{ .Values.spec.destination.server }}"
-
   syncPolicy:
     automated:
       prune: true
