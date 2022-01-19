@@ -6,7 +6,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-ingress
+  name: istio-ingress-chart
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
@@ -19,7 +19,6 @@ spec:
     targetRevision: "~1.12.1"
     helm:
       releaseName: istio-ingress
-      parameters:
   destination:
     namespace: istio-ingress
     server: "{{ .Values.spec.destination.server }}"
