@@ -11,13 +11,13 @@ spec:
       kafka:
         producer:
           topic: jaeger-spans
-          brokers: telemetry-kafka:9092
+          brokers: jaeger-kafka:9092
   ingester:
     options:
       kafka:
         consumer:
           topic: jaeger-spans
-          brokers: telemetry-kafka:9092
+          brokers: jaeger-kafka:9092
       ingester:
         deadlockInterval: 0
   storage:

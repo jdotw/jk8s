@@ -3,18 +3,6 @@ dns:
   fqdn: ""
 argocd:
   namespace: ""
-jaeger:
-  storage:
-    es:
-      enabled: false
-      url: ""
-      credentialsSecretName: ""
-    inMemory:
-      enabled: true
-
-# Dependencies
-jaeger-operator:
-  rbac.clusterRole: true
 
 # Defaults
 spec:

@@ -1,0 +1,21 @@
+# Required
+dns:
+  fqdn: ""
+jaeger:
+  storage:
+    es:
+      enabled: false
+      url: ""
+      credentialsSecretName: ""
+    inMemory:
+      enabled: true
+
+# Dependencies
+jaeger-operator:
+  rbac.clusterRole: true
+
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
