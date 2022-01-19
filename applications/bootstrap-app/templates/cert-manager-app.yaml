@@ -11,7 +11,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-app
+  name: cert-manager
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
@@ -21,7 +21,7 @@ spec:
   source:
     repoURL: {{ .Values.bootstrapApp.repoURL }}
     targetRevision: {{ .Values.bootstrapApp.targetRevision }}
-    path: "{{ .Values.bootstrapApp.appsPath }}/cert-manager-app"
+    path: "{{ .Values.bootstrapApp.appsPath }}/cert-manager"
     helm:
       parameters:
         # cert-manager dependency
@@ -31,7 +31,7 @@ spec:
         - name: cert-manager.serviceAccount.name
           value: "{{ .Values.tls.certManager.aws.serviceAccountName }}"
         {{- end }}
-        # cert-manager-app
+        # cert-manager
         - name: letsEncrypt.staging.enabled
           value: "{{ .Values.tls.certManager.letsEncrypt.staging.enabled }}"
         - name: letsEncrypt.staging.email
