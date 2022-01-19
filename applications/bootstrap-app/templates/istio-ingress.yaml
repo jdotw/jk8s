@@ -30,7 +30,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-ingress-app
+  name: istio-ingress
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
   finalizers:
@@ -40,7 +40,7 @@ spec:
   source:
     repoURL: {{ .Values.bootstrapApp.repoURL }}
     targetRevision: {{ .Values.bootstrapApp.targetRevision }}
-    path: "{{ .Values.bootstrapApp.appsPath }}/istio-ingress-app"
+    path: "{{ .Values.bootstrapApp.appsPath }}/istio-ingress"
     helm:
       parameters:
         - name: dns.fqdn
