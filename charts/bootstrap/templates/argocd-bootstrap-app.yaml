@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.bootstrap.repoURL }}"
-    targetRevision: "{{ .Values.bootstrap.targetRevision }}"
-    path: "{{ .Values.bootstrap.appsPath }}/bootstrap-app"
+    repoURL: "{{ .Values.bootstrap.bootstrapApp.repoURL }}"
+    targetRevision: "{{ .Values.bootstrap.bootstrapApp.targetRevision }}"
+    path: "{{ .Values.bootstrap.bootstrapApp.appsPath }}/bootstrap-app"
     helm:
       parameters:
         - name: "argocd.namespace"
