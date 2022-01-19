@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: metrics-server
+  namespace: "{{ .Values.argocd.namespace }}"
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:

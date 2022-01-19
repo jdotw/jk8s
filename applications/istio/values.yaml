@@ -8,6 +8,10 @@ serviceEntries:
   rds:
     host: ""
 
+# Metrics Server
+argocd:
+  namespace: ""
+
 # Dependencies
 istiod:
   global:

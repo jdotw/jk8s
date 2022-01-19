@@ -22,6 +22,8 @@ spec:
       parameters:
         - name: serviceEntries.rds.host
           value: "{{ .Values.rds.host }}"
+        - name: argocd.namespace
+          value: "{{ .Values.argocd.namespace }}"
 
   destination:
     namespace: istio-system
