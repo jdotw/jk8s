@@ -9,8 +9,8 @@ serviceEntries:
     host: ""
 
 # Dependencies
-# istiod:
-#   global:
-#     tracer:
-#       zipkin:
-#         address: jaeger-tracing-collector.telemetry:9411
+istiod:
+  global:
+    tracer:
+      zipkin:
+        address: jaeger-tracing-collector.telemetry:9411
