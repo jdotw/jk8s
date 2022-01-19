@@ -1,4 +1,4 @@
-name: external-secrets-app
+name: external-secrets
 version: 1.0.0
 apiVersion: v2
 dependencies:
