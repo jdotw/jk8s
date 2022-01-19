@@ -12,6 +12,6 @@ argocd:
   service: ""
 
 # Dependencies
-gateway:
-  labels:
-    version: "1.12.1"
+# gateway:
+#   labels:
+#     version: "1.12.1"
