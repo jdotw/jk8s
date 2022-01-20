@@ -1,0 +1,7 @@
+name: crossplane
+version: 1.0.0
+apiVersion: v2
+dependencies:
+  - name: crossplane
+    version: "~1.6.1"
+    repository: "https://charts.crossplane.io/stable"
