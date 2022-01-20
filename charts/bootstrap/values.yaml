@@ -37,7 +37,7 @@ bootstrap:
       aws:
         secretsManager:
           argocdServiceAccountName: ""
-          telemetryServiceAccountName: ""
+          jaegerServiceAccountName: ""
           appServiceAccountName: ""
   telemetry:
     jaeger:

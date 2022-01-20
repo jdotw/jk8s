@@ -27,7 +27,7 @@ bootstrap:
       aws:
         secretsManager:
           argocdServiceAccountName: external-secrets
-          telemetryServiceAccountName: external-secrets
+          jaegerServiceAccountName: external-secrets
           appServiceAccountName: external-secrets
   telemetry:
     jaeger:

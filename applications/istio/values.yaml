@@ -17,4 +17,4 @@ istiod:
   global:
     tracer:
       zipkin:
-        address: jaeger-tracing-collector.telemetry:9411
+        address: jaeger-tracing-collector.jaeger:9411

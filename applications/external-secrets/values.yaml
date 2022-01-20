@@ -14,7 +14,7 @@ rdsSecretName: ""
 aws:
   secretsManager:
     argocdServiceAccountName: ""
-    telemetryServiceAccountName: ""
+    jaegerServiceAccountName: ""
     appServiceAccountName: ""
 argocd:
   namespace: ""
