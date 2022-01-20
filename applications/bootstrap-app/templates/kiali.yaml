@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .Values.bootstrapApp.repoURL }}"
+    targetRevision: "{{ .Values.bootstrapApp.targetRevision }}"
+    path: "{{ .Values.bootstrapApp.appsPath }}/kiali"
+    helm:
+      parameters:
+        - name: dns.fqdn
+          value: "{{ .Values.dns.fqdn }}"
+
+  destination:
+    namespace: kiali
+    server: "{{ .Values.spec.destination.server }}"
+
+  syncPolicy:
+    automated:
+      prune: true

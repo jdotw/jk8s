@@ -5,9 +5,6 @@ dependencies:
 - name: kube-prometheus-stack
   version: "~27.2.0"
   repository: "https://prometheus-community.github.io/helm-charts"
-- name: kiali-operator
-  version: "~1.44.0"
-  repository: "https://kiali.org/helm-charts"
 - name: kubernetes-secret-generator
   version: "~3.3.4"
   repository: "https://helm.mittwald.de"

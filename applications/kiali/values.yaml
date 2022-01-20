@@ -1,0 +1,9 @@
+# Required
+dns:
+  fqdn: ""
+
+# Defaults
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
