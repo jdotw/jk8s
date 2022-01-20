@@ -7,3 +7,9 @@ cluster:
   awsRegion: "ap-southeast-2"
   clusterAutoscaler:
     namespace: "kube-system"
+
+crossplane:
+  packageCache:
+    sizeLimit: 100Mi
+  args:
+    - --debug
