@@ -13,5 +13,3 @@ crossplane:
     sizeLimit: 100Mi
   args:
     - --debug
-  providers:
-    - package: crossplane/provider-sql-controller:master    
