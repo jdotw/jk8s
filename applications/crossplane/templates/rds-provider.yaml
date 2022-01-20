@@ -1,3 +1,10 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-sql
+spec:
+  package: "crossplane/provider-sql-controller:v0.3.0"
+---
 apiVersion: postgresql.sql.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
