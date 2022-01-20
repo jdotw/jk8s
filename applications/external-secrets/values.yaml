@@ -16,6 +16,7 @@ aws:
     argocdServiceAccountName: ""
     jaegerServiceAccountName: ""
     appServiceAccountName: ""
+    crossplaneServiceAccountName: ""
 argocd:
   namespace: ""
 

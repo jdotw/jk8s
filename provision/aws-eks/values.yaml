@@ -29,6 +29,7 @@ bootstrap:
           argocdServiceAccountName: external-secrets
           jaegerServiceAccountName: external-secrets
           appServiceAccountName: external-secrets
+          crossplaneServiceAccountName: external-secrets
   telemetry:
     jaeger:
       storage:

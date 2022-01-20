@@ -39,6 +39,7 @@ bootstrap:
           argocdServiceAccountName: ""
           jaegerServiceAccountName: ""
           appServiceAccountName: ""
+          crossplaneServiceAccountName: ""
   telemetry:
     jaeger:
       storage:
