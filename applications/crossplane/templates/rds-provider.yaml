@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  package: "crossplane/provider-sql-controller:v0.3.0"
+  package: "crossplane/provider-sql-controller:master"
 # ---
 # apiVersion: postgresql.sql.crossplane.io/v1alpha1
 # kind: ProviderConfig
