@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: crossplane
+  name: crossplane-system
   labels:
     istio-injection: disabled
   annotations:
@@ -10,7 +10,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane
+  name: crossplane2
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
@@ -22,7 +22,7 @@ spec:
     targetRevision: "{{ .Values.bootstrapApp.targetRevision }}"
     path: "{{ .Values.bootstrapApp.appsPath }}/crossplane"
   destination:
-    namespace: crossplane
+    namespace: crossplane-system
     server: "{{ .Values.spec.destination.server }}"
   syncPolicy:
     automated:
