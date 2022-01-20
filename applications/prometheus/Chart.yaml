@@ -1,10 +1,7 @@
-name: telemetry
+name: prometheus
 version: 1.0.0
 apiVersion: v2
 dependencies:
 - name: kube-prometheus-stack
   version: "~27.2.0"
   repository: "https://prometheus-community.github.io/helm-charts"
-- name: kubernetes-secret-generator
-  version: "~3.3.4"
-  repository: "https://helm.mittwald.de"

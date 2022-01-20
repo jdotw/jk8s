@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: telemetry
+  name: prometheus
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: "{{ .Values.bootstrapApp.repoURL }}"
     targetRevision: "{{ .Values.bootstrapApp.targetRevision }}"
-    path: "{{ .Values.bootstrapApp.appsPath }}/telemetry"
+    path: "{{ .Values.bootstrapApp.appsPath }}/prometheus"
     helm:
       parameters:
         - name: dns.fqdn
@@ -18,7 +18,7 @@ spec:
           value: "{{ .Values.argocd.namespace }}"
 
   destination:
-    namespace: telemetry
+    namespace: prometheus
     server: "{{ .Values.spec.destination.server }}"
 
   syncPolicy:

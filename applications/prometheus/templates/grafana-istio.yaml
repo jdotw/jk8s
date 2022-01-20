@@ -1,31 +1,29 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: prometheus-vs
-  namespace: telemetry
+  name: grafana-vs
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   hosts:
-    - "prometheus.{{ .Values.dns.fqdn }}"
+    - "grafana.{{ .Values.dns.fqdn }}"
   gateways:
     - istio-ingress/ingress-gateway
   http:
     - route:
         - destination:
-            host: prometheus-kube-prometheus-prometheus
+            host: prometheus-grafana
             port:
-              number: 9090
+              number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: prometheus
-  namespace: telemetry
+  name: grafana
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  host: prometheus-kube-prometheus-prometheus
+  host: prometheus-grafana
   trafficPolicy:
     tls:
       mode: DISABLE
