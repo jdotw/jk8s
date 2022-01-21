@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: app
+  name: prometheus
   labels:
     istio-injection: disabled
   annotations:
