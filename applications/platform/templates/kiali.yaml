@@ -25,7 +25,7 @@ spec:
           value: "{{ .Values.dns.fqdn }}"
 
   destination:
-    namespace: kiali
+    namespace: istio-system
     server: "{{ .Values.spec.destination.server }}"
 
   syncPolicy:
