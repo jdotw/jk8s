@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.platformApp.repoURL }}"
-    targetRevision: "{{ .Values.platformApp.targetRevision }}"
-    path: "{{ .Values.platformApp.appsPath }}/prometheus"
+    repoURL: "{{ .Values.repository.repoURL }}"
+    targetRevision: "{{ .Values.repository.targetRevision }}"
+    path: "{{ .Values.repository.appsPath }}/prometheus"
     helm:
       parameters:
         - name: dns.fqdn

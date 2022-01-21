@@ -13,6 +13,10 @@ helm:
   releaseName: ""
 argocd: 
   namespace: ""
+repository:
+  url: ""
+  appsPath: ""
+  targetRevision: ""
 dns: 
   fqdn: ""
   externalDNS:

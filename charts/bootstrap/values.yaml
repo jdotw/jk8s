@@ -1,7 +1,7 @@
 # jk8s Values
 platform:
-  platformApp:
-    repoURL: https://github.com/jdotw/jk8s.git
+  repository:
+    url: https://github.com/jdotw/jk8s.git
     appsPath: applications
     targetRevision: HEAD
   dns: 

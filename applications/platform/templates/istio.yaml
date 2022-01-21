@@ -15,9 +15,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.platformApp.repoURL }}
-    targetRevision: {{ .Values.platformApp.targetRevision }}
-    path: "{{ .Values.platformApp.appsPath }}/istio"
+    repoURL: {{ .Values.repository.repoURL }}
+    targetRevision: {{ .Values.repository.targetRevision }}
+    path: "{{ .Values.repository.appsPath }}/istio"
     helm:
       parameters:
         - name: serviceEntries.rds.host
