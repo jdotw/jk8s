@@ -37,7 +37,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.repository.repoURL }}
+    repoURL: {{ .Values.repository.url }}
     targetRevision: {{ .Values.repository.targetRevision }}
     path: "{{ .Values.repository.appsPath }}/istio-ingress"
     helm:
