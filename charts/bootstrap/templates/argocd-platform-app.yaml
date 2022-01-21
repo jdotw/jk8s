@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.platform.platformApp.repoURL }}"
-    targetRevision: "{{ .Values.platform.platformApp.targetRevision }}"
-    path: "{{ .Values.platform.platformApp.appsPath }}/platform"
+    repoURL: "{{ .Values.platform.repository.repoURL }}"
+    targetRevision: "{{ .Values.platform.repository.targetRevision }}"
+    path: "{{ .Values.platform.repository.appsPath }}/platform"
     helm:
       parameters:
         - name: "argocd.namespace"
