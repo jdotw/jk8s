@@ -1,6 +1,6 @@
 # jk8s Values
-bootstrap:
-  bootstrapApp:
+platform:
+  platformApp:
     repoURL: https://github.com/jdotw/jk8s.git
     appsPath: applications
     targetRevision: HEAD
