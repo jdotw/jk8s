@@ -9,7 +9,10 @@ cluster:
     namespace: "kube-system"
 
 crossplane:
-  packageCache:
-    sizeLimit: 100Mi
+  # packageCache:
+  #   sizeLimit: 100Mi
   args:
     - --debug
+  # provider:
+  #   packages:
+  #     - crossplane/provider-sql:master
