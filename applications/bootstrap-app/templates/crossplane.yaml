@@ -10,7 +10,7 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane2
+  name: crossplane
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
