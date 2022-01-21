@@ -18,3 +18,12 @@ spec:
     connectionSecretRef:
       namespace: crossplane
       name: rds
+---
+apiVersion: postgresql.sql.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  name: isvanilla
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  forProvider: {}
