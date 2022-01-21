@@ -1,9 +1,19 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: provider-sql-debug-config
+spec:
+  args:
+    - --debug
+---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-sql
 spec:
   package: "crossplane/provider-sql:master"
+  controllerConfigRef:
+    name: provider-sql-debug-config
 ---
 apiVersion: postgresql.sql.crossplane.io/v1alpha1
 kind: ProviderConfig
