@@ -30,5 +30,5 @@ spec:
   credentials:
     source: PostgreSQLConnectionSecret
     connectionSecretRef:
-      namespace: crossplane
+      namespace: crossplane-system
       name: rds
