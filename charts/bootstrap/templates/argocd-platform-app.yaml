@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bootstrap-app
+  name: platform
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: "{{ .Values.bootstrap.bootstrapApp.repoURL }}"
-    targetRevision: "{{ .Values.bootstrap.bootstrapApp.targetRevision }}"
-    path: "{{ .Values.bootstrap.bootstrapApp.appsPath }}/bootstrap-app"
+    repoURL: "{{ .Values.platform.platformApp.repoURL }}"
+    targetRevision: "{{ .Values.platform.platformApp.targetRevision }}"
+    path: "{{ .Values.platform.platformApp.appsPath }}/platform"
     helm:
       parameters:
         - name: "argocd.namespace"
@@ -17,7 +17,7 @@ spec:
         - name: "helm.releaseName"
           value: "{{ .Release.Name }}"
       values: |
-        {{ toYaml .Values.bootstrap | nindent 8 }}
+        {{ toYaml .Values.platform | nindent 8 }}
   destination:
     namespace: "{{ .Release.Namespace }}"
     server: https://kubernetes.default.svc

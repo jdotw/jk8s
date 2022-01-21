@@ -1,18 +1,7 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: crossplane-system
-  labels:
-    istio-injection: disabled
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
----    
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  name: prometheus
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -20,10 +9,18 @@ spec:
   source:
     repoURL: "{{ .Values.platformApp.repoURL }}"
     targetRevision: "{{ .Values.platformApp.targetRevision }}"
-    path: "{{ .Values.platformApp.appsPath }}/crossplane"
+    path: "{{ .Values.platformApp.appsPath }}/prometheus"
+    helm:
+      parameters:
+        - name: dns.fqdn
+          value: "{{ .Values.dns.fqdn }}"
+        - name: argocd.namespace
+          value: "{{ .Values.argocd.namespace }}"
+
   destination:
-    namespace: crossplane-system
+    namespace: prometheus
     server: "{{ .Values.spec.destination.server }}"
+
   syncPolicy:
     automated:
       prune: true

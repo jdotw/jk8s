@@ -37,9 +37,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.bootstrapApp.repoURL }}
-    targetRevision: {{ .Values.bootstrapApp.targetRevision }}
-    path: "{{ .Values.bootstrapApp.appsPath }}/istio-ingress"
+    repoURL: {{ .Values.platformApp.repoURL }}
+    targetRevision: {{ .Values.platformApp.targetRevision }}
+    path: "{{ .Values.platformApp.appsPath }}/istio-ingress"
     helm:
       parameters:
         - name: dns.fqdn
