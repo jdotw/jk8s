@@ -18,17 +18,3 @@ spec:
   package: "crossplane/provider-sql:master"
   controllerConfigRef:
     name: provider-sql-debug-config
----
-apiVersion: postgresql.sql.crossplane.io/v1alpha1
-kind: ProviderConfig
-metadata:
-  name: default
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-spec:
-  defaultDatabase: postgres
-  credentials:
-    source: PostgreSQLConnectionSecret
-    connectionSecretRef:
-      namespace: crossplane-system
-      name: rds
