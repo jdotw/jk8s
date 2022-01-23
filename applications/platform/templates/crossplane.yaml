@@ -32,6 +32,11 @@ spec:
   syncPolicy:
     automated:
       prune: true
+  ignoreDifferences:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      jsonPointers:
+      - /rules
 
 ---    
 apiVersion: argoproj.io/v1alpha1
