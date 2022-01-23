@@ -6,3 +6,12 @@ metadata:
     istio-injection: enabled
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: telemetry
+  labels:
+    istio-injection: disabled
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"

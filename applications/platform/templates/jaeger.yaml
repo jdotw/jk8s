@@ -1,41 +1,32 @@
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: jaeger
-#   labels:
-#     istio-injection: disabled
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "-10"
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: jaeger
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#   project: default
-#   source:
-#     repoURL: "{{ .Values.repository.url }}"
-#     targetRevision: "{{ .Values.repository.targetRevision }}"
-#     path: "{{ .Values.repository.appsPath }}/jaeger"
-#     helm:
-#       parameters:
-#         - name: dns.fqdn
-#           value: "{{ .Values.dns.fqdn }}"
-#         - name: jaeger.storage.es.enabled
-#           value: "{{ .Values.telemetry.jaeger.storage.es.enabled }}"
-#         - name: jaeger.storage.es.url
-#           value: "{{ .Values.telemetry.jaeger.storage.es.url }}"
-#         - name: jaeger.storage.es.credentialsSecretName
-#           value: "{{ .Values.telemetry.jaeger.storage.es.credentialsSecretName }}"
-#         - name: jaeger.storage.inMemory.enabled
-#           value: "{{ .Values.telemetry.jaeger.storage.inMemory.enabled }}"
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jaeger
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .Values.repository.url }}"
+    targetRevision: "{{ .Values.repository.targetRevision }}"
+    path: "{{ .Values.repository.appsPath }}/jaeger"
+    helm:
+      parameters:
+        - name: dns.fqdn
+          value: "{{ .Values.dns.fqdn }}"
+        - name: jaeger.storage.es.enabled
+          value: "{{ .Values.telemetry.jaeger.storage.es.enabled }}"
+        - name: jaeger.storage.es.url
+          value: "{{ .Values.telemetry.jaeger.storage.es.url }}"
+        - name: jaeger.storage.es.credentialsSecretName
+          value: "{{ .Values.telemetry.jaeger.storage.es.credentialsSecretName }}"
+        - name: jaeger.storage.inMemory.enabled
+          value: "{{ .Values.telemetry.jaeger.storage.inMemory.enabled }}"
 
-#   destination:
-#     namespace: jaeger
-#     server: "{{ .Values.spec.destination.server }}"
+  destination:
+    namespace: telemetry
+    server: "{{ .Values.spec.destination.server }}"
 
-#   syncPolicy:
-#     automated:
-#       prune: true
+  syncPolicy:
+    automated:
+      prune: true
