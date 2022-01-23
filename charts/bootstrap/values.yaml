@@ -37,7 +37,7 @@ platform:
       aws:
         secretsManager:
           argocdServiceAccountName: ""
-          jaegerServiceAccountName: ""
+          telemetryServiceAccountName: ""
           appServiceAccountName: ""
           crossplaneServiceAccountName: ""
   telemetry:

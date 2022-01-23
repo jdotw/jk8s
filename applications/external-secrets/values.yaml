@@ -14,7 +14,7 @@ rdsSecretName: ""
 aws:
   secretsManager:
     argocdServiceAccountName: ""
-    jaegerServiceAccountName: ""
+    telemetryServiceAccountName: ""
     appServiceAccountName: ""
     crossplaneServiceAccountName: ""
 argocd:
