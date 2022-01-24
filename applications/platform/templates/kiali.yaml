@@ -1,24 +1,53 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: kiali
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#   project: default
-#   source:
-#     repoURL: "{{ .Values.repository.url }}"
-#     targetRevision: "{{ .Values.repository.targetRevision }}"
-#     path: "{{ .Values.repository.appsPath }}/kiali"
-#     helm:
-#       parameters:
-#         - name: dns.fqdn
-#           value: "{{ .Values.dns.fqdn }}"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: telemetry
+  labels:
+    istio-injection: disabled
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali-operator
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "https://kiali.org/helm-charts"
+    targetRevision: "~1.44.0"
+    chart: kiali-operator
+  destination:
+    namespace: kiali-operator
+    server: "{{ .Values.spec.destination.server }}"
+  syncPolicy:
+    automated:
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .Values.repository.url }}"
+    targetRevision: "{{ .Values.repository.targetRevision }}"
+    path: "{{ .Values.repository.appsPath }}/kiali"
+    helm:
+      parameters:
+        - name: dns.fqdn
+          value: "{{ .Values.dns.fqdn }}"
 
-#   destination:
-#     namespace: telemetry
-#     server: "{{ .Values.spec.destination.server }}"
+  destination:
+    namespace: telemetry
+    server: "{{ .Values.spec.destination.server }}"
 
-#   syncPolicy:
-#     automated:
-#       prune: true
+  syncPolicy:
+    automated:
+      prune: true
