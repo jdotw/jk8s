@@ -7,3 +7,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
 
+kiali-server:
+  deployment:
+    accessible_namespaces: ["**"]
+  istio_namespace: istio-system
+  auth:
+    strategy: anonymous
+  external_services:
+    prometheus:
+      url: "http://prometheus-kube-prometheus-prometheus:9090"
+    tracing:
+      in_cluster_url: "http://jaeger-tracing-query:16686"
+      url: "http://jaeger.{{ .Values.dns.fqdn }}"
+      use_grpc: false
