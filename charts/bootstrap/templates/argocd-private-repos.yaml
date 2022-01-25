@@ -14,8 +14,9 @@ spec:
     name: "private-repo-{{ .name }}"
     creationPolicy: Owner
     template:
-      labels:
-        argocd.argoproj.io/secret-type: repo-creds
+      metadata:
+        labels:
+          argocd.argoproj.io/secret-type: repo-creds
       data:
         type: git
         url: "{{ .url }}"
