@@ -4,7 +4,6 @@ apiVersion: external-secrets.io/v1alpha1
 kind: ExternalSecret
 metadata:
   name: "repo-secret-{{ .name }}"
-  namespace: {{ $argocdNamespace }}
 spec:
   refreshInterval: 5m
   secretStoreRef:
