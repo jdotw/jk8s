@@ -1,0 +1,34 @@
+{{ $argocdNamespace := .Release.Namespace }}
+{{- range .Values.privateRepositories }}
+apiVersion: external-secrets.io/v1alpha1
+kind: ExternalSecret
+metadata:
+  name: "repo-secret-{{ .name }}"
+  namespace: {{ $argocdNamespace }}
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    name: secrets-store-aws-sm
+    kind: SecretStore
+  target:
+    name: "private-repo-{{ .name }}"
+    creationPolicy: Owner
+    template:
+      labels:
+        argocd.argoproj.io/secret-type: repo-creds
+      data:
+        type: git
+        url: "{{ .url }}"
+        username: "{{ "{{ .username | toString }}" }}"
+        password: "{{ "{{ .password | toString }}" }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: "{{ .externalSecret.name }}"
+        property: password
+    - secretKey: username
+      remoteRef:
+        key: "{{ .externalSecret.name }}"
+        property: username
+---
+{{- end }}

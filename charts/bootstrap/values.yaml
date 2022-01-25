@@ -51,6 +51,11 @@ platform:
           enabled: true
   rds:
     host: ""
+  privateRepositories:
+    # - name: ""
+    #   url: ""
+    #   externalSecret:
+    #     name: ""
   apps: []
     # - name: ""
     #   repoURL: ""
