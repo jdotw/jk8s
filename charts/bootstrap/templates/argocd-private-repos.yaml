@@ -1,5 +1,5 @@
 {{ $argocdNamespace := .Release.Namespace }}
-{{- range .Values.privateRepositories }}
+{{- range .Values.platform.privateRepositories }}
 apiVersion: external-secrets.io/v1alpha1
 kind: ExternalSecret
 metadata:
