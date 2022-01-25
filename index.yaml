@@ -2,6 +2,20 @@ apiVersion: v1
 entries:
   bootstrap:
   - apiVersion: v2
+    created: "2022-01-25T09:56:45.106897766Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 3.29.5
+    - name: argo-rollouts
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.8.0
+    digest: 91a102ca68364d7ededb5da5ec7afaabe754f3fb008f1ef96a6e0b6ac0a9e8c1
+    name: bootstrap
+    urls:
+    - https://github.com/jdotw/jk8s/releases/download/bootstrap-1.4.1/bootstrap-1.4.1.tgz
+    version: 1.4.1
+  - apiVersion: v2
     created: "2022-01-25T09:34:47.556530737Z"
     dependencies:
     - name: argo-cd
@@ -585,4 +599,4 @@ entries:
     urls:
     - https://github.com/jdotw/jk8s/releases/download/jk8s-1.0.2/jk8s-1.0.2.tgz
     version: 1.0.2
-generated: "2022-01-25T09:34:47.556985044Z"
+generated: "2022-01-25T09:56:45.107093769Z"
