@@ -1,0 +1,12 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: rds-cluster-composition
+  annotations:
+    provider: aws
+spec:
+  crossplane:
+    version: ">=v1.0.0"
+  dependsOn:
+    - provider: crossplane/provider-aws
+      version: ">=v0.23.0"
