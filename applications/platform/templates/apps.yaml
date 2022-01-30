@@ -12,8 +12,15 @@ spec:
   project: default
   source:
     repoURL: "{{ .repoURL }}"
+    {{- if .targetRevision }}
     targetRevision: "{{ .targetRevision }}"
+    {{- end }}
+    {{- if .path }}
     path: "{{ .path }}"
+    {{- end }}
+    {{- if .chart }}
+    chart: "{{ .chart }}"
+    {{- end }}
     helm:
       parameters:
         - name: fqdn
