@@ -1,0 +1,76 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xeksclusters.aws.jk8s.io
+spec:
+  group: aws.jk8s.io
+  names:
+    kind: XEKSCluster
+    plural: xeksclusters
+  connectionSecretKeys:
+    - cluster-ca
+    - apiserver-endpoint
+    - value
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  region:
+                    description: Geographic location of this EKS cluster
+                    type: string       
+                    enum: [ap-southeast-2]   
+                    default: ap-southeast-2
+                  environment:
+                    description: The environment to deploy this EKS cluster into
+                    type: string
+                  name:
+                    description: Name for EKS Cluster
+                    type: string       
+                  vpcName:
+                    description: Name for VPC for this EKS Cluster
+                    type: string       
+                  k8s-version:
+                    description: Kubernetes version
+                    type: string
+                    enum: ["1.20", "1.21", "1.22"]
+                    default: "1.21"
+                  instanceType:
+                    description: Worker node instance type
+                    type: string
+                    default: "t3.medium"
+                  minNodeCount:
+                    description: Minimum number of worker nodes in the cluster
+                    type: integer
+                    default: 1
+                  desiredNodeCount:
+                    description: Desired number of worker nodes in the cluster
+                    type: integer
+                    default: 3
+                  maxNodeCount:
+                    description: Maximum number of worker nodes in the cluster
+                    type: integer
+                    default: 10
+                  amiType:
+                    description: The AMI type used by the worker nodes
+                    type: string
+                    enum: ["AL2_x86_64", "AL2_x86_64_GPU"]                       
+                    default: "AL2_x86_64"      
+
+                required:
+                  - name
+                  - environment
+                  - vpcName
+
+            required:
+              - parameters

@@ -33,9 +33,9 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters      
-        - fromFieldPath: spec.parameters.vpc-cidrBlock
+        - fromFieldPath: spec.parameters.cidrBlock
           toFieldPath: spec.forProvider.cidrBlock
-        - fromFieldPath: spec.parameters.vpc-name
+        - fromFieldPath: spec.parameters.name
           toFieldPath: spec.forProvider.tags[0].value
 
     - name: internetgateway
@@ -57,7 +57,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-igw"
@@ -86,7 +86,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
               - fromFieldPath: spec.parameters.subnet1-public-name
             strategy: string
             string:
@@ -124,7 +124,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
               - fromFieldPath: spec.parameters.subnet2-public-name
             strategy: string
             string:
@@ -162,7 +162,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
               - fromFieldPath: spec.parameters.subnet1-private-name
             strategy: string
             string:
@@ -200,7 +200,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
               - fromFieldPath: spec.parameters.subnet2-private-name
             strategy: string
             string:
@@ -269,7 +269,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-nat-gateway-1"
@@ -305,7 +305,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-nat-gateway-2"
@@ -345,7 +345,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-public-route-table"
@@ -383,7 +383,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-private-route-table-1"
@@ -419,7 +419,7 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
-              - fromFieldPath: spec.parameters.vpc-name
+              - fromFieldPath: spec.parameters.name
             strategy: string
             string:
               fmt: "%s-private-route-table-2"
@@ -494,9 +494,7 @@ spec:
           transforms:
             - type: string
               string:
-                fmt: "%s-ekscluster-connection"            
-        - fromFieldPath: "spec.parameters.cluster-role"
-          toFieldPath: "spec.forProvider.roleArn"            
+                fmt: "%s-ekscluster-connection"
       connectionDetails:
         - name: cluster-ca
           fromConnectionSecretKey: clusterCA

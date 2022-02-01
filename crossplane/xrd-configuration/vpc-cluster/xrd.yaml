@@ -1,0 +1,163 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xclustervpcs.aws.jk8s.io
+spec:
+  group: aws.jk8s.io
+  names:
+    kind: XClusterVPC
+    plural: xclustervpcs
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  region:
+                    description: Geographic location of this VPC
+                    type: string       
+                    enum: [ap-southeast-2]   
+                    default: ap-southeast-2                    
+                  environment:
+                    description: The environment to deploy this VPC into
+                    type: string
+                  name:
+                    description: Name for VPC
+                    type: string       
+                  cidrBlock:
+                    description: CIDR block for VPC
+                    type: string   
+                    default: 10.20.0.0/16
+
+                  public-subnet-1-name:
+                    description: Name for public subnet 1
+                    type: string
+                    default: "public-subnet-1"
+                  public-subnet-1-cidrBlock:
+                    description: CIDR block for public subnet 1
+                    type: string
+                    default: 10.20.0.0/22
+                  public-subnet-1-availabilityZone:
+                    description: AZ for public subnet 1
+                    type: string                      
+                    default: ap-southeast-2a
+
+                  public-subnet-2-name:
+                    description: Name for public subnet 2
+                    type: string
+                    default: "public-subnet-2"
+                  public-subnet-2-cidrBlock:
+                    description: CIDR block for public subnet 2
+                    type: string
+                    default: 10.20.4.0/22
+                  public-subnet-2-availabilityZone:
+                    description: AZ for public subnet 2
+                    type: string                      
+                    default: ap-southeast-2b
+
+                  public-subnet-3-name:
+                    description: Name for public subnet 3
+                    type: string
+                    default: "public-subnet-3"
+                  public-subnet-3-cidrBlock:
+                    description: CIDR block for public subnet 3
+                    type: string
+                    default: 10.20.8.0/22
+                  public-subnet-3-availabilityZone:
+                    description: AZ for public subnet 3
+                    type: string         
+                    default: ap-southeast-2c
+
+                  private-subnet-1-name:
+                    description: Name for private subnet 1
+                    type: string
+                    default: "private-subnet-1"
+                  private-subnet-1-cidrBlock:
+                    description: CIDR block for private subnet 1
+                    type: string
+                    default: 10.20.20.0/22
+                  private-subnet-1-availabilityZone:
+                    description: AZ for private subnet 1
+                    type: string                      
+                    default: ap-southeast-2a
+
+                  private-subnet-2-name:
+                    description: Name for private subnet 2
+                    type: string
+                    default: "private-subnet-2"
+                  private-subnet-2-cidrBlock:
+                    description: CIDR block for private subnet 2
+                    type: string
+                    default: 10.20.24.0/22
+                  private-subnet-2-availabilityZone:
+                    description: AZ for private subnet 2
+                    type: string                      
+                    default: ap-southeast-2b
+
+                  private-subnet-3-name:
+                    description: Name for private subnet 3
+                    type: string
+                    default: "private-subnet-3"
+                  private-subnet-3-cidrBlock:
+                    description: CIDR block for private subnet 3
+                    type: string
+                    default: 10.20.28.0/22
+                  private-subnet-3-availabilityZone:
+                    description: AZ for private subnet 3
+                    type: string         
+                    default: ap-southeast-2c
+
+                  isolated-subnet-1-name:
+                    description: Name for isolated subnet 1
+                    type: string
+                    default: "isolated-subnet-1"
+                  isolated-subnet-1-cidrBlock:
+                    description: CIDR block for isolated subnet 1
+                    type: string
+                    default: 10.20.40.0/22
+                  isolated-subnet-1-availabilityZone:
+                    description: AZ for isolated subnet 1
+                    type: string                      
+                    default: ap-southeast-2a
+
+                  isolated-subnet-2-name:
+                    description: Name for isolated subnet 2
+                    type: string
+                    default: "isolated-subnet-2"
+                  isolated-subnet-2-cidrBlock:
+                    description: CIDR block for isolated subnet 2
+                    type: string
+                    default: 10.20.44.0/22
+                  isolated-subnet-2-availabilityZone:
+                    description: AZ for isolated subnet 2
+                    type: string                      
+                    default: ap-southeast-2b
+
+                  isolated-subnet-3-name:
+                    description: Name for isolated subnet 3
+                    type: string
+                    default: "isolated-subnet-3"
+                  isolated-subnet-3-cidrBlock:
+                    description: CIDR block for isolated subnet 3
+                    type: string
+                    default: 10.20.48.0/22
+                  isolated-subnet-3-availabilityZone:
+                    description: AZ for isolated subnet 3
+                    type: string         
+                    default: ap-southeast-2c
+                    
+                required:
+                  - name
+                  - environment
+                  
+            required:
+              - parameters

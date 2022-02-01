@@ -1,0 +1,44 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xclusters.jk8s.io
+spec:
+  group: jk8s.io
+  names:
+    kind: XCluster
+    plural: xclusters
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  name:
+                    description: Name of the cluster
+                    type: string       
+                  region:
+                    description: Region to deploy the cluster into
+                    type: string       
+                    enum: [ap-southeast-2]
+                    default: ap-southeast-2
+                  environment:
+                    description: The environment to deploy this cluster into
+                    type: string
+                  fqdn:
+                    description: FQDN for the clusters Hosted Zone
+                    type: string       
+                required:
+                  - name
+                  - fqdn
+                  - environment
+            required:
+              - parameters

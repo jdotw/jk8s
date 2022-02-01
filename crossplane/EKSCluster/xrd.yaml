@@ -31,10 +31,10 @@ spec:
                     type: string       
                     enum: ["ap-southeast-2"]   
                     
-                  vpc-cidrBlock:
+                  cidrBlock:
                     description: CIDR block for VPC
                     type: string   
-                  vpc-name:
+                  name:
                     description: Name for VPC
                     type: string       
 
@@ -99,8 +99,8 @@ spec:
                     
                 required:
                   - region
-                  - vpc-name
-                  - vpc-cidrBlock
+                  - name
+                  - cidrBlock
                   - subnet1-public-name
                   - subnet1-public-cidrBlock
                   - subnet1-public-availabilityZone

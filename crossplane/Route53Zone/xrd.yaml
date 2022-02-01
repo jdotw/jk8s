@@ -1,0 +1,35 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: route53zones.route53.jk8s.io
+spec:
+  group: route53.jk8s.io
+  names:
+    kind: Route53Zone
+    plural: route53zones
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  region:
+                    description: Region for the Route53 Zone
+                    type: string       
+                    enum: ["ap-southeast-2"]   
+                  fqdn:
+                    description: FQDN for the cluster
+                    type: string       
+                required:
+                  - region
+            required:
+              - parameters

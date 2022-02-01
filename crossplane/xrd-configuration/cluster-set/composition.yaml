@@ -1,0 +1,52 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-cluster
+spec:
+
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XClusterSet
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.region"
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "spec.parameters.name"
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.parameters.fqdn"
+
+  resources:
+
+    # 
+    # Prod
+    #
+
+    - name: prod-cluster
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XCluster
+        spec:
+          parameters:
+            environment: prod
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        
+    #
+    # Dev
+    #
+
+    - name: dev-cluster
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XCluster
+        spec:
+          parameters:
+            environment: dev
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters

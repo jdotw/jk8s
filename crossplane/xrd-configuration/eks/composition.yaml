@@ -1,0 +1,214 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: amazon-eks-cluster
+  labels:
+    provider: aws
+    service: eks
+    compute: managed
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: aws.jk8s.io/v1beta1
+    kind: XEKSCluster
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.providerConfigRef.name"
+
+  resources:
+
+    - name: cluster-role
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Role
+        metadata:
+          labels:
+            role: controlplane
+        spec:
+          forProvider:
+            assumeRolePolicyDocument: |
+              {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": "eks.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                  }
+                ]
+              }
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters      
+    
+    - name: cluster-role-policy-attachment
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
+        spec: 
+          forProvider:
+            policyArn: arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+            roleNameSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: controlplane
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+
+    - name: eks-cluster
+      base:
+        apiVersion: eks.aws.crossplane.io/v1beta1
+        kind: Cluster
+        spec:
+          forProvider:
+            resourcesVpcConfig:
+              endpointPrivateAccess: true
+              endpointPublicAccess: true
+              subnetIdSelector:
+                matchLabels:
+                  type: subnet
+            roleArnSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: controlplane
+          writeConnectionSecretToRef:
+            namespace: crossplane-system
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.k8s-version"
+          toFieldPath: "spec.forProvider.version"
+        - fromFieldPath: "metadata.uid"
+          toFieldPath: "spec.writeConnectionSecretToRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-ekscluster-connection"
+        - fromFieldPath: "spec.parameters.vpcName"
+          toFieldPath: "spec.forProvider.resourcesVpcConfig.subnetIdSelector.matchLabels.vpc"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.forProvider.resourcesVpcConfig.subnetIdSelector.matchLabels.environment"
+      connectionDetails:
+        - name: cluster-ca
+          fromConnectionSecretKey: clusterCA
+        - name: apiserver-endpoint
+          fromConnectionSecretKey: endpoint
+        - name: value
+          fromConnectionSecretKey: kubeconfig
+
+    - name: nodegroup-role
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Role
+        metadata:
+          labels:
+            role: nodegroup
+        spec:
+          forProvider:
+            assumeRolePolicyDocument: |
+              {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                  }
+                ]
+              }
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+    
+    - name: nodegroup-role-policy-attachment-eks-worker
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
+        spec: 
+          forProvider:
+            policyArn: arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+            roleNameSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: nodegroup
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+
+    - name: nodegroup-role-policy-attachment-cni
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
+        spec: 
+          forProvider:
+            policyArn: arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+            roleNameSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: nodegroup
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+
+    - name: nodegroup-role-policy-attachment-ecr
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
+        spec: 
+          forProvider:
+            policyArn: arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+            roleNameSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: nodegroup
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+
+    - name: eks-nodegroup
+      base:
+        apiVersion: eks.aws.crossplane.io/v1alpha1
+        kind: NodeGroup
+        spec:
+          forProvider:
+            instanceTypes: 
+              - patched
+            subnetSelector:
+              matchControllerRef: false
+              matchLabels:
+                type: subnet
+                visibility: private
+            clusterNameSelector:
+              matchControllerRef: true
+            nodeRoleSelector:
+              matchControllerRef: true
+              matchLabels:
+                role: nodegroup
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.minNodeCount"
+          toFieldPath: "spec.forProvider.scalingConfig.minSize"
+        - fromFieldPath: "spec.parameters.desiredNodeCount"
+          toFieldPath: "spec.forProvider.scalingConfig.desiredSize"
+        - fromFieldPath: "spec.parameters.maxNodeCount"
+          toFieldPath: "spec.forProvider.scalingConfig.maxSize"
+        - fromFieldPath: "spec.parameters.amiType"
+          toFieldPath: "spec.forProvider.amiType"
+        - fromFieldPath: "spec.parameters.instanceType"
+          toFieldPath: "spec.forProvider.instanceTypes[0]"
+        - fromFieldPath: "spec.parameters.vpcName"
+          toFieldPath: "spec.forProvider.subnetSelector.matchLabels.vpc"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.forProvider.subnetSelector.matchLabels.environment"          
