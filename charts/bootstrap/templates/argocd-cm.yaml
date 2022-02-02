@@ -1,42 +1,42 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-cm
-  labels:
-    app.kubernetes.io/name: argocd-cm
-    app.kubernetes.io/part-of: argocd
-    app.kubernetes.io/managed-by: Helm
-    meta.helm.sh/release-name: "{{ .Release.Name }}"
-    meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
-data:
-  repositories: |
-    - url: https://github.com/helm/charts.git
-    - url: https://github.com/argoproj/argo-rollouts.git
-    - url: https://github.com/istio/istio.git
-    - url: https://github.com/jdotw/jk8s.git
-  resource.customizations: |
-    admissionregistration.k8s.io/MutatingWebhookConfiguration:
-      ignoreDifferences: |
-        jsonPointers:
-        - /webhooks/0/clientConfig/caBundle
-        - /webhooks/1/clientConfig/caBundle
-        - /webhooks/2/clientConfig/caBundle
-        - /webhooks/3/clientConfig/caBundle
-        - /webhooks/4/clientConfig/caBundle
-    admissionregistration.k8s.io/ValidatingWebhookConfiguration:
-      ignoreDifferences: |
-        jsonPointers:
-        - /webhooks/0/failurePolicy
-    install.istio.io/IstioOperator:
-      health.lua: |
-        hs = {}
-        if obj.status ~= nil then
-          if obj.status.status == "HEALTHY" then
-            hs.status = "Healthy"
-            hs.message = "IstioOperator Ready"
-            return hs
-          end
-        end
-        hs.status = "Progressing"
-        hs.message = "Waiting for IstioOperator"
-        return hs
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: argocd-cm
+#   labels:
+#     app.kubernetes.io/name: argocd-cm
+#     app.kubernetes.io/part-of: argocd
+#     app.kubernetes.io/managed-by: Helm
+#     meta.helm.sh/release-name: "{{ .Release.Name }}"
+#     meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
+# data:
+#   repositories: |
+#     - url: https://github.com/helm/charts.git
+#     - url: https://github.com/argoproj/argo-rollouts.git
+#     - url: https://github.com/istio/istio.git
+#     - url: https://github.com/jdotw/jk8s.git
+#   resource.customizations: |
+#     admissionregistration.k8s.io/MutatingWebhookConfiguration:
+#       ignoreDifferences: |
+#         jsonPointers:
+#         - /webhooks/0/clientConfig/caBundle
+#         - /webhooks/1/clientConfig/caBundle
+#         - /webhooks/2/clientConfig/caBundle
+#         - /webhooks/3/clientConfig/caBundle
+#         - /webhooks/4/clientConfig/caBundle
+#     admissionregistration.k8s.io/ValidatingWebhookConfiguration:
+#       ignoreDifferences: |
+#         jsonPointers:
+#         - /webhooks/0/failurePolicy
+#     install.istio.io/IstioOperator:
+#       health.lua: |
+#         hs = {}
+#         if obj.status ~= nil then
+#           if obj.status.status == "HEALTHY" then
+#             hs.status = "Healthy"
+#             hs.message = "IstioOperator Ready"
+#             return hs
+#           end
+#         end
+#         hs.status = "Progressing"
+#         hs.message = "Waiting for IstioOperator"
+#         return hs
