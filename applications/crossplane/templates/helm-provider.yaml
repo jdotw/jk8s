@@ -1,3 +1,13 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: provider-helm-debug-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  args:
+    - --debug
+---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
