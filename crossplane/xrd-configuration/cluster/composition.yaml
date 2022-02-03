@@ -37,5 +37,9 @@ spec:
           patchSetName: common-parameters
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.vpcName"
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.parameters.fqdn"
+        - fromFieldPath: "spec.parameters.hostedZoneID"
+          toFieldPath: "spec.parameters.hostedZoneID"
 
 

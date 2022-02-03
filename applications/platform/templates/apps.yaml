@@ -1,5 +1,10 @@
 {{ $server := .Values.spec.destination.server  }}
 {{ $fqdn := .Values.dns.fqdn }}
+{{ if .Values.dns.externalDNS }}
+{{ $zoneID := .Values.dns.externalDNS.zoneID }}
+{{ else }}
+{{ $zoneID := "" }}
+{{ end }}
 {{ $argocdNamespace := .Values.argocd.namespace }}
 {{ range .Values.apps }}
 apiVersion: argoproj.io/v1alpha1
@@ -25,6 +30,8 @@ spec:
       parameters:
         - name: fqdn
           value: "{{ $fqdn }}"
+        - name: zoneID
+          value: "{{ $zoneID }}"
         - name: argocd.namespace
           value: "{{ $argocdNamespace }}"
   destination:

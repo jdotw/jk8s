@@ -39,7 +39,13 @@ spec:
                     type: string       
                   vpcName:
                     description: Name for VPC for this EKS Cluster
-                    type: string       
+                    type: string
+                  fqdn:
+                    description: The FQDN for services hosted in this cluster
+                    type: string
+                  hostedZoneID:
+                    description: The zone ID for the DNS record associated with the FQDN
+                    type: string
                   k8s-version:
                     description: Kubernetes version
                     type: string
@@ -71,6 +77,8 @@ spec:
                   - name
                   - environment
                   - vpcName
+                  - fqdn
+                  - hostedZoneID
 
             required:
               - parameters

@@ -33,8 +33,12 @@ spec:
                   fqdn:
                     description: FQDN for the Cluster Set
                     type: string       
+                  hostedZoneID:
+                    description: The zone ID for the DNS record associated with the FQDN
+                    type: string
                 required:
                   - name
                   - fqdn
+                  - hostedZoneID
             required:
               - parameters

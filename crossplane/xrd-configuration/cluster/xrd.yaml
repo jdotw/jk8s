@@ -36,9 +36,13 @@ spec:
                   fqdn:
                     description: FQDN for the clusters Hosted Zone
                     type: string       
+                  hostedZoneID:
+                    description: The zone ID for the DNS record associated with the FQDN
+                    type: string       
                 required:
                   - name
                   - fqdn
+                  - hostedZoneID
                   - environment
             required:
               - parameters

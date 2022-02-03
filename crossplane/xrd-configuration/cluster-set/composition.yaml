@@ -2,7 +2,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: jk8s-cluster
+  name: jk8s-cluster-set
 spec:
 
   compositeTypeRef:
@@ -18,6 +18,8 @@ spec:
           toFieldPath: "spec.parameters.name"
         - fromFieldPath: "spec.parameters.fqdn"
           toFieldPath: "spec.parameters.fqdn"
+        - fromFieldPath: "spec.parameters.hostedZoneID"
+          toFieldPath: "spec.parameters.hostedZoneID"
 
   resources:
 

@@ -260,16 +260,16 @@ spec:
 
               platform:
                 dns:
-                  fqdn: ${FQDN}
+                  fqdn: PATCHED
                   externalDNS:
                     enabled: true
-                    zoneID: ${ZONE_ID}
+                    zoneID: PATCHED
                     aws:
                       serviceAccountName: external-dns
                 tls:
                   certManager:
                     enabled: true
-                    email: admin@${FQDN}
+                    email: PATCHED
                     aws:
                       serviceAccountName: cert-manager
                     selfSigned:
@@ -277,9 +277,9 @@ spec:
                     letsEncrypt:
                       staging:
                         enabled: true
-                        email: admin@${FQDN}
+                        email: PATCHED
                         route53:
-                          zoneID: ${ZONE_ID}
+                          zoneID: PATCHED
                 secrets:
                   externalSecrets:
                     enabled: true
@@ -346,4 +346,22 @@ spec:
         #   transforms:
         #     - type: string
         #       string:
-        #         fmt: "%s-mysql"          
+        #         fmt: "%s-mysql"       
+        - fromFieldPath: spec.fqdn
+          toFieldPath: spec.forProvider.values.platform.dns.fqdn   
+        - fromFieldPath: spec.hostedZoneID
+          toFieldPath: spec.forProvider.values.platform.dns.zoneID
+        - fromFieldPath: spec.fqdn
+          toFieldPath: spec.forProvider.values.platform.tls.certManager.email
+          transforms:
+            - type: string
+              string:
+                fmt: "admin@%s"
+        - fromFieldPath: spec.fqdn
+          toFieldPath: spec.forProvider.values.platform.tls.certManager.letsEncrypt.staging.email
+          transforms:
+            - type: string
+              string:
+                fmt: "admin@%s"
+        - fromFieldPath: spec.hostedZoneID
+          toFieldPath: spec.forProvider.values.platform.tls.certManager.letsEncrypt.staging.route53.zoneID
