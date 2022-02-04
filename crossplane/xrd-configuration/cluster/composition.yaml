@@ -40,6 +40,24 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.zoneID
           toFieldPath: status.zoneID
+    
+    - name: rds-cluster
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XRDSCluster
+        spec:
+          parameters:
+            masterUserSecret:
+              name: PATCHED
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: spec.parameters.name
+          toFieldPath: spec.parameters.masterUserSecret.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rds"
 
     - name: eks-cluster
       base:

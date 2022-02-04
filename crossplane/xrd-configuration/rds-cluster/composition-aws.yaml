@@ -1,0 +1,68 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: amazon-rds-cluster
+  labels:
+    provider: aws
+    service: rds
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XRDSCluster
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.providerConfigRef.name"
+
+  resources:
+    - name: dbcluster
+      base:
+        apiVersion: rds.aws.crossplane.io/v1alpha1
+        kind: DBCluster
+        spec:
+          forProvider:
+            engine: aurora-postgresql
+            masterUsername: postgres
+            masterUserPasswordSecretRef:
+              namespace: PATCHED
+              name: PATCHED
+              key: password
+            databaseName: postgres
+            skipFinalSnapshot: true
+            dbClusterParameterGroupNameSelector:
+              matchControllerRef: true
+              matchLabels:
+                engine: aurora-postgresql
+            applyImmediately: true
+          writeConnectionSecretToRef:
+            name: dbcluster
+            namespace: default
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters      
+        - fromFieldPath: spec.parameters.masterUserSecret.name
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
+        - fromFieldPath: spec.parameters.masterUserSecret.namespace
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.namespace
+
+    - name: dbclusterparametergroup
+      base:
+        apiVersion: rds.aws.crossplane.io/v1alpha1
+        kind: DBClusterParameterGroup
+        metadata:
+          labels:
+            engine: aurora-postgresql
+        spec:
+          forProvider:
+            dbParameterGroupFamily: aurora-postgresql12
+            description: "aurora-postgresql-db-parameters"
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters      
+

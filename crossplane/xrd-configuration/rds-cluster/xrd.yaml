@@ -1,0 +1,54 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xrdsclusters.rds.jk8s.io
+spec:
+  group: jk8s.io
+  names:
+    kind: XRDSCluster
+    plural: xrdsclusters
+  connectionSecretKeys:
+    - endpoint
+    - username
+    - password
+    - port
+    - db
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  region:
+                    description: Region for the RDS Cluster
+                    type: string       
+                    enum: ["ap-southeast-2"]   
+                    default: ap-southeast-2
+                  environment:
+                    description: The deployment environment
+                    type: string
+                  masterUserSecret:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                        default: crossplane-system
+                    required:
+                      - name
+                required:
+                  - region
+                  - environment
+                  - masterUserSecret
+            required:
+              - parameters
