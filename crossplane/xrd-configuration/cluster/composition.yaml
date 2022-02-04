@@ -32,20 +32,11 @@ spec:
       base:
         apiVersion: jk8s.io/v1beta1
         kind: XHostedZone
-        spec:
-          writeConnectionSecretToRef:
-            name: PATCHED
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
         - fromFieldPath: "spec.parameters.fqdn"
           toFieldPath: "spec.parameters.fqdn"
-        - fromFieldPath: "spec.parameters.fqdn"
-          toFieldPath: "spec.writeConnectionSecretToRef.name"
-          transforms:
-            - type: string
-              string:
-                fmt: "zone-id-%s"
         - type: ToCompositeFieldPath
           fromFieldPath: status.zoneID
           toFieldPath: status.zoneID

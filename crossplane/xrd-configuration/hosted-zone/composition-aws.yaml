@@ -7,7 +7,6 @@ metadata:
     provider: aws
     service: route53
 spec:
-  writeConnectionSecretsToNamespace: crossplane-system
   compositeTypeRef:
     apiVersion: jk8s.io/v1beta1
     kind: XHostedZone
@@ -32,10 +31,6 @@ spec:
         spec:
           forProvider:
             name: PATCHED
-      connectionDetails:
-        - type: FromFieldPath
-          name: zone-id
-          fromFieldPath: status.atProvider.hostedZone.id
       patches:    
         - type: PatchSet
           patchSetName: common-parameters      

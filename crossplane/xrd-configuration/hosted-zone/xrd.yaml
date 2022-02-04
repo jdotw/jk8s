@@ -8,8 +8,6 @@ spec:
   names:
     kind: XHostedZone
     plural: xhostedzones
-  connectionSecretKeys:
-    - zone-id
   versions:
   - name: v1beta1
     served: true
@@ -36,6 +34,7 @@ spec:
                   - environment
             required:
               - parameters
+              
           status:
             type: object 
             properties:
