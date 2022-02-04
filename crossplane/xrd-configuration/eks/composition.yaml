@@ -347,21 +347,21 @@ spec:
         #     - type: string
         #       string:
         #         fmt: "%s-mysql"       
-        - fromFieldPath: spec.fqdn
+        - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.dns.fqdn   
-        - fromFieldPath: spec.hostedZoneID
-          toFieldPath: spec.forProvider.values.platform.dns.zoneID
-        - fromFieldPath: spec.fqdn
+        - fromFieldPath: spec.parameters.hostedZoneID
+          toFieldPath: spec.forProvider.values.platform.dns.externalDNS.zoneID
+        - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.tls.certManager.email
           transforms:
             - type: string
               string:
                 fmt: "admin@%s"
-        - fromFieldPath: spec.fqdn
+        - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.tls.certManager.letsEncrypt.staging.email
           transforms:
             - type: string
               string:
                 fmt: "admin@%s"
-        - fromFieldPath: spec.hostedZoneID
+        - fromFieldPath: spec.parameters.hostedZoneID
           toFieldPath: spec.forProvider.values.platform.tls.certManager.letsEncrypt.staging.route53.zoneID

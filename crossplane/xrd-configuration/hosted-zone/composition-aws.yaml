@@ -1,0 +1,48 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: aws-route53-hosted-zone
+  labels:
+    provider: aws
+    service: route53
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XHostedZone
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.providerConfigRef.name"
+
+  resources:
+
+    - name: hosted-zone
+      base:
+        apiVersion: route53.aws.crossplane.io/v1alpha1
+        kind: HostedZone
+        metadata:
+          labels:
+            fqdn: PATCHED
+        spec:
+          forProvider:
+            name: PATCHED
+      connectionDetails:
+        - type: FromFieldPath
+          name: zone-id
+          fromFieldPath: status.atProvider.hostedZone.id
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters      
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "metadata.labels.fqdn"
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.forProvider.name"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.hostedZone.id
+          toFieldPath: status.zoneID

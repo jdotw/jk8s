@@ -16,10 +16,6 @@ spec:
           toFieldPath: "spec.parameters.region"
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.name"
-        - fromFieldPath: "spec.parameters.fqdn"
-          toFieldPath: "spec.parameters.fqdn"
-        - fromFieldPath: "spec.parameters.hostedZoneID"
-          toFieldPath: "spec.parameters.hostedZoneID"
 
   resources:
 
@@ -37,6 +33,12 @@ spec:
       patches:
         - type: PatchSet
           patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.parameters.fqdn"
+          transforms:
+            - type: string
+              string:
+                fmt: "prod.%s"
         
     #
     # Dev
@@ -52,3 +54,9 @@ spec:
       patches:
         - type: PatchSet
           patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.parameters.fqdn"
+          transforms:
+            - type: string
+              string:
+                fmt: "dev.%s"

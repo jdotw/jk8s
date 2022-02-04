@@ -26,8 +26,30 @@ spec:
         kind: XClusterVPC
       patches:    
         - type: PatchSet
-          patchSetName: common-parameters      
-        
+          patchSetName: common-parameters
+
+    - name: hosted-zone
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XHostedZone
+        spec:
+          writeConnectionSecretToRef:
+            name: PATCHED
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.parameters.fqdn"
+        - fromFieldPath: "spec.parameters.fqdn"
+          toFieldPath: "spec.writeConnectionSecretToRef.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "zone-id-%s"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.zoneID
+          toFieldPath: status.zoneID
+
     - name: eks-cluster
       base:
         apiVersion: aws.jk8s.io/v1beta1
@@ -39,7 +61,7 @@ spec:
           toFieldPath: "spec.parameters.vpcName"
         - fromFieldPath: "spec.parameters.fqdn"
           toFieldPath: "spec.parameters.fqdn"
-        - fromFieldPath: "spec.parameters.hostedZoneID"
+        - fromFieldPath: "status.zoneID"
           toFieldPath: "spec.parameters.hostedZoneID"
 
 
