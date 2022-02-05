@@ -27,10 +27,11 @@ spec:
         kind: DBCluster
         spec:
           forProvider:
+            autogeneratePassword: true
             engine: aurora-postgresql
             masterUsername: postgres
             masterUserPasswordSecretRef:
-              namespace: PATCHED
+              namespace: crossplane-system
               name: PATCHED
               key: password
             databaseName: postgres
@@ -40,16 +41,59 @@ spec:
               matchLabels:
                 engine: aurora-postgresql
             applyImmediately: true
+            dbSubnetGroupNameSelector:
+              matchControllerRef: true
+            vpcSecurityGroupIDSelector:
+              matchControllerRef: true
           writeConnectionSecretToRef:
-            name: dbcluster
-            namespace: default
+            name: PATCHED
+            namespace: crossplane-system
       patches:
         - type: PatchSet
           patchSetName: common-parameters      
-        - fromFieldPath: spec.parameters.masterUserSecret.name
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment
+              - fromFieldPath: spec.parameters.name
+            strategy: string
+            string:
+              fmt: "%s-%s-rds-master-user"
           toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
-        - fromFieldPath: spec.parameters.masterUserSecret.namespace
-          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.namespace
+          policy:
+            fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment
+              - fromFieldPath: spec.parameters.name
+            strategy: string
+            string:
+              fmt: "%s-%s-rds-connection"
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          policy:
+            fromFieldPath: Required
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.dbClusterIdentifier
+          toFieldPath: status.dbClusterIdentifier
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.endpoint
+          toFieldPath: status.endpoint
+
+    - name: dbinstance
+      base:
+        apiVersion: rds.aws.crossplane.io/v1alpha1
+        kind: DBInstance
+        spec:
+          forProvider:
+            dbInstanceClass: db.t4g.medium
+            engine: aurora-postgresql
+            dbClusterIdentifier: PATCHED
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters      
+        - fromFieldPath: "status.dbClusterIdentifier"
+          toFieldPath: "spec.forProvider.dbClusterIdentifier"
 
     - name: dbclusterparametergroup
       base:
@@ -66,3 +110,89 @@ spec:
         - type: PatchSet
           patchSetName: common-parameters      
 
+    - name: dbsubnetgroup
+      base:
+        apiVersion: database.aws.crossplane.io/v1beta1
+        kind: DBSubnetGroup
+        metadata:
+          labels:
+        spec:
+          forProvider:
+            description: "RDS Cluster Subnet Group"
+            subnetIdSelector:
+              matchLabels:
+                type: subnet
+                visibility: isolated
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters      
+        - fromFieldPath: "spec.parameters.vpcName"
+          toFieldPath: "spec.forProvider.subnetIdSelector.matchLabels.vpc"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.forProvider.subnetIdSelector.matchLabels.environment"
+
+    - name: vpcsecuritygroup
+      base:
+        apiVersion: ec2.aws.crossplane.io/v1beta1
+        kind: SecurityGroup
+        metadata:
+          labels:
+        spec:
+          forProvider:
+            groupName: PATCHED
+            description: "RDS Cluster Security Group"
+            vpcIdSelector:
+              matchLabels:
+                vpcName: PATCHED
+            ingress:
+              - ipProtocol: tcp
+                fromPort: 5432
+                toPort: 5432
+                ipRanges:
+                  - cidrIp: 10.20.0.0/22
+                  - cidrIp: 10.24.0.0/22
+                  - cidrIp: 10.28.0.0/22
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.vpcName"
+          toFieldPath: "spec.forProvider.groupName"
+          transforms:
+            - type: string
+              string:
+                fmt: "rds-%s"
+        - fromFieldPath: "spec.parameters.vpcName"
+          toFieldPath: "spec.forProvider.vpcIdSelector.matchLabels.vpcName"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.forProvider.vpcIdSelector.matchLabels.environment"
+
+    - name: rdssecret
+      base:
+        apiVersion: secretsmanager.aws.crossplane.io/v1alpha1
+        kind: Secret
+        spec:
+          forProvider:
+            description: "RDS Connect Secret"
+            stringSecretRef:
+              namespace: crossplane-system
+              name: PATCHED
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment
+              - fromFieldPath: spec.parameters.name
+            strategy: string
+            string:
+              fmt: "%s-%s-rds-connection"
+          toFieldPath: spec.forProvider.stringSecretRef.name
+          policy:
+            fromFieldPath: Required
+        - type: ToCompositeFieldPath
+          fromFieldPath: metadata.name
+          toFieldPath: status.rdsSecretName
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.arn
+          toFieldPath: status.rdsSecretARN

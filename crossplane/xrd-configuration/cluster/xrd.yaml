@@ -47,3 +47,7 @@ spec:
             properties:
               zoneID:
                 type: string
+              rdsSecretName:
+                type: string
+              rdsEndpoint:
+                type: string

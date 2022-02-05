@@ -27,6 +27,9 @@ spec:
       base:
         apiVersion: ec2.aws.crossplane.io/v1beta1
         kind: VPC
+        metadata:
+          labels:
+            vpcName: PATCHED
         spec:
           forProvider:
             enableDnsSupport: true
@@ -40,6 +43,8 @@ spec:
           toFieldPath: spec.forProvider.cidrBlock
         - fromFieldPath: spec.parameters.name
           toFieldPath: spec.forProvider.tags[0].value
+        - fromFieldPath: spec.parameters.name
+          toFieldPath: metadata.labels.vpcName
 
     - name: internetgateway
       base:

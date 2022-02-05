@@ -47,17 +47,20 @@ spec:
         kind: XRDSCluster
         spec:
           parameters:
-            masterUserSecret:
-              name: PATCHED
+            name: PATCHED
       patches:
         - type: PatchSet
           patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "spec.parameters.vpcName"
         - fromFieldPath: spec.parameters.name
-          toFieldPath: spec.parameters.masterUserSecret.name
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-rds"
+          toFieldPath: spec.parameters.name
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.rdsSecretName
+          toFieldPath: status.rdsSecretName
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.endpoint
+          toFieldPath: status.rdsEndpoint
 
     - name: eks-cluster
       base:
@@ -72,5 +75,8 @@ spec:
           toFieldPath: "spec.parameters.fqdn"
         - fromFieldPath: "status.zoneID"
           toFieldPath: "spec.parameters.hostedZoneID"
-
+        - fromFieldPath: "status.rdsEndpoint"
+          toFieldPath: "spec.parameters.rdsEndpoint"
+        - fromFieldPath: "status.rdsSecretName"
+          toFieldPath: "spec.parameters.rdsSecretName"
 

@@ -46,6 +46,13 @@ spec:
                   hostedZoneID:
                     description: The zone ID for the DNS record associated with the FQDN
                     type: string
+                  rdsEndpoint: 
+                    description: The endoint of the RDS for this cluster
+                    type: string
+                  rdsSecretName: 
+                    description: The name of RDS secret in Secrets Manager
+                    type: string
+                    default: rds-secret
                   k8s-version:
                     description: Kubernetes version
                     type: string

@@ -2,7 +2,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xrdsclusters.rds.jk8s.io
+  name: xrdsclusters.jk8s.io
 spec:
   group: jk8s.io
   names:
@@ -28,6 +28,9 @@ spec:
               parameters:
                 type: object
                 properties:
+                  name:
+                    description: Name of the RDS Cluster
+                    type: string
                   region:
                     description: Region for the RDS Cluster
                     type: string       
@@ -36,19 +39,25 @@ spec:
                   environment:
                     description: The deployment environment
                     type: string
-                  masterUserSecret:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      namespace:
-                        type: string
-                        default: crossplane-system
-                    required:
-                      - name
+                  vpcName:
+                    description: VPC to associate with this RDS cluster
+                    type: string
                 required:
+                  - name
                   - region
                   - environment
-                  - masterUserSecret
+                  - vpcName
             required:
               - parameters
+
+          status:
+            type: object 
+            properties:
+              dbClusterIdentifier:
+                type: string
+              rdsSecretName:
+                type: string
+              rdsSecretARN:
+                type: string
+              endpoint:
+                type: string
