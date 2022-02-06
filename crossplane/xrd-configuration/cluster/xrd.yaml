@@ -51,3 +51,11 @@ spec:
                 type: string
               rdsEndpoint:
                 type: string
+              delegationSet:
+                type: object
+                properties:
+                  nameServers:
+                    type: array
+                    items:
+                      type: string
+                  
