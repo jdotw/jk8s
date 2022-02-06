@@ -8,5 +8,5 @@ spec:
   dependsOn:
     - provider: crossplane/provider-aws
       version: ">=v0.23.0"
-    - provider: crossplane/provider-jet-aws
-      version: "v0.4.0-preview"      
+    # - provider: crossplane/provider-jet-aws
+    #   version: "v0.4.0-preview"      
