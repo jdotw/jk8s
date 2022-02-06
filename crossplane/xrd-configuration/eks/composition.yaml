@@ -302,10 +302,10 @@ spec:
                 rds:
                   host: ${RDS_HOST}
                 apps:
-                  - name: master-app
-                    repoURL: https://github.com/jdotw/isvanilla.git
+                  - name: apps
+                    repoURL: PATCHED
                     targetRevision: HEAD
-                    path: argocd/master-app
+                    path: charts/apps
 
             set: 
               # - name: externalDatabase.host
@@ -369,3 +369,5 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.rdsSecretName
         - fromFieldPath: spec.parameters.rdsEndpoint
           toFieldPath: spec.forProvider.values.platform.rds.host
+        - fromFieldPath: spec.parameters.appsRepoURL
+          toFieldPath: spec.forProvider.values.platform.apps[0].repoURL

@@ -53,6 +53,9 @@ spec:
                     description: The name of RDS secret in Secrets Manager
                     type: string
                     default: rds-secret
+                  appsRepoURL:
+                    description: URL to the GitHub Repo containing apps chart for this cluster
+                    type: string
                   k8s-version:
                     description: Kubernetes version
                     type: string
@@ -86,6 +89,7 @@ spec:
                   - vpcName
                   - fqdn
                   - hostedZoneID
+                  - appsRepoURL
 
             required:
               - parameters
