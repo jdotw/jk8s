@@ -1,5 +1,6 @@
 {{ $server := .Values.spec.destination.server  }}
 {{ $fqdn := .Values.dns.fqdn }}
+{{ $rootFQDN := .Values.dns.rootFQDN }}
 {{ $argocdNamespace := .Values.argocd.namespace }}
 {{ range .Values.apps }}
 apiVersion: argoproj.io/v1alpha1
@@ -25,6 +26,8 @@ spec:
       parameters:
         - name: fqdn
           value: "{{ $fqdn }}"
+        - name: rootFQDN
+          value: "{{ $rootFQDN }}"
         - name: argocd.namespace
           value: "{{ $argocdNamespace }}"
   destination:

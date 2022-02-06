@@ -6,6 +6,7 @@ platform:
     targetRevision: HEAD
   dns: 
     fqdn: "example.jk8s.io" # Required
+    rootFQND: "jk8s.io"     # Required
     externalDNS:
       enabled: false
       zoneID: ""
