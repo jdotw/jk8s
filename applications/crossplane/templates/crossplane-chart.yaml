@@ -1,0 +1,31 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: crossplane-chart
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "-2"
+# spec:
+#   project: default
+#   source:
+#     repoURL: https://charts.crossplane.io/stable
+#     chart: crossplane
+#     targetRevision: "~1.6.1"
+#     helm:
+#       releaseName: crossplane
+#       parameters:
+#         - name: args[0]
+#           value: "--debug"
+#   destination:
+#     namespace: crossplane-system
+#     server: "{{ .Values.spec.destination.server }}"
+#   syncPolicy:
+#     automated:
+#       prune: true
+#   ignoreDifferences:
+#     - group: rbac.authorization.k8s.io
+#       kind: ClusterRole
+#       jsonPointers:
+#       - /rules
+
