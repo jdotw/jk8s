@@ -3,9 +3,11 @@ kind: Configuration
 metadata:
   name: jk8s-xrd-configuration
 spec:
-  crossplane:
-    version: ">=v1.0.0"
-  dependsOn:
+  # NOTE: These are commented out, 
+  #
+  # crossplane:
+  #   version: ">=v1.0.0"
+  # dependsOn:
     # - provider: crossplane/provider-aws
     #   version: ">=v0.23.0"
     # - provider: crossplane/provider-jet-aws

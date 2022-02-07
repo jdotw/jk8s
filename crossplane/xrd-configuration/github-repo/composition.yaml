@@ -14,6 +14,8 @@ spec:
       patches:
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.name"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.providerConfigRef.name"
 
   resources:
 
