@@ -8,3 +8,7 @@ cluster:
   clusterAutoscaler:
     namespace: "kube-system"
 
+# crossplane dep
+crossplane:
+  args:
+    - "--debug"

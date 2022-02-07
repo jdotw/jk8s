@@ -25,7 +25,11 @@ spec:
                   name:
                     description: Name of the GitHub Repo
                     type: string       
+                  environment:
+                    description: The deployment environment
+                    type: string
                 required:
                   - name
+                  - environment
             required:
               - parameters

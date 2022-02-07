@@ -58,6 +58,8 @@ spec:
           toFieldPath: spec.forProvider.resourceRecords
         - fromFieldPath: spec.parameters.environment
           toFieldPath: spec.forProvider.zoneIdSelector.matchLabels.environment
+        - fromFieldPath: spec.parameters.environment
+          toFieldPath: spec.providerConfigRef.name
     
     - name: rds-cluster
       base:
