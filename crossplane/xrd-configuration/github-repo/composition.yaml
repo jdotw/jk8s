@@ -1,0 +1,35 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-github-repo
+spec:
+
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XGitHubRepo
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "spec.parameters.name"
+
+  resources:
+
+    - name: repo
+      base:
+        apiVersion: repositories.github.crossplane.io/v1alpha1
+        kind: Repository
+        spec:
+          deletionPolicy: Orphan
+          forProvider:
+            owner: jdotw
+            org: 12kmps
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "spec.metadata.name"
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.providerConfigRef.name"
