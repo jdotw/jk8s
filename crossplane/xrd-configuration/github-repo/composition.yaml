@@ -31,8 +31,8 @@ spec:
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        # - fromFieldPath: "spec.parameters.name"
-        #   toFieldPath: "annotations.crossplane.io/external-name"
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "annotations.crossplane.io/external-name"
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.forProvider.name"
         - fromFieldPath: "spec.parameters.environment"
