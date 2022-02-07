@@ -84,6 +84,9 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XEKSCluster
+        spec:
+          parameters:
+            appsRepoURL: "test"
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
