@@ -26,8 +26,8 @@ spec:
         spec:
           deletionPolicy: Orphan
           forProvider:
-            owner: jdotw
-            org: 12kmps
+            owner: 12kmps
+            # org: 12kmps
       patches:
         - type: PatchSet
           patchSetName: common-parameters
