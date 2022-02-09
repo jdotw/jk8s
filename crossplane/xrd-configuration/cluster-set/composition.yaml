@@ -29,16 +29,15 @@ spec:
         kind: XCluster
         spec:
           parameters:
-            environment: prod
+            environment:
+              providerConfigName: prod
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: "spec.parameters.fqdn"
-          toFieldPath: "spec.parameters.fqdn"
-          transforms:
-            - type: string
-              string:
-                fmt: "prod.%s"
+        - fromFieldPath: "spec.parameters.environments.production.hostedZoneID"
+          toFieldPath: "spec.parameters.environment.hostedZoneID"
+        - fromFieldPath: "spec.parameters.environments.production.hostedZoneName"
+          toFieldPath: "spec.parameters.environment.hostedZoneName"
         
     #
     # Dev
@@ -50,13 +49,12 @@ spec:
         kind: XCluster
         spec:
           parameters:
-            environment: dev
+            environment:
+              providerConfigName: dev
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: "spec.parameters.fqdn"
-          toFieldPath: "spec.parameters.fqdn"
-          transforms:
-            - type: string
-              string:
-                fmt: "dev.%s"
+        - fromFieldPath: "spec.parameters.environments.development.hostedZoneID"
+          toFieldPath: "spec.parameters.environment.hostedZoneID"
+        - fromFieldPath: "spec.parameters.environments.development.hostedZoneName"
+          toFieldPath: "spec.parameters.environment.hostedZoneName"

@@ -30,11 +30,38 @@ spec:
                     type: string       
                     enum: [ap-southeast-2]
                     default: ap-southeast-2
-                  fqdn:
-                    description: FQDN for the Cluster Set
-                    type: string       
+                  environments:
+                    type: object
+                    properties:
+                      development: 
+                        type: object
+                        properties: 
+                          hostedZoneID:
+                            type: string
+                            description: The ID of an existing hosted zone for the development environment
+                          hostedZoneName:
+                            type: string
+                            description: The name of an existing hosted zone for the development environment
+                        required:
+                          - hostedZoneID
+                          - hostedZoneName
+                      production: 
+                        type: object
+                        properties: 
+                          hostedZoneID:
+                            type: string
+                            description: The ID of an existing hosted zone for the production environment
+                          hostedZoneName:
+                            type: string
+                            description: The name of an existing hosted zone for the production environment
+                        required:
+                          - hostedZoneID
+                          - hostedZoneName
+                    required:
+                      - development
+                      - production
                 required:
                   - name
-                  - fqdn
+                  - environments
             required:
               - parameters

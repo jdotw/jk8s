@@ -13,7 +13,7 @@ spec:
       patches:
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.parameters.region"
-        - fromFieldPath: "spec.parameters.environment"
+        - fromFieldPath: "spec.parameters.environment.providerConfigName"
           toFieldPath: "spec.parameters.environment"
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.name"            
@@ -35,8 +35,17 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: "spec.parameters.fqdn"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: spec.parameters.environment.hostedZoneName
+            strategy: string
+            string:
+              fmt: "%s.%s"
           toFieldPath: "spec.parameters.fqdn"
+          policy:
+            fromFieldPath: Required            
         - type: ToCompositeFieldPath
           fromFieldPath: status.zoneID
           toFieldPath: status.zoneID
@@ -57,8 +66,8 @@ spec:
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: spec.parameters.environment
-          toFieldPath: spec.forProvider.zoneIdSelector.matchLabels.environment
+        - fromFieldPath: spec.parameters.environment.hostedZoneID
+          toFieldPath: spec.forProvider.zoneId
         - fromFieldPath: status.nameServers[0]
           toFieldPath: spec.forProvider.resourceRecords[0].value
         - fromFieldPath: status.nameServers[1]
@@ -71,10 +80,10 @@ spec:
           combine:
             variables:
               - fromFieldPath: spec.parameters.name
-              - fromFieldPath: spec.parameters.environment
+              - fromFieldPath: spec.parameters.environment.hostedZoneName
             strategy: string
             string:
-              fmt: "%s.%s.12kmps.com"
+              fmt: "%s.%s"
           toFieldPath: "metadata.annotations[crossplane.io/external-name]"
           policy:
             fromFieldPath: Required

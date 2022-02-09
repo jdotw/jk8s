@@ -31,14 +31,24 @@ spec:
                     enum: [ap-southeast-2]
                     default: ap-southeast-2
                   environment:
-                    description: The environment to deploy this cluster into
-                    type: string
-                  fqdn:
-                    description: FQDN for the clusters Hosted Zone
-                    type: string
+                    type: object
+                    properties:
+                      providerConfigName:
+                        type: string
+                        enum: [dev, prod]
+                        description: The providerConfigRef.name used to compose this cluster's resources
+                      hostedZoneID:
+                        description: The ID of the environment's hosted zone
+                        type: string
+                      hostedZoneName:
+                        description: The Name of the environment's hosted zone
+                        type: string
+                    required:
+                      - providerConfigName
+                      - hostedZoneID
+                      - hostedZoneName
                 required:
                   - name
-                  - fqdn
                   - environment
             required:
               - parameters
