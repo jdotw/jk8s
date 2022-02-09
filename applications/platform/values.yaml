@@ -19,7 +19,6 @@ repository:
   targetRevision: ""
 dns: 
   fqdn: ""
-  rootFQDN: ""
   externalDNS:
     enabled: false
     zoneID: ""
