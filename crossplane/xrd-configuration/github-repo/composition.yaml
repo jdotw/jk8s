@@ -14,8 +14,6 @@ spec:
       patches:
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.name"
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.providerConfigRef.name"
 
   resources:
 
@@ -25,15 +23,20 @@ spec:
         kind: Repository
         spec:
           deletionPolicy: Orphan
-          forProvider:
-            owner: 12kmps
-            # org: 12kmps
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.providerConfigRef.name"
           # The GitHub Provider uses the crossplane.io/external name
           # as the name of the repo itself
         - fromFieldPath: "spec.parameters.name"        
           toFieldPath: "metadata.annotations[crossplane.io/external-name]"
+        - fromFieldPath: "spec.parameters.owner"
+          toFieldPath: "spec.forProvider.owner"
+        - fromFieldPath: "spec.parameters.org"
+          toFieldPath: "spec.forProvider.org"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.gitUrl
+          toFieldPath: status.gitURL
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.htmlUrl
+          toFieldPath: status.htmlURL

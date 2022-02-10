@@ -47,9 +47,20 @@ spec:
                       - providerConfigName
                       - hostedZoneID
                       - hostedZoneName
+                  repository:
+                    type: object
+                    properties:
+                      gitURL: 
+                        type: string
+                      chartsURL:
+                        type: string
+                    required:
+                      - gitURL
+                      - chartsURL
                 required:
                   - name
                   - environment
+                  - repository
             required:
               - parameters
           status:
@@ -65,4 +76,3 @@ spec:
                 type: array
                 items:
                   type: string
-                  

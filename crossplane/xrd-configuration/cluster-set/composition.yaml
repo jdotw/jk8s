@@ -20,7 +20,7 @@ spec:
   resources:
 
     # 
-    # Prod
+    # Prod Cluster
     #
 
     - name: prod-cluster
@@ -38,9 +38,24 @@ spec:
           toFieldPath: "spec.parameters.environment.hostedZoneID"
         - fromFieldPath: "spec.parameters.environments.production.hostedZoneName"
           toFieldPath: "spec.parameters.environment.hostedZoneName"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.repository.owner
+              - fromFieldPath: status.repository.name
+            strategy: string
+            string:
+              fmt: "https://%s.github.io/%s"
+          toFieldPath: spec.parameters.repository.chartsURL
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: "status.repository.gitURL"
+          toFieldPath: "spec.parameters.repository.gitURL"
+
+
         
     #
-    # Dev
+    # Dev Cluster
     #
 
     - name: dev-cluster
@@ -58,3 +73,44 @@ spec:
           toFieldPath: "spec.parameters.environment.hostedZoneID"
         - fromFieldPath: "spec.parameters.environments.development.hostedZoneName"
           toFieldPath: "spec.parameters.environment.hostedZoneName"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.repository.owner
+              - fromFieldPath: status.repository.name
+            strategy: string
+            string:
+              fmt: "https://%s.github.io/%s"
+          toFieldPath: spec.parameters.repository.chartsURL
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: "status.repository.gitURL"
+          toFieldPath: "spec.parameters.repository.gitURL"
+
+  #
+  # Cluster Repo
+  #
+
+    - name: github-repo
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XGitHubRepo
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.name"
+          toFieldPath: "spec.parameters.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "cluster-%s"
+        - fromFieldPath: "spec.parameters.repository.owner"
+          toFieldPath: "spec.parameters.owner"
+        - fromFieldPath: "spec.parameters.repository.org"
+          toFieldPath: "spec.parameters.org"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.gitURL
+          toFieldPath: status.repository.gitURL
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.parameters.name
+          toFieldPath: status.repository.name

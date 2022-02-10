@@ -25,11 +25,21 @@ spec:
                   name:
                     description: Name of the GitHub Repo
                     type: string       
-                  environment:
-                    description: The deployment environment
-                    type: string
+                  owner: 
+                    description: Owner of the GitHub Repo
+                    type: string       
+                  org: 
+                    description: Organization to add the GitHub Repo to
+                    type: string       
                 required:
                   - name
-                  - environment
+                  - owner
             required:
               - parameters
+          status:
+            type: object
+            properties:
+              gitURL:
+                type: string
+              htmlURL:
+                type: string

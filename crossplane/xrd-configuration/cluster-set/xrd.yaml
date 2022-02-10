@@ -60,8 +60,30 @@ spec:
                     required:
                       - development
                       - production
+                  repository:
+                    type: object
+                    properties: 
+                      owner:
+                        type: string
+                        description: The owner of the cluster's GitHub Repo
+                      org:
+                        type: string
+                        description: The organization to add the GitHub Repo to
+                    required:
+                      - owner                  
                 required:
                   - name
                   - environments
+                  - repository
             required:
               - parameters
+          status:
+            type: object
+            properties:
+              repository:
+                type: object
+                properties:
+                  gitURL:
+                    type: string
+                  name: 
+                    type: string

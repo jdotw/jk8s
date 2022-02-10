@@ -113,9 +113,6 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XEKSCluster
-        spec:
-          parameters:
-            appsRepoURL: "test"
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
@@ -129,17 +126,6 @@ spec:
           toFieldPath: "spec.parameters.rdsEndpoint"
         - fromFieldPath: "status.rdsSecretName"
           toFieldPath: "spec.parameters.rdsSecretName"
+        - fromFieldPath: "spec.parameters.repository.gitURL"
+          toFieldPath: "spec.parameters.appsRepoURL"
 
-    # - name: github-repo
-    #   base:
-    #     apiVersion: jk8s.io/v1beta1
-    #     kind: XGitHubRepo
-    #   patches:    
-    #     - type: PatchSet
-    #       patchSetName: common-parameters
-    #     - fromFieldPath: "spec.parameters.name"
-    #       toFieldPath: "spec.parameters.name"
-    #       transforms:
-    #         - type: string
-    #           string:
-    #             fmt: "cluster-%s"
