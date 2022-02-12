@@ -28,7 +28,7 @@ spec:
         {{- if .Values.tls.certManager.aws.serviceAccountRoleARN }}
         - name: cert-manager.serviceAccount.create
           value: "true"
-        - name: "cert-manager.serviceAccount.annotations.eks\.amazonaws\.com/role-arn"
+        - name: "cert-manager.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
           value: "{{ .Values.tls.certManager.aws.serviceAccountRoleARN }}"
         {{- end }}
         # cert-manager
