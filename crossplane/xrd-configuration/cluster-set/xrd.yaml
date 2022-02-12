@@ -43,8 +43,11 @@ spec:
                             type: string
                             description: The name of an existing hosted zone for the development environment
                           awsAccountNumber:
-                            type: string
+                            type: integer
                             description: The AWS account number for the development environment
+                          awsRegion:
+                            type: string
+                            description: The AWS region for the development environment
                         required:
                           - hostedZoneID
                           - hostedZoneName
@@ -58,8 +61,11 @@ spec:
                             type: string
                             description: The name of an existing hosted zone for the production environment
                           awsAccountNumber:
-                            type: string
+                            type: integer
                             description: The AWS account number for the production environment
+                          awsRegion:
+                            type: string
+                            description: The AWS region for the production environment
                         required:
                           - hostedZoneID
                           - hostedZoneName

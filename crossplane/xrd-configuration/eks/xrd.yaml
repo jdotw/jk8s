@@ -34,6 +34,9 @@ spec:
                   environment:
                     description: The environment to deploy this EKS cluster into
                     type: string
+                  awsAccountNumber:
+                    description: The AWS account number where this EKS cluster is deployed
+                    type: integer
                   name:
                     description: Name for EKS Cluster
                     type: string       
@@ -93,3 +96,10 @@ spec:
 
             required:
               - parameters
+          status:
+            type: object
+            properties:
+              oidcIssuer:
+                type: string
+              certManagerServiceAccountRoleARN:
+                type: string

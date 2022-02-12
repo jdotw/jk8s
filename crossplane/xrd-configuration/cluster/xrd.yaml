@@ -43,6 +43,9 @@ spec:
                       hostedZoneName:
                         description: The Name of the environment's hosted zone
                         type: string
+                      awsAccountNumber:
+                        type: integer
+                        description: The AWS account number for the environment
                     required:
                       - providerConfigName
                       - hostedZoneID
@@ -76,3 +79,5 @@ spec:
                 type: array
                 items:
                   type: string
+              oidcIssuer:
+                type: string

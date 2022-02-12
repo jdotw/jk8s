@@ -128,4 +128,9 @@ spec:
           toFieldPath: "spec.parameters.rdsSecretName"
         - fromFieldPath: "spec.parameters.repository.gitURL"
           toFieldPath: "spec.parameters.appsRepoURL"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.oidcIssuer
+          toFieldPath: status.oidcIssuer
+        - fromFieldPath: spec.parameters.environment.awsAccountNumber
+          toFieldPath: spec.parameters.awsAccountNumber   
 
