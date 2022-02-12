@@ -39,6 +39,12 @@ spec:
                         default: ap-southeast-2
                     required:
                       - providerConfigName
+                  namespace:
+                    description: The namespace where the service account will exist
+                    type: string
+                  serviceAccount:
+                    description: The name of the service account that will use this role
+                    type: string
                   oidcIssuer:
                     description: The EKS cluster's OIDC issuer
                     type: string
@@ -47,6 +53,8 @@ spec:
                     type: string       
                 required:
                   - environment
+                  - namespace
+                  - serviceAccount
                   - oidcIssuer
                   - policyDocument
             required:

@@ -29,26 +29,36 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.namespace
+              - fromFieldPath: spec.parameters.serviceAccount
+            strategy: string
+            string:
+              fmt: "%s-%s-service-account"
           toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-service-account"
-        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+          policy:
+            fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.namespace
+              - fromFieldPath: spec.parameters.serviceAccount
+            strategy: string
+            string:
+              fmt: "Kubernetes Servuice Account %s %s"
           toFieldPath: spec.forProvider.description
-          transforms:
-            - type: string
-              string:
-                fmt: "Kubernetes Service Account %s"
+          policy:
+            fromFieldPath: Required
         - type: CombineFromComposite
           combine:
             variables:
               - fromFieldPath: spec.parameters.environment.awsAccountNumber
               - fromFieldPath: spec.parameters.oidcIssuer
               - fromFieldPath: spec.parameters.oidcIssuer
-              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
-              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+              - fromFieldPath: spec.parameters.namespace
+              - fromFieldPath: spec.parameters.serviceAccount
               - fromFieldPath: spec.parameters.oidcIssuer
             strategy: string
             string:
@@ -85,8 +95,17 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.namespace
+              - fromFieldPath: spec.parameters.serviceAccount
+            strategy: string
+            string:
+              fmt: "%s-%s-service-account-policy"
           toFieldPath: spec.forProvider.name
+          policy:
+            fromFieldPath: Required
         - fromFieldPath: spec.parameters.policyDocument
           toFieldPath: spec.forProvider.document
     

@@ -249,9 +249,13 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XServiceAccountRole
-        metadata:
-          annotations:
-            crossplane.io/external-name: cert-manager
+        # metadata:
+        #   annotations:
+        #     crossplane.io/external-name: cert-manager
+        spec:
+          parameters:
+            namespace: cert-manager
+            serviceAccount: cert-manager
       patches:    
         - fromFieldPath: "spec.parameters.environment"
           toFieldPath: "spec.parameters.environment.providerConfigName"
@@ -305,9 +309,13 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XServiceAccountRole
-        metadata:
-          annotations:
-            crossplane.io/external-name: external-dns
+        # metadata:
+        #   annotations:
+        #     crossplane.io/external-name: external-dns
+        spec:
+          parameters:
+            namespace: external-dns
+            serviceAccount: external-dns
       patches:    
         - fromFieldPath: "spec.parameters.environment"
           toFieldPath: "spec.parameters.environment.providerConfigName"
@@ -356,6 +364,43 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.roleARN
           toFieldPath: status.externalDNSServiceAccountRoleARN
+
+    - name: argocd-external-secrets-sa-role
+      base:
+        apiVersion: aws.jk8s.io/v1beta1
+        kind: XServiceAccountRole
+        spec:
+          parameters:
+            namespace: jk8s
+            serviceAccount: external-secrets
+            policyDocument: |
+              {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                      {
+                          "Action": [
+                              "secretsmanager:GetResourcePolicy",
+                              "secretsmanager:GetSecretValue",
+                              "secretsmanager:DescribeSecret",
+                              "secretsmanager:ListSecretVersionIds"
+                          ],
+                          "Resource": "*",
+                          "Effect": "Allow"
+                      }
+                  ]
+              }              
+      patches:    
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.roleARN
+          toFieldPath: status.argocdExternalSecretsServiceAccountRoleARN
 
 
     - name: helm-provider
