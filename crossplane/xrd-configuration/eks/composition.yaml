@@ -494,6 +494,11 @@ spec:
           toFieldPath: spec.forProvider.values.platform.dns.fqdn   
         - fromFieldPath: spec.parameters.hostedZoneID
           toFieldPath: spec.forProvider.values.platform.dns.externalDNS.zoneID
+          transforms:
+            - type: string
+              string:
+                type: TrimPrefix
+                trim: 'hostedzone/'
         - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.tls.certManager.email
           transforms:
