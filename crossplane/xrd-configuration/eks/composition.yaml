@@ -682,3 +682,11 @@ spec:
           toFieldPath: spec.forProvider.values.platform.rds.host
         - fromFieldPath: spec.parameters.appsRepoURL
           toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
+        - fromFieldPath: spec.parameters.appsRepoURL
+          toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
+        - fromFieldPath: spec.parameters.privateRepository.name
+          toFieldPath: spec.forProvider.values.platform.privateRepositories[0].name
+        - fromFieldPath: spec.parameters.privateRepository.url
+          toFieldPath: spec.forProvider.values.platform.privateRepositories[0].url
+        - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
+          toFieldPath: spec.forProvider.values.platform.privateRepositories[0].externalSecret.name

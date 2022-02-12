@@ -60,6 +60,26 @@ spec:
                     required:
                       - gitURL
                       - chartsURL
+                  privateRepository:
+                    type: object
+                    description: Private GitHub repo and credentials
+                    properties:
+                      name: 
+                        type: string
+                        description: Name of the GitHub Repo
+                      url:
+                        type: string
+                        description: URL for the GitHub Repo
+                      externalSecret:
+                        type: object
+                        description: Use external secrets to get token
+                        properties:
+                          name: 
+                            type: string
+                            description: The name of the external secret that contains the GitHub token for accessing this private repo
+                    required:
+                      - name
+                      - url
                 required:
                   - name
                   - environment

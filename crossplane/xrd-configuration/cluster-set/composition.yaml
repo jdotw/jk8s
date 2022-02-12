@@ -53,7 +53,12 @@ spec:
             fromFieldPath: Required
         - fromFieldPath: "status.repository.gitURL"
           toFieldPath: "spec.parameters.repository.gitURL"
-
+        - fromFieldPath: spec.parameters.privateRepository.name
+          toFieldPath: spec.parameters.privateRepository.name
+        - fromFieldPath: spec.parameters.privateRepository.url
+          toFieldPath: spec.parameters.privateRepository.url
+        - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
+          toFieldPath: spec.parameters.privateRepository.externalSecret.name
 
         
     #
@@ -90,6 +95,12 @@ spec:
             fromFieldPath: Required
         - fromFieldPath: "status.repository.gitURL"
           toFieldPath: "spec.parameters.repository.gitURL"
+        - fromFieldPath: spec.parameters.privateRepository.name
+          toFieldPath: spec.parameters.privateRepository.name
+        - fromFieldPath: spec.parameters.privateRepository.url
+          toFieldPath: spec.parameters.privateRepository.url
+        - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
+          toFieldPath: spec.parameters.privateRepository.externalSecret.name
 
   #
   # Cluster Repo

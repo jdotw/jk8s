@@ -146,5 +146,11 @@ spec:
           fromFieldPath: status.oidcIssuer
           toFieldPath: status.oidcIssuer
         - fromFieldPath: spec.parameters.environment.awsAccountNumber
-          toFieldPath: spec.parameters.awsAccountNumber   
+          toFieldPath: spec.parameters.awsAccountNumber
+        - fromFieldPath: spec.parameters.privateRepository.name
+          toFieldPath: spec.parameters.privateRepository.name
+        - fromFieldPath: spec.parameters.privateRepository.url
+          toFieldPath: spec.parameters.privateRepository.url
+        - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
+          toFieldPath: spec.parameters.privateRepository.externalSecret.name
 
