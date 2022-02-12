@@ -316,7 +316,7 @@ spec:
           policy:
             fromFieldPath: Required
     
-    - name: cluster-role-policy-attachment
+    - name: cert-manager-sa-role-policy-attachment
       base:
         apiVersion: iam.aws.crossplane.io/v1beta1
         kind: RolePolicyAttachment
