@@ -24,7 +24,12 @@ spec:
     helm:
       releaseName: external-dns
       parameters:
-      {{ if .Values.dns.externalDNS.aws.serviceAccountName }}
+      {{ if .Values.dns.externalDNS.aws.serviceAccountARN }}
+        - name: serviceAccount.create
+          value: "true"
+        - name: "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+          value: "{{ .Values.dns.externalDNS.aws.serviceAccountARN }}"
+      {{ else if .Values.dns.externalDNS.aws.serviceAccountName }}
         - name: serviceAccount.create
           value: "false"
         - name: serviceAccount.name
