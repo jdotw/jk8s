@@ -247,62 +247,20 @@ spec:
 
     - name: cert-manager-sa-role
       base:
-        apiVersion: iam.aws.crossplane.io/v1beta1
-        kind: Role
+        apiVersion: aws.jk8s.io/v1beta1
+        kind: XServiceAccountRole
         metadata:
-          labels:
-            role: cert-manager-sa
+          annotations:
+            crossplane.io/external-name: cert-manager-sa
       patches:    
-        - type: PatchSet
-          patchSetName: common-parameters
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: spec.parameters.awsAccountNumber
-              - fromFieldPath: status.oidcIssuer
-              - fromFieldPath: status.oidcIssuer
-              - fromFieldPath: status.oidcIssuer
-            strategy: string
-            string:
-              fmt: |
-                {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Federated": "arn:aws:iam::%d:oidc-provider/%s"
-                            },
-                            "Action": "sts:AssumeRoleWithWebIdentity",
-                            "Condition": {
-                                "StringEquals": {
-                                    "%s:sub": "system:serviceaccount:cert-manager:cert-manager",
-                                    "%s:aud": "sts.amazonaws.com"
-                                }
-                            }
-                        }
-                    ]
-                }
-          toFieldPath: spec.forProvider.assumeRolePolicyDocument
-          policy:
-            fromFieldPath: Required
-        - type: ToCompositeFieldPath
-          fromFieldPath: status.atProvider.arn
-          toFieldPath: status.certManagerServiceAccountRoleARN
-
-    - name: dns-admin-policy
-      base:
-        apiVersion: iam.aws.crossplane.io/v1beta1
-        kind: Policy
-        metadata:
-          labels:
-            policy: modify-hosted-zone
-        spec:
-          forProvider:
-            name: ModifyHostedZone
-      patches:    
-        - type: PatchSet
-          patchSetName: common-parameters
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
         - type: CombineFromComposite
           combine:
             variables:
@@ -336,27 +294,12 @@ spec:
                         }
                     ]
                 }
-          toFieldPath: spec.forProvider.document
+          toFieldPath: spec.parameters.policyDocument
           policy:
             fromFieldPath: Required
-    
-    - name: cert-manager-sa-role-policy-attachment
-      base:
-        apiVersion: iam.aws.crossplane.io/v1beta1
-        kind: RolePolicyAttachment
-        spec: 
-          forProvider:
-            policyArnSelector:
-              matchControllerRef: true
-              matchLabels:
-                policy: modify-hosted-zone
-            roleNameSelector:
-              matchControllerRef: true
-              matchLabels:
-                role: cert-manager-sa
-      patches:    
-        - type: PatchSet
-          patchSetName: common-parameters
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.roleARN
+          toFieldPath: status.certManagerServiceAccountRoleARN
 
     - name: helm-provider
       base:

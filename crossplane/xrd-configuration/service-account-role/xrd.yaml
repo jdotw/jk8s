@@ -1,0 +1,58 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xserviceaccountroles.aws.jk8s.io
+spec:
+  group: aws.jk8s.io
+  names:
+    kind: XServiceAccountRole
+    plural: xserviceaccountroles
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  environment:
+                    type: object
+                    properties:
+                      providerConfigName:
+                        type: string
+                        enum: [dev, prod]
+                        description: The providerConfigRef.name used to compose this cluster's resources
+                      awsAccountNumber:
+                        type: integer
+                        description: The AWS account number for the environment
+                      awsRegion:
+                        description: Geographic location of this EKS cluster
+                        type: string       
+                        enum: [ap-southeast-2]   
+                        default: ap-southeast-2
+                    required:
+                      - providerConfigName
+                  oidcIssuer:
+                    description: The EKS cluster's OIDC issuer
+                    type: string
+                  policyDocument:
+                    description: The policy document to be associated with this service account role
+                    type: string       
+                required:
+                  - environment
+                  - oidcIssuer
+                  - policyDocument
+            required:
+              - parameters
+          status:
+            type: object
+            properties:
+              roleARN:
+                type: string

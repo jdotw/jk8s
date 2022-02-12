@@ -1,0 +1,95 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: amazon-service-account-role
+  labels:
+    provider: aws
+    service: iam
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: aws.jk8s.io/v1beta1
+    kind: XServiceAccountRole
+
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.environment.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.environment.providerConfigName"
+          toFieldPath: "spec.providerConfigRef.name"
+
+  resources:
+
+    - name: role
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Role
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment.awsAccountNumber
+              - fromFieldPath: spec.parameters.oidcIssuer
+              - fromFieldPath: spec.parameters.oidcIssuer
+              - fromFieldPath: spec.parameters.oidcIssuer
+              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+            strategy: string
+            string:
+              fmt: |
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "arn:aws:iam::%d:oidc-provider/%s"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                                "StringEquals": {
+                                    "%s:sub": "system:serviceaccount:%s:%s",
+                                    "%s:aud": "sts.amazonaws.com"
+                                }
+                            }
+                        }
+                    ]
+                }
+          toFieldPath: spec.forProvider.assumeRolePolicyDocument
+          policy:
+            fromFieldPath: Required
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.arn
+          toFieldPath: status.roleARN
+
+    - name: policy
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: Policy
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+          toFieldPath: spec.forProvider.name
+        - fromFieldPath: spec.parameters.policyDocument
+          toFieldPath: spec.forProvider.document
+    
+    - name: policy-attachment
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: RolePolicyAttachment
+        spec: 
+          forProvider:
+            policyArnSelector:
+              matchControllerRef: true
+            roleNameSelector:
+              matchControllerRef: true
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: spec.parameters.policyArn
+          toFieldPath: spec.forProvider.policyARN
