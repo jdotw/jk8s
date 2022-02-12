@@ -117,6 +117,10 @@ spec:
       base:
         apiVersion: iam.aws.crossplane.io/v1beta1
         kind: OpenIDConnectProvider
+        spec:
+          forProvider:
+            clientIDList:
+              - sts.amazonaws.com
       patches:    
         - type: PatchSet
           patchSetName: common-parameters

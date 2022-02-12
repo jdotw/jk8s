@@ -122,6 +122,11 @@ spec:
           toFieldPath: "spec.parameters.fqdn"
         - fromFieldPath: "status.zoneID"
           toFieldPath: "spec.parameters.hostedZoneID"
+          transforms:
+            - type: string
+              string:
+                type: TrimPrefix
+                trim: '/'
         - fromFieldPath: "status.rdsEndpoint"
           toFieldPath: "spec.parameters.rdsEndpoint"
         - fromFieldPath: "status.rdsSecretName"
