@@ -131,7 +131,7 @@ spec:
           transforms:
             - type: map
               map:
-                ap-southest-2: 9e99a48a9960b14926bb7f3b02e22da2b0ab7280
+                ap-southeast-2: 9e99a48a9960b14926bb7f3b02e22da2b0ab7280
 
     - name: nodegroup-role
       base:
