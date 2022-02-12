@@ -103,3 +103,5 @@ spec:
                 type: string
               certManagerServiceAccountRoleARN:
                 type: string
+              externalDNSServiceAccountRoleARN:
+                type: string

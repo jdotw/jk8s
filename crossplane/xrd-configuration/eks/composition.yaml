@@ -301,6 +301,63 @@ spec:
           fromFieldPath: status.roleARN
           toFieldPath: status.certManagerServiceAccountRoleARN
 
+    - name: external-dns-sa-role
+      base:
+        apiVersion: aws.jk8s.io/v1beta1
+        kind: XServiceAccountRole
+        metadata:
+          annotations:
+            crossplane.io/external-name: external-dns-sa
+      patches:    
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.hostedZoneID
+            strategy: string
+            string:
+              fmt: |
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Action": [
+                                "route53:ChangeResourceRecordSets",
+                                "route53:ListResourceRecordSets"
+                            ],
+                            "Resource": "arn:aws:route53:::%s",
+                            "Effect": "Allow"
+                        },
+                        {
+                            "Action": [
+                                "route53:ListHostedZones",
+                                "route53:ListHostedZonesByName"
+                            ],
+                            "Resource": "*",
+                            "Effect": "Allow"
+                        },
+                        {
+                            "Action": "route53:GetChange",
+                            "Resource": "arn:aws:route53:::change/*",
+                            "Effect": "Allow"
+                        }
+                    ]
+                }
+          toFieldPath: spec.parameters.policyDocument
+          policy:
+            fromFieldPath: Required
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.roleARN
+          toFieldPath: status.externalDNSServiceAccountRoleARN
+
+
     - name: helm-provider
       base:
         apiVersion: helm.crossplane.io/v1beta1
@@ -352,8 +409,6 @@ spec:
                   externalDNS:
                     enabled: true
                     zoneID: PATCHED
-                    aws:
-                      serviceAccountName: external-dns
                 tls:
                   certManager:
                     enabled: true
@@ -435,6 +490,8 @@ spec:
         #         fmt: "%s-mysql"       
         - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.dns.fqdn   
+        - fromFieldPath: status.externalDNSServiceAccountRoleARN
+          toFieldPath: spec.forProvider.values.platform.dns.externalDNS.aws.serviceAccountARN
         - fromFieldPath: spec.parameters.hostedZoneID
           toFieldPath: spec.forProvider.values.platform.dns.externalDNS.zoneID
           transforms:
