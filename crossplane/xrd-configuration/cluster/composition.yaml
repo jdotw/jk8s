@@ -118,8 +118,17 @@ spec:
           patchSetName: common-parameters
         - fromFieldPath: "spec.parameters.name"
           toFieldPath: "spec.parameters.vpcName"
-        - fromFieldPath: "spec.parameters.fqdn"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: spec.parameters.environment.hostedZoneName
+            strategy: string
+            string:
+              fmt: "%s.%s"
           toFieldPath: "spec.parameters.fqdn"
+          policy:
+            fromFieldPath: Required            
         - fromFieldPath: "status.zoneID"
           toFieldPath: "spec.parameters.hostedZoneID"
           transforms:
