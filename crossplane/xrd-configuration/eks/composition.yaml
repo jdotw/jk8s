@@ -113,6 +113,26 @@ spec:
         - name: value
           fromConnectionSecretKey: kubeconfig
 
+    - name: openid-connect-provider
+      base:
+        apiVersion: iam.aws.crossplane.io/v1beta1
+        kind: OpenIDConnectProvider
+      patches:    
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: status.oidcIssuer
+          toFieldPath: spec.forProvider.url
+          transforms:
+            - type: string
+              string:
+                fmt: "https://%s"
+        - fromFieldPath: spec.parameters.region
+          toFieldPath: spec.forProvider.thumbprintList[0]
+          transforms:
+            - type: map
+              map:
+                ap-southest-2: 9e99a48a9960b14926bb7f3b02e22da2b0ab7280
+
     - name: nodegroup-role
       base:
         apiVersion: iam.aws.crossplane.io/v1beta1
