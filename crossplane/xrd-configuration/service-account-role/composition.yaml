@@ -29,15 +29,27 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
+        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-service-account"
+        - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+          toFieldPath: spec.forProvider.description
+          transforms:
+            - type: string
+              string:
+                fmt: "Kubernetes Service Account %s"
         - type: CombineFromComposite
           combine:
             variables:
               - fromFieldPath: spec.parameters.environment.awsAccountNumber
               - fromFieldPath: spec.parameters.oidcIssuer
               - fromFieldPath: spec.parameters.oidcIssuer
+              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
+              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
               - fromFieldPath: spec.parameters.oidcIssuer
-              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
-              - fromFieldPath: metadata.annotations[crossplane.io/external-name]
             strategy: string
             string:
               fmt: |
