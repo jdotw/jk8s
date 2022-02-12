@@ -30,6 +30,11 @@ spec:
           value: "true"
         - name: "cert-manager.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
           value: "{{ .Values.tls.certManager.aws.serviceAccountRoleARN }}"
+        {{- else if .Values.tls.certManager.aws.serviceAccountName }}
+        - name: cert-manager.serviceAccount.create
+          value: "false"
+        - name: cert-manager.serviceAccount.name
+          value: "{{ .Values.tls.certManager.aws.serviceAccountName }}"
         {{- end }}
         # cert-manager
         - name: letsEncrypt.staging.enabled
