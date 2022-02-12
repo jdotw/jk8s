@@ -38,6 +38,8 @@ spec:
           toFieldPath: "spec.parameters.environment.hostedZoneID"
         - fromFieldPath: "spec.parameters.environments.production.hostedZoneName"
           toFieldPath: "spec.parameters.environment.hostedZoneName"
+        - fromFieldPath: "spec.parameters.environments.production.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
         - type: CombineFromComposite
           combine:
             variables:
@@ -73,6 +75,8 @@ spec:
           toFieldPath: "spec.parameters.environment.hostedZoneID"
         - fromFieldPath: "spec.parameters.environments.development.hostedZoneName"
           toFieldPath: "spec.parameters.environment.hostedZoneName"
+        - fromFieldPath: "spec.parameters.environments.development.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
         - type: CombineFromComposite
           combine:
             variables:
