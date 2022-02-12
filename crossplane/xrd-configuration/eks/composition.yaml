@@ -251,7 +251,7 @@ spec:
         kind: XServiceAccountRole
         metadata:
           annotations:
-            crossplane.io/external-name: cert-manager-sa
+            crossplane.io/external-name: cert-manager
       patches:    
         - fromFieldPath: "spec.parameters.environment"
           toFieldPath: "spec.parameters.environment.providerConfigName"
@@ -307,7 +307,7 @@ spec:
         kind: XServiceAccountRole
         metadata:
           annotations:
-            crossplane.io/external-name: external-dns-sa
+            crossplane.io/external-name: external-dns
       patches:    
         - fromFieldPath: "spec.parameters.environment"
           toFieldPath: "spec.parameters.environment.providerConfigName"
