@@ -439,6 +439,80 @@ spec:
           fromFieldPath: status.roleARN
           toFieldPath: status.telemetryExternalSecretsServiceAccountRoleARN
 
+    - name: app-external-secrets-sa-role
+      base:
+        apiVersion: aws.jk8s.io/v1beta1
+        kind: XServiceAccountRole
+        spec:
+          parameters:
+            namespace: app
+            serviceAccount: external-secrets
+            policyDocument: |
+              {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                      {
+                          "Action": [
+                              "secretsmanager:GetResourcePolicy",
+                              "secretsmanager:GetSecretValue",
+                              "secretsmanager:DescribeSecret",
+                              "secretsmanager:ListSecretVersionIds"
+                          ],
+                          "Resource": "*",
+                          "Effect": "Allow"
+                      }
+                  ]
+              }              
+      patches:    
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.roleARN
+          toFieldPath: status.appExternalSecretsServiceAccountRoleARN
+
+    - name: crossplane-external-secrets-sa-role
+      base:
+        apiVersion: aws.jk8s.io/v1beta1
+        kind: XServiceAccountRole
+        spec:
+          parameters:
+            namespace: crossplane-system
+            serviceAccount: external-secrets
+            policyDocument: |
+              {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                      {
+                          "Action": [
+                              "secretsmanager:GetResourcePolicy",
+                              "secretsmanager:GetSecretValue",
+                              "secretsmanager:DescribeSecret",
+                              "secretsmanager:ListSecretVersionIds"
+                          ],
+                          "Resource": "*",
+                          "Effect": "Allow"
+                      }
+                  ]
+              }              
+      patches:    
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.roleARN
+          toFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN
+
 
     - name: helm-provider
       base:
