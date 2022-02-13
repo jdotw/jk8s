@@ -58,6 +58,8 @@ platform:
     host: ""
   crossplane:
     kubernetes:
+      enabled: false
+      inCluster: false
       connectionSecretName:
       externalSecretName:
   privateRepositories:

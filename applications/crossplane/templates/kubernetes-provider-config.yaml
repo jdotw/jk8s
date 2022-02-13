@@ -1,4 +1,16 @@
-{{ if .Values.kubernetes.connectionSecretName }}
+{{ if .Values.kubernetes.enabled }}
+{{ if .Values.kubernetes.inCluster }}
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  credentials:
+    source: InjectedIdentity
+{{ else if .Values.kubernetes.connectionSecretName }}
 apiVersion: external-secrets.io/v1alpha1
 kind: ExternalSecret
 metadata:
@@ -29,4 +41,5 @@ spec:
       namespace: crossplane-system
       name: {{ .Values.kubernetes.connectionSecretName }}
       key: kubeconfig
+{{ end }}
 {{ end }}

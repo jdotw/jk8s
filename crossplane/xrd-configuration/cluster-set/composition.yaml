@@ -162,7 +162,7 @@ spec:
       patches:
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.manifest.metadata.name
-        - fromFieldPath: status.htmlURL
+        - fromFieldPath: status.repository.htmlURL
           toFieldPath: spec.forProvider.manifest.spec.source.repoURL
         # - type: CombineFromComposite
         #   combine:

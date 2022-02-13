@@ -1,4 +1,4 @@
-{{ if .Values.kubernetes.connectionSecretName }}
+{{ if .Values.kubernetes.enabled }}
 apiVersion: pkg.crossplane.io/v1alpha1
 kind: ControllerConfig
 metadata:
