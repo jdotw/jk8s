@@ -27,8 +27,7 @@ spec:
           value: "{{ $fqdn }}"
         - name: argocd.namespace
           value: "{{ $argocdNamespace }}"
-      values: |
-        {{ toYaml .values | nindent 8 }}
+      values: {{ .values }}
   destination:
     namespace: "app"
     server: "{{ $server }}"
