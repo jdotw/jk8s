@@ -581,12 +581,6 @@ spec:
                   externalSecrets:
                     enabled: true
                     rdsSecretName: ${RDS_SECRET}
-                    aws:
-                      secretsManager:
-                        argocdServiceAccountRoleARN: external-secrets
-                        telemetryServiceAccountRoleARN: external-secrets
-                        appServiceAccountRoleARN: external-secrets
-                        crossplaneServiceAccountRoleARN: external-secrets
                 telemetry:
                   jaeger:
                     storage:
@@ -596,8 +590,6 @@ spec:
                         credentialsSecretName: ${ES_SECRET}
                       inMemory:
                         enabled: false
-                rds:
-                  host: ${RDS_HOST}
                 apps:
                   - name: apps
                     repoURL: PATCHED
