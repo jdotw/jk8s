@@ -22,7 +22,7 @@ spec:
     targetRevision: "{{ .Values.repository.targetRevision }}"
     path: "{{ .Values.repository.appsPath }}/crossplane"
     helm:
-      values: 
+      values: |
         {{ toYaml .Values.crossplane | nindent 8 }}
   destination:
     namespace: crossplane-system

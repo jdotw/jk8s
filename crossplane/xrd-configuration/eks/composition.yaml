@@ -707,12 +707,17 @@ spec:
           toFieldPath: spec.forProvider.values.platform.apps[0].values
           policy:
             fromFieldPath: Required
-        - fromFieldPath: spec.parameters.name
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: metadata.uid
+            strategy: string
+            string:
+              fmt: "%s-eks-conn-%s"
           toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.connectionSecretName
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-ekscluster-connection"
+          policy:
+            fromFieldPath: Required            
 
     - name: cluster-connection-secret
       base:
@@ -725,16 +730,20 @@ spec:
       patches:
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: spec.parameters.environment.providerConfigName
+        - fromFieldPath: spec.parameters.environment
           toFieldPath: spec.providerConfigRef.name
         - fromFieldPath: spec.parameters.region
           toFieldPath: spec.forProvider.region
-        - fromFieldPath: status.clusterConnectionSecretRefName
+        - fromFieldPath: status.connectionSecretRefName
           toFieldPath: spec.forProvider.stringSecretRef.name
-        - fromFieldPath: spec.parameters.name
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: metadata.uid
+            strategy: string
+            string:
+              fmt: "%s-eks-conn-%s"
           toFieldPath: metadata.annotations[crossplane.io/external-name]
-          transforms:
-            - type: string
-              string:
-                fmt: "%s-ekscluster-connection"
-
+          policy:
+            fromFieldPath: Required            
