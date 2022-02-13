@@ -71,6 +71,7 @@ rds:
 crossplane:
   kubernetes:
     connectionSecretName:
+    externalSecretName:
 
 privateRepositories:
   # - name: ""

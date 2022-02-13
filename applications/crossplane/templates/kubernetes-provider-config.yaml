@@ -13,7 +13,7 @@ spec:
     name: {{ .Values.kubernetes.connectionSecretName }}
     creationPolicy: Owner
   dataFrom:
-    - key: {{ .Values.kubernetes.connectionSecretName }}
+    - key: {{ .Values.kubernetes.externalSecretName }}
 ---
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig

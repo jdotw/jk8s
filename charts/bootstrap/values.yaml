@@ -59,6 +59,7 @@ platform:
   crossplane:
     kubernetes:
       connectionSecretName:
+      externalSecretName:
   privateRepositories:
     # - name: ""
     #   url: ""

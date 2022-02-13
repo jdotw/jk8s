@@ -11,6 +11,7 @@ cluster:
 # crossplane
 kubernetes:
   connectionSecretName:
+  externalSecretName:
 
 # crossplane dep
 crossplane:
