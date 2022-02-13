@@ -3,7 +3,8 @@ kind: Configuration
 metadata:
   name: jk8s-xrd-configuration
 spec:
-  # NOTE: These are commented out, 
+  # NOTE: These are commented out, otherwise ArgoCD gets very confused
+  #       about who owns the install of crossplane and the providers
   #
   # crossplane:
   #   version: ">=v1.0.0"

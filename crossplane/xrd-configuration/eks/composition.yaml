@@ -105,6 +105,9 @@ spec:
               string:
                 type: TrimPrefix
                 trim: 'https://'
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.writeConnectionSecretToRef.name
+          toFieldPath: status.connectionSecretRefName
       connectionDetails:
         - name: cluster-ca
           fromConnectionSecretKey: clusterCA
@@ -690,3 +693,48 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.appServiceAccountRoleARN
         - fromFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.crossplaneServiceAccountRoleARN
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.hostedZoneID
+              - fromFieldPath: spec.parameters.fqdn
+            strategy: string
+            string:
+              fmt: |
+                environment:
+                  hostedZoneID: %s
+                  hostedZoneName: %s
+          toFieldPath: spec.forProvider.values.platform.apps[0].values
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: spec.parameters.name
+          toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.connectionSecretName
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-ekscluster-connection"
+
+    - name: cluster-connection-secret
+      base:
+        apiVersion: secretsmanager.aws.crossplane.io/v1alpha1
+        kind: Secret
+        spec:
+          forProvider:
+            stringSecretRef:
+              namespace: crossplane-system
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: spec.parameters.environment.providerConfigName
+          toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: spec.parameters.region
+          toFieldPath: spec.forProvider.region
+        - fromFieldPath: status.clusterConnectionSecretRefName
+          toFieldPath: spec.forProvider.stringSecretRef.name
+        - fromFieldPath: spec.parameters.name
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-ekscluster-connection"
+

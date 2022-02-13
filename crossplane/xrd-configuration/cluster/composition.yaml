@@ -153,4 +153,7 @@ spec:
           toFieldPath: spec.parameters.privateRepository.url
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.parameters.privateRepository.externalSecret.name
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.connectionSecretRefName
+          toFieldPath: status.clusterConnectionSecretRefName
 

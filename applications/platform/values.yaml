@@ -68,6 +68,9 @@ telemetry:
         enabled: true
 rds:
   host: ""
+crossplane:
+  kubernetes:
+    connectionSecretName:
 
 privateRepositories:
   # - name: ""

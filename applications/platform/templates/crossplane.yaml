@@ -21,6 +21,9 @@ spec:
     repoURL: "{{ .Values.repository.url }}"
     targetRevision: "{{ .Values.repository.targetRevision }}"
     path: "{{ .Values.repository.appsPath }}/crossplane"
+    helm:
+      values: 
+        {{ toYaml .Values.crossplane | nindent 8 }}
   destination:
     namespace: crossplane-system
     server: "{{ .Values.spec.destination.server }}"

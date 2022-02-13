@@ -1,3 +1,4 @@
+{{ if .Values.kubernetes.connectionSecretName }}
 apiVersion: pkg.crossplane.io/v1alpha1
 kind: ControllerConfig
 metadata:
@@ -18,3 +19,4 @@ spec:
   package: "crossplane/provider-kubernetes:main"
   controllerConfigRef:
     name: provider-kubernetes-debug-config
+{{ end }}

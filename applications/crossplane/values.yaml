@@ -8,6 +8,10 @@ cluster:
   clusterAutoscaler:
     namespace: "kube-system"
 
+# crossplane
+kubernetes:
+  connectionSecretName:
+
 # crossplane dep
 crossplane:
   args:

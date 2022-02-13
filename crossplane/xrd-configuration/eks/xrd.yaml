@@ -132,3 +132,5 @@ spec:
                 type: string
               crossplaneExternalSecretsServiceAccountRoleARN:
                 type: string
+              connectionSecretRefName:
+                type: string
