@@ -49,10 +49,14 @@ secrets:
     rdsSecretName: ""
     aws:
       secretsManager:
-        argocdServiceAccountName: ""
-        telemetryServiceAccountName: ""
-        appServiceAccountName: ""
-        crossplaneServiceAccountName: ""
+        argocdServiceAccountName:
+        telemetryServiceAccountName:
+        appServiceAccountName:
+        crossplaneServiceAccountName:
+        argocdServiceAccountRoleARN:
+        telemetryServiceAccountRoleARN:
+        appServiceAccountRoleARN:
+        crossplaneServiceAccountRoleARN:
 telemetry:
   jaeger:
     storage:

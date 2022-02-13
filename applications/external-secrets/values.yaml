@@ -13,10 +13,14 @@ enabled: false
 rdsSecretName: ""
 aws:
   secretsManager:
-    argocdServiceAccountName: ""
-    telemetryServiceAccountName: ""
-    appServiceAccountName: ""
-    crossplaneServiceAccountName: ""
+    argocdServiceAccountName: external-secrets
+    telemetryServiceAccountName: external-secrets
+    appServiceAccountName: external-secrets
+    crossplaneServiceAccountName: external-secrets
+    argocdServiceAccountRoleARN:
+    telemetryServiceAccountRoleARN:
+    appServiceAccountRoleARN:
+    crossplaneServiceAccountRoleARN:
 argocd:
   namespace: ""
 
