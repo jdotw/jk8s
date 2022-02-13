@@ -124,3 +124,11 @@ spec:
                 type: string
               externalDNSServiceAccountRoleARN:
                 type: string
+              argocdExternalSecretsServiceAccountRoleARN:
+                type: string
+              telemetryExternalSecretsServiceAccountRoleARN:
+                type: string
+              appExternalSecretsServiceAccountRoleARN:
+                type: string
+              crossplaneExternalSecretsServiceAccountRoleARN:
+                type: string
