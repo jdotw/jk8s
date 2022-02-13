@@ -127,5 +127,55 @@ spec:
           fromFieldPath: status.gitURL
           toFieldPath: status.repository.gitURL
         - type: ToCompositeFieldPath
+          fromFieldPath: status.htmlURL
+          toFieldPath: status.repository.htmlURL
+        - type: ToCompositeFieldPath
           fromFieldPath: spec.parameters.name
           toFieldPath: status.repository.name
+
+  #
+  # Cluster Repo App
+  # 
+
+    - name: argocd-app
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Application
+              metadata:
+                namespace: jk8s
+              spec:
+                project: default
+                source:
+                  path: charts/apps
+                  targetRevision: HEAD
+                syncPolicy:
+                  automated: 
+                    prune: true
+                destination:
+                  namespace: app
+                  server: https://kubernetes.default.svc
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - fromFieldPath: status.htmlURL
+          toFieldPath: spec.forProvider.manifest.spec.source.repoURL
+        # - type: CombineFromComposite
+        #   combine:
+        #     variables:
+        #       - fromFieldPath: spec.parameters.environment.hostedZoneID
+        #       - fromFieldPath: spec.parameters.environment.hostedZoneName
+        #     strategy: string
+        #     string:
+        #       fmt: |
+        #         environment:
+        #           hostedZoneID: %s
+        #           hostedZoneName: %s
+        #   toFieldPath: spec.forProvider.manifest.spec.source.helm.values
+        #   policy:
+        #     fromFieldPath: Required
+

@@ -117,5 +117,7 @@ spec:
                 properties:
                   gitURL:
                     type: string
+                  htmlURL:
+                    type: string
                   name: 
                     type: string
