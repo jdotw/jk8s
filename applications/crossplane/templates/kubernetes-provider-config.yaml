@@ -1,4 +1,20 @@
 {{ if .Values.kubernetes.connectionSecretName }}
+apiVersion: external-secrets.io/v1alpha1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.kubernetes.connectionSecretName }}-secret
+  namespace: crossplane-system
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    name: secrets-store-aws-sm
+    kind: SecretStore
+  target:
+    name: {{ .Values.kubernetes.connectionSecretName }}
+    creationPolicy: Owner
+  dataFrom:
+    - key: {{ .Values.kubernetes.connectionSecretName }}
+---
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
