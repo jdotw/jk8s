@@ -583,10 +583,10 @@ spec:
                     rdsSecretName: ${RDS_SECRET}
                     aws:
                       secretsManager:
-                        argocdServiceAccountName: external-secrets
-                        telemetryServiceAccountName: external-secrets
-                        appServiceAccountName: external-secrets
-                        crossplaneServiceAccountName: external-secrets
+                        argocdServiceAccountRoleARN: external-secrets
+                        telemetryServiceAccountRoleARN: external-secrets
+                        appServiceAccountRoleARN: external-secrets
+                        crossplaneServiceAccountRoleARN: external-secrets
                 telemetry:
                   jaeger:
                     storage:
@@ -690,3 +690,11 @@ spec:
           toFieldPath: spec.forProvider.values.platform.privateRepositories[0].url
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.forProvider.values.platform.privateRepositories[0].externalSecret.name
+        - fromFieldPath: status.argocdExternalSecretsServiceAccountRoleARN
+          toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.argocdServiceAccountRoleARN
+        - fromFieldPath: status.telemetryExternalSecretsServiceAccountRoleARN
+          toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.telemetryServiceAccountRoleARN
+        - fromFieldPath: status.appExternalSecretsServiceAccountRoleARN
+          toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.appServiceAccountRoleARN
+        - fromFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN
+          toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.crossplaneServiceAccountRoleARN
