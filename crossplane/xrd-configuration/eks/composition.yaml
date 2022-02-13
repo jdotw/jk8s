@@ -593,11 +593,11 @@ spec:
                         credentialsSecretName: ${ES_SECRET}
                       inMemory:
                         enabled: false
-                apps:
-                  - name: apps
-                    repoURL: PATCHED
-                    targetRevision: HEAD
-                    path: charts/apps
+                # apps:
+                #   - name: apps
+                #     repoURL: PATCHED
+                #     targetRevision: HEAD
+                #     path: charts/apps
 
             set: 
               # - name: externalDatabase.host
@@ -675,10 +675,10 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.rdsSecretName
         - fromFieldPath: spec.parameters.rdsEndpoint
           toFieldPath: spec.forProvider.values.platform.rds.host
-        - fromFieldPath: spec.parameters.appsRepoURL
-          toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
-        - fromFieldPath: spec.parameters.appsRepoURL
-          toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
+        # - fromFieldPath: spec.parameters.appsRepoURL
+        #   toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
+        # - fromFieldPath: spec.parameters.appsRepoURL
+        #   toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
         - fromFieldPath: spec.parameters.privateRepository.name
           toFieldPath: spec.forProvider.values.platform.privateRepositories[0].name
         - fromFieldPath: spec.parameters.privateRepository.url
@@ -693,20 +693,20 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.appServiceAccountRoleARN
         - fromFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.crossplaneServiceAccountRoleARN
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: spec.parameters.hostedZoneID
-              - fromFieldPath: spec.parameters.fqdn
-            strategy: string
-            string:
-              fmt: |
-                environment:
-                  hostedZoneID: %s
-                  hostedZoneName: %s
-          toFieldPath: spec.forProvider.values.platform.apps[0].values
-          policy:
-            fromFieldPath: Required
+        # - type: CombineFromComposite
+        #   combine:
+        #     variables:
+        #       - fromFieldPath: spec.parameters.hostedZoneID
+        #       - fromFieldPath: spec.parameters.fqdn
+        #     strategy: string
+        #     string:
+        #       fmt: |
+        #         environment:
+        #           hostedZoneID: %s
+        #           hostedZoneName: %s
+        #   toFieldPath: spec.forProvider.values.platform.apps[0].values
+        #   policy:
+        #     fromFieldPath: Required
         - type: CombineFromComposite
           combine:
             variables:
