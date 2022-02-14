@@ -2,12 +2,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xapps.jk8s.io
+  name: xmanagementprovisionedapps.jk8s.io
 spec:
   group: jk8s.io
   names:
-    kind: XApp
-    plural: xapps
+    kind: XManagementProvisionedApp
+    plural: xmanagementprovisionedapps
   versions:
   - name: v1beta1
     served: true

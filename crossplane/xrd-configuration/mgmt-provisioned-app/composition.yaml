@@ -2,11 +2,11 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: jk8s-app
+  name: jk8s-management-provisioned-app
 spec:
   compositeTypeRef:
     apiVersion: jk8s.io/v1beta1
-    kind: XApp
+    kind: XManagementProvisionedApp
 
   resources:
 
