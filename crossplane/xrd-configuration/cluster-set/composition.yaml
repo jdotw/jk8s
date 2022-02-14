@@ -162,8 +162,14 @@ spec:
       patches:
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "cluster-%s"
         - fromFieldPath: status.repository.htmlURL
           toFieldPath: spec.forProvider.manifest.spec.source.repoURL
+        - fromFieldPath: spec.parameters.environments
+          toFieldPath: spec.forProvider.manifest.spec.source.helm.values
         # - type: CombineFromComposite
         #   combine:
         #     variables:
