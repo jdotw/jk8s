@@ -252,9 +252,6 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XServiceAccountRole
-        # metadata:
-        #   annotations:
-        #     crossplane.io/external-name: cert-manager
         spec:
           parameters:
             namespace: cert-manager
@@ -312,9 +309,6 @@ spec:
       base:
         apiVersion: aws.jk8s.io/v1beta1
         kind: XServiceAccountRole
-        # metadata:
-        #   annotations:
-        #     crossplane.io/external-name: external-dns
         spec:
           parameters:
             namespace: external-dns
@@ -553,15 +547,6 @@ spec:
               repository: https://jdotw.github.io/jk8s
             namespace: jk8s
             values:
-              # persistence:
-              #   enabled: false
-              # mariadb:
-              #   enabled: false
-              # externalDatabase:
-              #   create: true
-              #   database: wordpress
-              #   port: 3306
-
               platform:
                 dns:
                   fqdn: PATCHED
@@ -594,51 +579,13 @@ spec:
                       inMemory:
                         enabled: false
                 apps:
-                #   - name: apps
-                #     repoURL: PATCHED
-                #     targetRevision: HEAD
-                #     path: charts/apps
-
-            set: 
-              # - name: externalDatabase.host
-              #   valueFrom: 
-              #     secretKeyRef: 
-              #       name: 
-              #       namespace: crossplane-system
-              #       key: endpoint
-              # - name: externalDatabase.user
-              #   valueFrom: 
-              #     secretKeyRef: 
-              #       name: 
-              #       namespace: crossplane-system
-              #       key: username
-              # - name: externalDatabase.password
-              #   valueFrom: 
-              #     secretKeyRef: 
-              #       name: 
-              #       namespace: crossplane-system
-              #       key: password
+                  - name: apps
+                    repoURL: PATCHED
+                    targetRevision: HEAD
+                    path: charts/apps
       patches:
         - fromFieldPath: metadata.name
           toFieldPath: spec.providerConfigRef.name
-        # - fromFieldPath: "metadata.uid"
-        #   toFieldPath: spec.forProvider.set[0].valueFrom.secretKeyRef.name
-        #   transforms:
-        #     - type: string
-        #       string:
-        #         fmt: "%s-mysql"
-        # - fromFieldPath: "metadata.uid"
-        #   toFieldPath: spec.forProvider.set[1].valueFrom.secretKeyRef.name
-        #   transforms:
-        #     - type: string
-        #       string:
-        #         fmt: "%s-mysql"
-        # - fromFieldPath: "metadata.uid"
-        #   toFieldPath: spec.forProvider.set[2].valueFrom.secretKeyRef.name
-        #   transforms:
-        #     - type: string
-        #       string:
-        #         fmt: "%s-mysql"       
         - fromFieldPath: spec.parameters.fqdn
           toFieldPath: spec.forProvider.values.platform.dns.fqdn   
         - fromFieldPath: status.externalDNSServiceAccountRoleARN
@@ -675,10 +622,6 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.rdsSecretName
         - fromFieldPath: spec.parameters.rdsEndpoint
           toFieldPath: spec.forProvider.values.platform.rds.host
-        # - fromFieldPath: spec.parameters.appsRepoURL
-        #   toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
-        # - fromFieldPath: spec.parameters.appsRepoURL
-        #   toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
         - fromFieldPath: spec.parameters.privateRepository.name
           toFieldPath: spec.forProvider.values.platform.privateRepositories[0].name
         - fromFieldPath: spec.parameters.privateRepository.url
@@ -693,6 +636,8 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.appServiceAccountRoleARN
         - fromFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.crossplaneServiceAccountRoleARN
+        - fromFieldPath: spec.parameters.appsRepoURL
+          toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
         # - type: CombineFromComposite
         #   combine:
         #     variables:
@@ -717,7 +662,7 @@ spec:
         #       fmt: "%s-eks-conn-%s"
         #   toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.connectionSecretName
         #   policy:
-        #     fromFieldPath: Required            
+        #     fromFieldPath: Required
 
     - name: cluster-connection-secret
       base:
