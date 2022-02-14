@@ -59,6 +59,9 @@ spec:
           toFieldPath: spec.parameters.privateRepository.url
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.parameters.privateRepository.externalSecret.name
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.crossplaneKubernetesProviderName
+          toFieldPath: status.environments.production.crossplaneKubernetesProviderName
 
         
     #
@@ -101,6 +104,10 @@ spec:
           toFieldPath: spec.parameters.privateRepository.url
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.parameters.privateRepository.externalSecret.name
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.crossplaneKubernetesProviderName
+          toFieldPath: status.environments.development.crossplaneKubernetesProviderName
+
 
   #
   # Cluster Repo
@@ -168,20 +175,29 @@ spec:
                 fmt: "cluster-%s"
         - fromFieldPath: status.repository.htmlURL
           toFieldPath: spec.forProvider.manifest.spec.source.repoURL
-        - fromFieldPath: spec.parameters.environments
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environments.development.hostedZoneID
+              - fromFieldPath: spec.parameters.environments.development.hostedZoneName
+              - fromFieldPath: status.environments.development.crossplaneKubernetesProviderName
+              - fromFieldPath: spec.parameters.environments.production.hostedZoneID
+              - fromFieldPath: spec.parameters.environments.production.hostedZoneName
+              - fromFieldPath: status.environments.production.crossplaneKubernetesProviderName
+            strategy: string
+            string:
+              fmt: |
+                clusterSet:
+                  environments:
+                    - name: development
+                      hostedZoneID: %s
+                      hostedZoneName: %s
+                      kubernetesProviderName: %s
+                    - name: production
+                      hostedZoneID: %s
+                      hostedZoneName: %s
+                      kubernetesProviderName: %s
           toFieldPath: spec.forProvider.manifest.spec.source.helm.values
-        # - type: CombineFromComposite
-        #   combine:
-        #     variables:
-        #       - fromFieldPath: spec.parameters.environment.hostedZoneID
-        #       - fromFieldPath: spec.parameters.environment.hostedZoneName
-        #     strategy: string
-        #     string:
-        #       fmt: |
-        #         environment:
-        #           hostedZoneID: %s
-        #           hostedZoneName: %s
-        #   toFieldPath: spec.forProvider.manifest.spec.source.helm.values
-        #   policy:
-        #     fromFieldPath: Required
+          policy:
+            fromFieldPath: Required
 

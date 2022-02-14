@@ -1,0 +1,62 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xapps.jk8s.io
+spec:
+  group: jk8s.io
+  names:
+    kind: XApp
+    plural: xapps
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  repoURL:
+                    type: string
+                    description: The URL to the repo that contains the Helm chart for this app
+                  path:
+                    type: string
+                    description: The path to the helm chart in the repo at repoURL
+                    default: argocd/master-app
+                  targetRevision:
+                    type: string
+                    description: The revision that we should attempt to install
+                    default: HEAD
+                  environment:
+                    type: object
+                    properties:
+                      name:
+                        description: Name of the environment
+                        type: string
+                      hostedZoneID:
+                        description: The ID of the environment's hosted zone
+                        type: string
+                      hostedZoneName:
+                        description: The Name of the environment's hosted zone
+                        type: string
+                      kubernetesProviderName:
+                        description: The name of the provider-kubernetes instance to be used to deploy manifests
+                        type: string
+                    required:
+                      - name
+                      - hostedZoneID
+                      - hostedZoneName
+                required:
+                  - repoURL
+                  - environment
+            required:
+              - parameters
+          status:
+            type: object 
+            properties:

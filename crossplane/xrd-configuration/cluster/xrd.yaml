@@ -101,3 +101,7 @@ spec:
                   type: string
               oidcIssuer:
                 type: string
+              crossplaneKubernetesProviderName:
+                type: string
+              clusterConnectionSecretRefName:
+                type: string

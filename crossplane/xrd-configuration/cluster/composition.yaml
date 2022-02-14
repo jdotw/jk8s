@@ -157,3 +157,38 @@ spec:
           fromFieldPath: status.connectionSecretRefName
           toFieldPath: status.clusterConnectionSecretRefName
 
+    - name: crossplane-kubernetes-provider
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: kubernetes.crossplane.io/v1alpha1
+              kind: ProviderConfig
+              spec:
+                credentials:
+                  source: Secret
+                  secretRef:
+                    namespace: crossplane-system
+                    key: kubeconfig
+      patches:
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: spec.parameters.environment.providerConfigName
+            strategy: string
+            string:
+              fmt: "%s-%s"
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: status.clusterConnectionSecretRefName
+          toFieldPath: spec.forProvider.manifest.spec.credentials.secretRef.name
+          policy:
+            fromFieldPath: Required
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.forProvider.manifest.metadata.name
+          toFieldPath: status.crossplaneKubernetesProviderName
+          

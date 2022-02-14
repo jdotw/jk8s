@@ -121,3 +121,16 @@ spec:
                     type: string
                   name: 
                     type: string
+              environments:
+                type: object
+                properties:
+                  development:
+                    type: object
+                    properties:
+                      crossplaneKubernetesProviderName:
+                        type: string
+                  production:
+                    type: object
+                    properties:
+                      crossplaneKubernetesProviderName:
+                        type: string

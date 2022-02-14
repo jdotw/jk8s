@@ -1,0 +1,57 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-app
+spec:
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XApp
+
+  resources:
+
+    - name: argocd-app
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Application
+              metadata:
+                namespace: jk8s
+              spec:
+                project: default
+                syncPolicy:
+                  automated: 
+                    prune: true
+                destination:
+                  namespace: app
+                  server: https://kubernetes.default.svc
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - fromFieldPath: spec.parameters.environment.kubernetesProviderName
+          toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: spec.parameters.repoURL
+          toFieldPath: spec.forProvider.manifest.spec.source.repoURL
+        - fromFieldPath: spec.parameters.path
+          toFieldPath: spec.forProvider.manifest.spec.source.path
+        - fromFieldPath: spec.parameters.targetRevision
+          toFieldPath: spec.forProvider.manifest.spec.source.targetRevision
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment.hostedZoneID
+              - fromFieldPath: spec.parameters.environment.hostedZoneName
+            strategy: string
+            string:
+              fmt: |
+                environment:
+                  hostedZoneID: %s
+                  hostedZoneName: %s
+          toFieldPath: spec.forProvider.manifest.spec.source.helm.values
+          policy:
+            fromFieldPath: Required
+
