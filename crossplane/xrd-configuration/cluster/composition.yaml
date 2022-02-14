@@ -109,6 +109,22 @@ spec:
           fromFieldPath: status.endpoint
           toFieldPath: status.rdsEndpoint
 
+    - name: rds-sql-provider
+      base:
+        apiVersion: postgresql.sql.crossplane.io/v1alpha1
+        kind: ProviderConfig
+        metadata:
+          name: default
+        spec:
+          defaultDatabase: postgres
+          credentials:
+            source: PostgreSQLConnectionSecret
+            connectionSecretRef:
+              namespace: crossplane-system
+      patches:
+        - fromFieldPath: status.rdsSecretName
+          toFieldPath: spec.credentials.connectionSecretRef.name
+
     - name: eks-cluster
       base:
         apiVersion: aws.jk8s.io/v1beta1
@@ -190,5 +206,5 @@ spec:
             fromFieldPath: Required
         - type: ToCompositeFieldPath
           fromFieldPath: spec.forProvider.manifest.metadata.name
-          toFieldPath: status.crossplaneKubernetesProviderName
+          toFieldPath: status.kubernetesProviderConfigName
           

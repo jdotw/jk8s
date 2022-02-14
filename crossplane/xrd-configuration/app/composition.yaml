@@ -10,6 +10,35 @@ spec:
 
   resources:
 
+    - name: database
+      base: 
+        apiVersion: postgresql.sql.crossplane.io/v1alpha1
+        kind: Database
+        metadata:
+          namespace: crossplane-system
+        spec:
+          forProvider: {}
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.parameters.environment.sqlProviderConfigName
+          toFieldPath: spec.providerConfigRef.name
+
+    - name: database
+      base: 
+        apiVersion: postgresql.sql.crossplane.io/v1alpha1
+        kind: Extension
+        metadata:
+          name: uuid-extension
+        spec:
+          forProvider:
+            extension: uuid-ossp
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.databaseRef.name
+        - fromFieldPath: spec.parameters.environment.sqlProviderConfigName
+          toFieldPath: spec.providerConfigRef.name
+
     - name: argocd-app
       base:
         apiVersion: kubernetes.crossplane.io/v1alpha1

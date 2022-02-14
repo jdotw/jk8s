@@ -60,8 +60,11 @@ spec:
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.parameters.privateRepository.externalSecret.name
         - type: ToCompositeFieldPath
-          fromFieldPath: status.crossplaneKubernetesProviderName
-          toFieldPath: status.environments.production.crossplaneKubernetesProviderName
+          fromFieldPath: status.kubernetesProviderConfigName
+          toFieldPath: status.environments.production.kubernetesProviderConfigName
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.sqlProviderConfigName
+          toFieldPath: status.environments.production.sqlProviderConfigName
 
         
     #
@@ -105,8 +108,11 @@ spec:
         - fromFieldPath: spec.parameters.privateRepository.externalSecret.name
           toFieldPath: spec.parameters.privateRepository.externalSecret.name
         - type: ToCompositeFieldPath
-          fromFieldPath: status.crossplaneKubernetesProviderName
-          toFieldPath: status.environments.development.crossplaneKubernetesProviderName
+          fromFieldPath: status.kubernetesProviderConfigName
+          toFieldPath: status.environments.development.kubernetesProviderConfigName
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.sqlProviderConfigName
+          toFieldPath: status.environments.development.sqlProviderConfigName
 
 
   #
@@ -193,10 +199,12 @@ spec:
                       hostedZoneID: %s
                       hostedZoneName: %s
                       kubernetesProviderName: %s
+                      clusterID: %s
                     - name: production
                       hostedZoneID: %s
                       hostedZoneName: %s
                       kubernetesProviderName: %s
+                      clusterID: %s
           toFieldPath: spec.forProvider.manifest.spec.source.helm.values
           policy:
             fromFieldPath: Required

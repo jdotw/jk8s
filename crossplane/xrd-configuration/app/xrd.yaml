@@ -45,9 +45,12 @@ spec:
                       hostedZoneName:
                         description: The Name of the environment's hosted zone
                         type: string
-                      kubernetesProviderName:
-                        description: The name of the provider-kubernetes instance to be used to deploy manifests
+                      kubernetesProviderConfigName:
+                        description: The name of the provider-kubernetes ProviderConfig instance to be used to deploy manifests
                         type: string
+                      sqlProviderConfigName:
+                        description: The name of the provider-sql ProviderConfig instance to be used to manage database resources
+                        type: string                        
                     required:
                       - name
                       - hostedZoneID

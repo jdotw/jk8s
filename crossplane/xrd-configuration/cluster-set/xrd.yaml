@@ -127,10 +127,14 @@ spec:
                   development:
                     type: object
                     properties:
-                      crossplaneKubernetesProviderName:
+                      kubernetesProviderConfigName:
+                        type: string
+                      sqlProviderConfigName:
                         type: string
                   production:
                     type: object
                     properties:
-                      crossplaneKubernetesProviderName:
+                      kubernetesProviderConfigName:
+                        type: string
+                      sqlProviderConfigName:
                         type: string
