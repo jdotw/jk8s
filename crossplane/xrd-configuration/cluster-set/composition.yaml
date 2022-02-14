@@ -65,6 +65,9 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.sqlProviderConfigName
           toFieldPath: status.environments.production.sqlProviderConfigName
+        - type: ToCompositeFieldPath
+          fromFieldPath: metadata.uid
+          toFieldPath: status.environments.production.clusterID
 
         
     #
@@ -113,6 +116,9 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.sqlProviderConfigName
           toFieldPath: status.environments.development.sqlProviderConfigName
+        - type: ToCompositeFieldPath
+          fromFieldPath: metadata.uid
+          toFieldPath: status.environments.development.clusterID
 
 
   #
@@ -184,27 +190,34 @@ spec:
         - type: CombineFromComposite
           combine:
             variables:
+              - fromFieldPath: status.environments.development.clusterID
               - fromFieldPath: spec.parameters.environments.development.hostedZoneID
               - fromFieldPath: spec.parameters.environments.development.hostedZoneName
-              - fromFieldPath: status.environments.development.crossplaneKubernetesProviderName
+              - fromFieldPath: status.environments.development.kubernetesProviderConfigName
+              - fromFieldPath: status.environments.development.sqlProviderConfigName
+
+              - fromFieldPath: status.environments.production.clusterID
               - fromFieldPath: spec.parameters.environments.production.hostedZoneID
               - fromFieldPath: spec.parameters.environments.production.hostedZoneName
-              - fromFieldPath: status.environments.production.crossplaneKubernetesProviderName
+              - fromFieldPath: status.environments.production.kubernetesProviderConfigName
+              - fromFieldPath: status.environments.production.sqlProviderConfigName
             strategy: string
             string:
               fmt: |
                 clusterSet:
                   environments:
                     - name: development
+                      clusterID: %s
                       hostedZoneID: %s
                       hostedZoneName: %s
-                      kubernetesProviderName: %s
-                      clusterID: %s
+                      kubernetesProviderConfigName: %s
+                      sqlProviderConfigName: %s
                     - name: production
+                      clusterID: %s
                       hostedZoneID: %s
                       hostedZoneName: %s
-                      kubernetesProviderName: %s
-                      clusterID: %s
+                      kubernetesProviderConfigName: %s
+                      sqlProviderConfigName: %s
           toFieldPath: spec.forProvider.manifest.spec.source.helm.values
           policy:
             fromFieldPath: Required

@@ -61,3 +61,5 @@ spec:
                 type: string
               endpoint:
                 type: string
+              connectionSecretName:
+                type: string

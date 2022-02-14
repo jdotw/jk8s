@@ -106,6 +106,9 @@ spec:
           fromFieldPath: status.rdsSecretName
           toFieldPath: status.rdsSecretName
         - type: ToCompositeFieldPath
+          fromFieldPath: status.connectionSecretName
+          toFieldPath: status.rdsConnectionSecretName
+        - type: ToCompositeFieldPath
           fromFieldPath: status.endpoint
           toFieldPath: status.rdsEndpoint
 
@@ -113,8 +116,6 @@ spec:
       base:
         apiVersion: postgresql.sql.crossplane.io/v1alpha1
         kind: ProviderConfig
-        metadata:
-          name: default
         spec:
           defaultDatabase: postgres
           credentials:
@@ -122,8 +123,22 @@ spec:
             connectionSecretRef:
               namespace: crossplane-system
       patches:
-        - fromFieldPath: status.rdsSecretName
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: spec.parameters.environment.providerConfigName
+            strategy: string
+            string:
+              fmt: "%s-%s"
+          toFieldPath: metadata.name
+          policy:
+            fromFieldPath: Required
+        - fromFieldPath: status.rdsConnectionSecretName
           toFieldPath: spec.credentials.connectionSecretRef.name
+        - type: ToCompositeFieldPath
+          fromFieldPath: metadata.name
+          toFieldPath: status.sqlProviderConfigName
 
     - name: eks-cluster
       base:

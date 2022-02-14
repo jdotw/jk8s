@@ -93,6 +93,8 @@ spec:
                 type: string
               rdsSecretName:
                 type: string
+              rdsConnectionSecretName:
+                type: string
               rdsEndpoint:
                 type: string
               nameServers:

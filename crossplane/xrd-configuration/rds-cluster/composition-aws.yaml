@@ -79,6 +79,9 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.atProvider.endpoint
           toFieldPath: status.endpoint
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.writeConnectionSecretToRef.name
+          toFieldPath: status.connectionSecretName
 
     - name: dbinstance
       base:
@@ -196,3 +199,4 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.atProvider.arn
           toFieldPath: status.rdsSecretARN
+

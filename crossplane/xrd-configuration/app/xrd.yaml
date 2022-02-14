@@ -39,6 +39,9 @@ spec:
                       name:
                         description: Name of the environment
                         type: string
+                      clusterID:
+                        description: The ID of the cluster where the app is deployed
+                        type: string
                       hostedZoneID:
                         description: The ID of the environment's hosted zone
                         type: string

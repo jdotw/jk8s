@@ -127,6 +127,8 @@ spec:
                   development:
                     type: object
                     properties:
+                      clusterID:
+                        type: string
                       kubernetesProviderConfigName:
                         type: string
                       sqlProviderConfigName:
@@ -134,6 +136,8 @@ spec:
                   production:
                     type: object
                     properties:
+                      clusterID:
+                        type: string
                       kubernetesProviderConfigName:
                         type: string
                       sqlProviderConfigName:

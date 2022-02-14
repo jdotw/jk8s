@@ -24,7 +24,7 @@ spec:
         - fromFieldPath: spec.parameters.environment.sqlProviderConfigName
           toFieldPath: spec.providerConfigRef.name
 
-    - name: database
+    - name: database-uuid-extension
       base: 
         apiVersion: postgresql.sql.crossplane.io/v1alpha1
         kind: Extension
