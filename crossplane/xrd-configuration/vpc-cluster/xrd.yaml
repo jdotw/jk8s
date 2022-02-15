@@ -45,7 +45,7 @@ spec:
                   public-subnet-1-cidrBlock:
                     description: CIDR block for public subnet 1
                     type: string
-                    default: 10.20.0.0/18
+                    default: 10.20.0.0/22
                   public-subnet-1-availabilityZone:
                     description: AZ for public subnet 1
                     type: string                      
@@ -58,7 +58,7 @@ spec:
                   public-subnet-2-cidrBlock:
                     description: CIDR block for public subnet 2
                     type: string
-                    default: 10.20.4.0/18
+                    default: 10.20.4.0/22
                   public-subnet-2-availabilityZone:
                     description: AZ for public subnet 2
                     type: string                      
@@ -71,7 +71,7 @@ spec:
                   public-subnet-3-cidrBlock:
                     description: CIDR block for public subnet 3
                     type: string
-                    default: 10.20.8.0/18
+                    default: 10.20.8.0/22
                   public-subnet-3-availabilityZone:
                     description: AZ for public subnet 3
                     type: string         
@@ -84,7 +84,7 @@ spec:
                   private-subnet-1-cidrBlock:
                     description: CIDR block for private subnet 1
                     type: string
-                    default: 10.20.20.0/18
+                    default: 10.20.20.0/22
                   private-subnet-1-availabilityZone:
                     description: AZ for private subnet 1
                     type: string                      
@@ -97,7 +97,7 @@ spec:
                   private-subnet-2-cidrBlock:
                     description: CIDR block for private subnet 2
                     type: string
-                    default: 10.20.24.0/18
+                    default: 10.20.24.0/22
                   private-subnet-2-availabilityZone:
                     description: AZ for private subnet 2
                     type: string                      
@@ -110,7 +110,7 @@ spec:
                   private-subnet-3-cidrBlock:
                     description: CIDR block for private subnet 3
                     type: string
-                    default: 10.20.28.0/18
+                    default: 10.20.28.0/22
                   private-subnet-3-availabilityZone:
                     description: AZ for private subnet 3
                     type: string         
@@ -123,7 +123,7 @@ spec:
                   isolated-subnet-1-cidrBlock:
                     description: CIDR block for isolated subnet 1
                     type: string
-                    default: 10.20.40.0/18
+                    default: 10.20.40.0/22
                   isolated-subnet-1-availabilityZone:
                     description: AZ for isolated subnet 1
                     type: string                      
@@ -136,7 +136,7 @@ spec:
                   isolated-subnet-2-cidrBlock:
                     description: CIDR block for isolated subnet 2
                     type: string
-                    default: 10.20.44.0/18
+                    default: 10.20.44.0/22
                   isolated-subnet-2-availabilityZone:
                     description: AZ for isolated subnet 2
                     type: string                      
@@ -149,7 +149,7 @@ spec:
                   isolated-subnet-3-cidrBlock:
                     description: CIDR block for isolated subnet 3
                     type: string
-                    default: 10.20.48.0/18
+                    default: 10.20.48.0/22
                   isolated-subnet-3-availabilityZone:
                     description: AZ for isolated subnet 3
                     type: string         

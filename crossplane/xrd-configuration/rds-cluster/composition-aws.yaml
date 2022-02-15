@@ -151,9 +151,9 @@ spec:
                 fromPort: 5432
                 toPort: 5432
                 ipRanges:
-                  - cidrIp: 10.20.0.0/18
-                  - cidrIp: 10.24.0.0/18
-                  - cidrIp: 10.28.0.0/18
+                  - cidrIp: 10.20.0.0/14
+                  - cidrIp: 10.24.0.0/14
+                  - cidrIp: 10.28.0.0/14
       patches:
         - type: PatchSet
           patchSetName: common-parameters
