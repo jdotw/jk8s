@@ -34,6 +34,10 @@ spec:
           toFieldPath: "spec.forProvider.owner"
         - fromFieldPath: "spec.parameters.org"
           toFieldPath: "spec.forProvider.org"
+        - fromFieldPath: "spec.parameters.private"
+          toFieldPath: "spec.forProvider.private"
+        - fromFieldPath: "spec.parameters.visibility"
+          toFieldPath: "spec.forProvider.visibility"
         - type: ToCompositeFieldPath
           fromFieldPath: status.atProvider.gitUrl
           toFieldPath: status.gitURL

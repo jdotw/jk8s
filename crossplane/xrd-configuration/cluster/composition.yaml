@@ -187,6 +187,10 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: status.connectionSecretRefName
           toFieldPath: status.clusterConnectionSecretRefName
+        - fromFieldPath: spec.parameters.repository.owner
+          toFieldPath: spec.parameters.repository.owner
+        - fromFieldPath: spec.parameters.repository.org
+          toFieldPath: spec.parameters.repository.org
 
     - name: crossplane-kubernetes-provider
       base:

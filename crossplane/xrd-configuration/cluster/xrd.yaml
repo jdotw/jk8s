@@ -57,9 +57,15 @@ spec:
                         type: string
                       chartsURL:
                         type: string
+                      owner:
+                        type: string
+                      org:
+                        type: string
                     required:
                       - gitURL
                       - chartsURL
+                      - org
+                      - owner
                   privateRepository:
                     type: object
                     description: Private GitHub repo and credentials

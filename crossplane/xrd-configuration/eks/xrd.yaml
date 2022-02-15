@@ -84,7 +84,17 @@ spec:
                     description: The AMI type used by the worker nodes
                     type: string
                     enum: ["AL2_x86_64", "AL2_x86_64_GPU"]                       
-                    default: "AL2_x86_64"      
+                    default: "AL2_x86_64"
+                  repository:
+                    type: object
+                    description: Parameters for the GitHub repo where this clusters repo is located
+                    properties:
+                      owner: 
+                        description: Owner of the GitHub Repo
+                        type: string
+                      org:
+                        description: Org that the GitHub Repo belongs to
+                        type: string
                   privateRepository:
                     type: object
                     description: Private GitHub repo and credentials

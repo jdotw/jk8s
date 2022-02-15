@@ -51,7 +51,7 @@ spec:
           toFieldPath: spec.parameters.repository.chartsURL
           policy:
             fromFieldPath: Required
-        - fromFieldPath: "status.repository.gitURL"
+        - fromFieldPath: "status.repository.htmlURL"
           toFieldPath: "spec.parameters.repository.gitURL"
         - fromFieldPath: spec.parameters.privateRepository.name
           toFieldPath: spec.parameters.privateRepository.name
@@ -68,6 +68,10 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: metadata.uid
           toFieldPath: status.environments.production.clusterID
+        - fromFieldPath: spec.parameters.repository.owner
+          toFieldPath: spec.parameters.repository.owner
+        - fromFieldPath: spec.parameters.repository.org
+          toFieldPath: spec.parameters.repository.org
 
         
     #
@@ -102,7 +106,7 @@ spec:
           toFieldPath: spec.parameters.repository.chartsURL
           policy:
             fromFieldPath: Required
-        - fromFieldPath: "status.repository.gitURL"
+        - fromFieldPath: "status.repository.htmlURL"
           toFieldPath: "spec.parameters.repository.gitURL"
         - fromFieldPath: spec.parameters.privateRepository.name
           toFieldPath: spec.parameters.privateRepository.name
@@ -119,7 +123,10 @@ spec:
         - type: ToCompositeFieldPath
           fromFieldPath: metadata.uid
           toFieldPath: status.environments.development.clusterID
-
+        - fromFieldPath: spec.parameters.repository.owner
+          toFieldPath: spec.parameters.repository.owner
+        - fromFieldPath: spec.parameters.repository.org
+          toFieldPath: spec.parameters.repository.org
 
   #
   # Cluster Repo
@@ -129,6 +136,10 @@ spec:
       base:
         apiVersion: jk8s.io/v1beta1
         kind: XGitHubRepo
+        spec:
+          parameters:
+            private: true
+            visibility: internal
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
@@ -156,77 +167,49 @@ spec:
   # Cluster Repo App
   # 
 
-  # DEPRECATE: This was an ill-fated experiment to see if it was better
-  #            to have the management cluster do more of the resource provisioning
-  #            for apps. Mostly it was born out of a premature concern around where
-  #            the CI workflows would live. But, this was a bad idea. The management
-  #            cluster is a single unit and therefore has an inherently large blast
-  #            radius. It's sole responsibility must be the provisioning of cluster
-  #            that then manage themselves. 
-
-    # - name: argocd-app
-    #   base:
-    #     apiVersion: kubernetes.crossplane.io/v1alpha1
-    #     kind: Object
-    #     spec:
-    #       forProvider:
-    #         manifest:
-    #           apiVersion: argoproj.io/v1alpha1
-    #           kind: Application
-    #           metadata:
-    #             namespace: jk8s
-    #           spec:
-    #             project: default
-    #             source:
-    #               path: charts/apps
-    #               targetRevision: HEAD
-    #             syncPolicy:
-    #               automated: 
-    #                 prune: true
-    #             destination:
-    #               namespace: app
-    #               server: https://kubernetes.default.svc
-    #   patches:
-    #     - fromFieldPath: metadata.name
-    #       toFieldPath: spec.forProvider.manifest.metadata.name
-    #       transforms:
-    #         - type: string
-    #           string:
-    #             fmt: "cluster-%s"
-    #     - fromFieldPath: status.repository.htmlURL
-    #       toFieldPath: spec.forProvider.manifest.spec.source.repoURL
-    #     - type: CombineFromComposite
-    #       combine:
-    #         variables:
-    #           - fromFieldPath: status.environments.development.clusterID
-    #           - fromFieldPath: spec.parameters.environments.development.hostedZoneID
-    #           - fromFieldPath: spec.parameters.environments.development.hostedZoneName
-    #           - fromFieldPath: status.environments.development.kubernetesProviderConfigName
-    #           - fromFieldPath: status.environments.development.sqlProviderConfigName
-
-    #           - fromFieldPath: status.environments.production.clusterID
-    #           - fromFieldPath: spec.parameters.environments.production.hostedZoneID
-    #           - fromFieldPath: spec.parameters.environments.production.hostedZoneName
-    #           - fromFieldPath: status.environments.production.kubernetesProviderConfigName
-    #           - fromFieldPath: status.environments.production.sqlProviderConfigName
-    #         strategy: string
-    #         string:
-    #           fmt: |
-    #             clusterSet:
-    #               environments:
-    #                 - name: development
-    #                   clusterID: %s
-    #                   hostedZoneID: %s
-    #                   hostedZoneName: %s
-    #                   kubernetesProviderConfigName: %s
-    #                   sqlProviderConfigName: %s
-    #                 - name: production
-    #                   clusterID: %s
-    #                   hostedZoneID: %s
-    #                   hostedZoneName: %s
-    #                   kubernetesProviderConfigName: %s
-    #                   sqlProviderConfigName: %s
-    #       toFieldPath: spec.forProvider.manifest.spec.source.helm.values
-    #       policy:
-    #         fromFieldPath: Required
+    - name: argocd-app
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Application
+              metadata:
+                namespace: jk8s
+              spec:
+                project: default
+                source:
+                  path: charts/apps
+                  targetRevision: HEAD
+                syncPolicy:
+                  automated: 
+                    prune: true
+                destination:
+                  namespace: app
+                  server: https://kubernetes.default.svc
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "cluster-%s"
+        - fromFieldPath: status.repository.htmlURL
+          toFieldPath: spec.forProvider.manifest.spec.source.repoURL
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.repository.owner
+              - fromFieldPath: spec.parameters.repository.org
+            strategy: string
+            string:
+              fmt: |
+                repository:
+                  owner: %s
+                  org: %s
+          toFieldPath: spec.forProvider.manifest.spec.source.helm.values
+          policy:
+            fromFieldPath: Required
 

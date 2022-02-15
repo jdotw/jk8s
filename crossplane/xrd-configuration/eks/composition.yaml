@@ -638,20 +638,25 @@ spec:
           toFieldPath: spec.forProvider.values.platform.secrets.externalSecrets.aws.secretsManager.crossplaneServiceAccountRoleARN
         - fromFieldPath: spec.parameters.appsRepoURL
           toFieldPath: spec.forProvider.values.platform.apps[0].repoURL
-        # - type: CombineFromComposite
-        #   combine:
-        #     variables:
-        #       - fromFieldPath: spec.parameters.hostedZoneID
-        #       - fromFieldPath: spec.parameters.fqdn
-        #     strategy: string
-        #     string:
-        #       fmt: |
-        #         environment:
-        #           hostedZoneID: %s
-        #           hostedZoneName: %s
-        #   toFieldPath: spec.forProvider.values.platform.apps[0].values
-        #   policy:
-        #     fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.hostedZoneID
+              - fromFieldPath: spec.parameters.fqdn
+              - fromFieldPath: spec.parameters.repository.owner
+              - fromFieldPath: spec.parameters.repository.org
+            strategy: string
+            string:
+              fmt: |
+                environment:
+                  hostedZoneID: %s
+                  hostedZoneName: %s
+                repository:
+                  owner: %s
+                  org: %s
+          toFieldPath: spec.forProvider.values.platform.apps[0].values
+          policy:
+            fromFieldPath: Required
         # - type: CombineFromComposite
         #   combine:
         #     variables:

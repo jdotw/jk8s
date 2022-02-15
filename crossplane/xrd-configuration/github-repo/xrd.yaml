@@ -30,7 +30,16 @@ spec:
                     type: string       
                   org: 
                     description: Organization to add the GitHub Repo to
-                    type: string       
+                    type: string    
+                  private:
+                    description: Is the repo private
+                    type: boolean
+                    default: true
+                  visibility:
+                    description: Whether the repo is public, private or internal
+                    type: string    
+                    enum: [public, private, internal]
+                    default: private
                 required:
                   - name
                   - owner
