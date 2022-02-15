@@ -11,4 +11,4 @@ spec:
     source: PostgreSQLConnectionSecret
     connectionSecretRef:
       namespace: crossplane-system
-      name: rds
+      name: rds-crossplane
