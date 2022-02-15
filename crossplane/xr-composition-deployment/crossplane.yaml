@@ -1,0 +1,4 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: jk8s-xr-composition-deployment

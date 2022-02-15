@@ -1,0 +1,62 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xapps.jk8s.io
+spec:
+  group: jk8s.io
+  names:
+    kind: XApp
+    plural: xapps
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  path:
+                    type: string
+                    description: The path to the helm chart in the repo at repoURL
+                    default: argocd/master-app
+                  targetRevision:
+                    type: string
+                    description: The revision that we should attempt to install
+                    default: HEAD
+                  environment:
+                    type: object
+                    properties:
+                      hostedZoneID:
+                        description: The ID of the environment's hosted zone
+                        type: string
+                      hostedZoneName:
+                        description: The Name of the environment's hosted zone
+                        type: string
+                    required:
+                      - hostedZoneID
+                      - hostedZoneName
+                  repository:
+                    type: object
+                    properties: 
+                      owner:
+                        type: string
+                        description: The owner of the cluster's GitHub Repo
+                      org:
+                        type: string
+                        description: The organization to add the GitHub Repo to
+                    required:
+                      - owner
+                required:
+                  - repository
+            required:
+              - parameters
+          status:
+            type: object 
+            properties:

@@ -1,0 +1,95 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-deployment-xapp-composition
+spec:
+
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XApp
+
+  resources:
+
+    - name: database
+      base: 
+        apiVersion: postgresql.sql.crossplane.io/v1alpha1
+        kind: Database
+        metadata:
+          namespace: crossplane-system
+        spec:
+          forProvider: {}
+          providerConfigRef:
+            name: default
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
+
+    - name: database-uuid-extension
+      base: 
+        apiVersion: postgresql.sql.crossplane.io/v1alpha1
+        kind: Extension
+        metadata:
+          name: uuid-extension
+        spec:
+          forProvider:
+            extension: uuid-ossp
+          providerConfigRef:
+            name: default
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.databaseRef.name
+
+    - name: argocd-app
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Application
+              metadata:
+                namespace: jk8s
+              spec:
+                project: default
+                syncPolicy:
+                  automated: 
+                    prune: true
+                destination:
+                  namespace: app
+                  server: https://kubernetes.default.svc
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+        - fromFieldPath: spec.parameters.environment.kubernetesProviderName
+          toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: spec.parameters.path
+          toFieldPath: spec.forProvider.manifest.spec.source.path
+        - fromFieldPath: spec.parameters.targetRevision
+          toFieldPath: spec.forProvider.manifest.spec.source.targetRevision
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.repository.owner
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: https://github.com/%s/%s.git
+          toFieldPath: spec.forProvider.manifest.spec.source.repoURL
+          policy:
+            fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.environment.hostedZoneID
+              - fromFieldPath: spec.parameters.environment.hostedZoneName
+            strategy: string
+            string:
+              fmt: |
+                environment:
+                  hostedZoneID: %s
+                  hostedZoneName: %s
+          toFieldPath: spec.forProvider.manifest.spec.source.helm.values
+          policy:
+            fromFieldPath: Required
+

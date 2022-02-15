@@ -1,0 +1,44 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-management-xapp-composition
+spec:
+
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XApp
+
+  resources:
+
+  #
+  # Cluster Repo
+  #
+
+    - name: github-repo
+      base:
+        apiVersion: jk8s.io/v1beta1
+        kind: XGitHubRepo
+        spec:
+          parameters:
+            private: true
+            visibility: internal
+      patches:    
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.parameters.name"
+          transforms:
+            - type: string
+              string:
+                fmt: "app-%s"
+        - fromFieldPath: "spec.parameters.repository.owner"
+          toFieldPath: "spec.parameters.owner"
+        - fromFieldPath: "spec.parameters.repository.org"
+          toFieldPath: "spec.parameters.org"
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.gitURL
+          toFieldPath: status.repository.gitURL
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.htmlURL
+          toFieldPath: status.repository.htmlURL
+        - type: ToCompositeFieldPath
+          fromFieldPath: spec.parameters.name
+          toFieldPath: status.repository.name
