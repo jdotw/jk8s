@@ -1,0 +1,125 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xcanarydeployments.jk8s.io
+spec:
+  group: jk8s.io
+  names:
+    kind: XCanaryDeployment
+    plural: xcanarydeployments
+  versions:
+  - name: v1beta1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  namespace:
+                    type: string
+                    description: Namespace to deploy into
+                    default: app
+                  argocd:
+                    type: object
+                    properties:
+                      instance:
+                        type: string
+                        description: The ArgoCD instance this resource should belong to
+                  app:
+                    type: object
+                    properties: 
+                      image: 
+                        type: string
+                        description: The image to be deployed
+                      version:
+                        type: string
+                        description: Version to be deployed
+                      extraEnv:
+                        type: array
+                        description: "Array environment parameters in the form of name/value pair objects"
+                        items:
+                          type: object
+                          properties:
+                            name: 
+                              type: string
+                            value:
+                              type: string
+                      containerPort:
+                        type: integer
+                        description: The apps container port
+                        default: 8080
+                      replicas: 
+                        type: integer
+                        description: The number of replicas to deploy
+                        default: 2
+                      revisionHistoryLimit: 
+                        type: integer
+                        description: Revision history limit
+                        default: 2
+                  virtualService:
+                    type: object
+                    properties:
+                      hosts:
+                        type: array
+                        items:
+                          type: string
+                          description: A hostname to bind to the VirtualService    
+
+                  db:
+                    type: object
+                    properties:
+                      name: 
+                        type: string
+                        description: Name of the DB
+                      sslmode:
+                        type: string
+                        description: PostgreSQL client SSL mode
+                        default: require
+                      migrations:
+                        type: object
+                        properties: 
+                          image: 
+                            type: string
+                            description: DB migrations container image
+                          repoURL: 
+                            type: string
+                            description: DB migrations repo URL
+                          path: 
+                            type: string
+                            description: DB migrations path in repo
+                  strategy:
+                    type: object
+                    properties:
+                      canary:
+                        type: object
+                        properties:
+                          steps:
+                            # Example of steps property
+                            # - setWeight: 5
+                            # - pause: {}
+                            # - setWeight: 50
+                            # - pause:
+                            #     duration: 60
+                            type: array
+                            description: The canary rollout steps
+                            items:
+                              type: object
+                              properties:
+                                setWeight:
+                                  type: integer
+                                pause: 
+                                  type: object
+                                  properties:
+                                    duration: 
+                                      type: integer
+
+          status:
+            type: object
+            properties:

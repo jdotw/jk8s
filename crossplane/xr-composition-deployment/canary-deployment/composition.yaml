@@ -1,0 +1,121 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: jk8s-deployment-xcanarydeployment-composition
+spec:
+
+  compositeTypeRef:
+    apiVersion: jk8s.io/v1beta1
+    kind: XCanaryDeployment
+
+  resources:
+
+    - name: stable-service
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: v1
+              kind: Service
+              spec:
+                ports:
+                  - name: http
+                    port: 80
+                    protocol: TCP
+                    targetPort: 8080
+                selector:
+                  app: "{{ .Values.app.name }}-rollout"
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-stable"
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.selector.app
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rollout"
+
+    - name: canary-service
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: v1
+              kind: Service
+              spec:
+                ports:
+                  - name: http
+                    port: 80
+                    protocol: TCP
+                    targetPort: 8080
+                selector:
+                  app: "{{ .Values.app.name }}-rollout"
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-canary"
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.selector.app
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rollout"
+
+    - name: virtual-service
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: networking.istio.io/v1alpha3
+              kind: VirtualService
+              spec:
+                gateways:
+                  - istio-ingress/ingress-gateway
+                  - mesh
+                http:
+                  - name: primary
+                    route:
+                      # stable
+                      - destination: {}
+                        weight: 100
+                      # canary
+                      - destination: {}
+                        weight: 0
+      patches:
+        - fromFieldPath: spec.parameters.argocd.instance
+          toFieldPath: spec.forProvider.manifest.metadata.labels[argocd.argoproj.io/instance]
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-vs"
+        - fromFieldPath: spec.parameters.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+        - fromFieldPath: spec.parameters.virtualService.hosts
+          toFieldPath: spec.forProvider.manifest.spec.hosts
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.http[0].route[0].destination.host
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-stable"
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.http[0].route[1].destination.host
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-canary"
