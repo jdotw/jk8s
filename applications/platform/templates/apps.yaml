@@ -23,8 +23,6 @@ spec:
     {{- end }}
     helm:
       parameters:
-        - name: fqdn
-          value: "{{ $fqdn }}"
         - name: argocd.namespace
           value: "{{ $argocdNamespace }}"
       values:
