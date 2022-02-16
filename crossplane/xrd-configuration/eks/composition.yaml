@@ -548,6 +548,9 @@ spec:
             namespace: jk8s
             values:
               platform:
+                crossplane:
+                  kubernetes:
+                    enabled: true
                 dns:
                   fqdn: PATCHED
                   externalDNS:
@@ -657,17 +660,28 @@ spec:
           toFieldPath: spec.forProvider.values.platform.apps[0].values
           policy:
             fromFieldPath: Required
-        # - type: CombineFromComposite
-        #   combine:
-        #     variables:
-        #       - fromFieldPath: spec.parameters.name
-        #       - fromFieldPath: metadata.uid
-        #     strategy: string
-        #     string:
-        #       fmt: "%s-eks-conn-%s"
-        #   toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.connectionSecretName
-        #   policy:
-        #     fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: metadata.uid
+            strategy: string
+            string:
+              fmt: "%s-eks-conn-%s"
+          toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.connectionSecretName
+          policy:
+            fromFieldPath: Required
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: spec.parameters.name
+              - fromFieldPath: metadata.uid
+            strategy: string
+            string:
+              fmt: "%s-eks-conn-%s"
+          toFieldPath: spec.forProvider.values.platform.crossplane.kubernetes.externalSecretName
+          policy:
+            fromFieldPath: Required
 
     - name: cluster-connection-secret
       base:

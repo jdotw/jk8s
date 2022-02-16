@@ -74,18 +74,21 @@ spec:
               - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: https://github.com/%s/%s.git
+              fmt: https://github.com/%s/app-%s.git
           toFieldPath: spec.forProvider.manifest.spec.source.repoURL
           policy:
             fromFieldPath: Required
         - type: CombineFromComposite
           combine:
             variables:
+              - fromFieldPath: spec.parameters.argocd.namespace
               - fromFieldPath: spec.parameters.environment.hostedZoneID
               - fromFieldPath: spec.parameters.environment.hostedZoneName
             strategy: string
             string:
               fmt: |
+                argocd:
+                  namespace: %s
                 environment:
                   hostedZoneID: %s
                   hostedZoneName: %s

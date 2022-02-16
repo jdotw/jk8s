@@ -203,12 +203,15 @@ spec:
             variables:
               - fromFieldPath: spec.parameters.repository.owner
               - fromFieldPath: spec.parameters.repository.org
+              - fromFieldPath: spec.parameters.argocd.namespace
             strategy: string
             string:
               fmt: |
                 repository:
                   owner: %s
                   org: %s
+                argocd:
+                  namespace: %s
           toFieldPath: spec.forProvider.manifest.spec.source.helm.values
           policy:
             fromFieldPath: Required

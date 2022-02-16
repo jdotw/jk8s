@@ -75,7 +75,7 @@ spec:
                   desiredNodeCount:
                     description: Desired number of worker nodes in the cluster
                     type: integer
-                    default: 3
+                    default: 4
                   maxNodeCount:
                     description: Maximum number of worker nodes in the cluster
                     type: integer

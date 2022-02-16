@@ -39,9 +39,6 @@ spec:
                       hostedZoneName:
                         description: The Name of the environment's hosted zone
                         type: string
-                    required:
-                      - hostedZoneID
-                      - hostedZoneName
                   repository:
                     type: object
                     properties: 
@@ -53,6 +50,12 @@ spec:
                         description: The organization to add the GitHub Repo to
                     required:
                       - owner
+                  argocd:
+                    type: object
+                    properties:
+                      namespace: 
+                        type: string
+                        description: The namespace that ArgoCD is running in
                 required:
                   - repository
             required:

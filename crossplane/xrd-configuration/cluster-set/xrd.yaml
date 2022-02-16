@@ -103,6 +103,12 @@ spec:
                     required:
                       - name
                       - url
+                  argocd:
+                    type: object
+                    properties:
+                      namespace: 
+                        type: string
+                        description: The namespace where ArgoCD is deployed
                 required:
                   - name
                   - environments
