@@ -14,7 +14,7 @@ spec:
       patches:
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.parameters.region"
-        - fromFieldPath: "spec.parameters.name"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.parameters.name"
 
   resources:
@@ -143,7 +143,7 @@ spec:
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
-        - fromFieldPath: "spec.parameters.name"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.parameters.name"
           transforms:
             - type: string

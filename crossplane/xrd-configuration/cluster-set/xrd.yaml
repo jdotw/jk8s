@@ -22,9 +22,6 @@ spec:
               parameters:
                 type: object
                 properties:
-                  name:
-                    description: Name of the Cluster Set
-                    type: string       
                   region:
                     description: Region to deploy into
                     type: string       
