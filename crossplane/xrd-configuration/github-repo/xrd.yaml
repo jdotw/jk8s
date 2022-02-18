@@ -36,10 +36,13 @@ spec:
                     type: boolean
                     default: true
                   visibility:
-                    description: Whether the repo is public, private or internal
+                    description: Whether the repo is public or private
                     type: string    
-                    enum: [public, private, internal]
+                    enum: [public, private]
                     default: private
+                  templateRef:
+                    description: "The template repo to base this new repo on (format: owner/repo)"
+                    type: string
                 required:
                   - name
                   - owner

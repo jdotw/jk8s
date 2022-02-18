@@ -139,7 +139,7 @@ spec:
         spec:
           parameters:
             private: true
-            visibility: internal
+            visibility: private
       patches:    
         - type: PatchSet
           patchSetName: common-parameters
@@ -153,6 +153,12 @@ spec:
           toFieldPath: "spec.parameters.owner"
         - fromFieldPath: "spec.parameters.repository.org"
           toFieldPath: "spec.parameters.org"
+        - fromFieldPath: "spec.parameters.repository.owner"
+          toFieldPath: "spec.parameters.templateRef"
+          transforms:
+            - type: string
+              string:
+                fmt: "%s/cluster-template"
         - type: ToCompositeFieldPath
           fromFieldPath: status.gitURL
           toFieldPath: status.repository.gitURL

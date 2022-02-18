@@ -38,6 +38,8 @@ spec:
           toFieldPath: "spec.forProvider.private"
         - fromFieldPath: "spec.parameters.visibility"
           toFieldPath: "spec.forProvider.visibility"
+        - fromFieldPath: "spec.parameters.templateRef"
+          toFieldPath: "spec.forProvider.templateRef"
         - type: ToCompositeFieldPath
           fromFieldPath: status.atProvider.gitUrl
           toFieldPath: status.gitURL

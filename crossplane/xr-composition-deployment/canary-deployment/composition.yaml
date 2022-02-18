@@ -8,6 +8,15 @@ spec:
     apiVersion: jk8s.io/v1beta1
     kind: XCanaryDeployment
 
+  patchSets:
+    - name: common-parameters
+      patches:
+        - fromFieldPath: spec.parameters.argocd.instance
+          toFieldPath: spec.forProvider.manifest.metadata.labels[argocd.argoproj.io/instance]
+        - fromFieldPath: spec.parameters.namespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+
+
   resources:
 
     - name: stable-service
@@ -28,6 +37,8 @@ spec:
                 selector:
                   app: "{{ .Values.app.name }}-rollout"
       patches:
+        - type: PatchSet
+          patchSetName: common-parameters
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.manifest.metadata.name
           transforms:
@@ -59,6 +70,8 @@ spec:
                 selector:
                   app: "{{ .Values.app.name }}-rollout"
       patches:
+        - type: PatchSet
+          patchSetName: common-parameters
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.manifest.metadata.name
           transforms:
@@ -95,16 +108,14 @@ spec:
                       - destination: {}
                         weight: 0
       patches:
-        - fromFieldPath: spec.parameters.argocd.instance
-          toFieldPath: spec.forProvider.manifest.metadata.labels[argocd.argoproj.io/instance]
+        - type: PatchSet
+          patchSetName: common-parameters
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.manifest.metadata.name
           transforms:
             - type: string
               string:
                 fmt: "%s-vs"
-        - fromFieldPath: spec.parameters.namespace
-          toFieldPath: spec.forProvider.manifest.metadata.namespace
         - fromFieldPath: spec.parameters.virtualService.hosts
           toFieldPath: spec.forProvider.manifest.spec.hosts
         - fromFieldPath: metadata.name
@@ -119,3 +130,86 @@ spec:
             - type: string
               string:
                 fmt: "%s-svc-canary"
+
+
+
+    - name: rollout1
+      base:
+        apiVersion: kubernetes.crossplane.io/v1alpha1
+        kind: Object
+        spec:
+          forProvider:
+            manifest:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Rollout
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - imagePullPolicy: Always
+                        ports:
+                          - containerPort: {{ int .Values.app.containerPort }}
+                        envFrom:
+                          - secretRef:
+                              name: rds
+                        env:
+                          {{ toYaml .Values.app.extraEnv | nindent 12 }}
+                strategy:
+                  canary:
+                    steps: 
+                      {{ toYaml .Values.strategy.canary.steps | nindent 8 }}
+                    canaryService: "{{ .Values.app.name }}-svc-canary"
+                    stableService: "{{ .Values.app.name }}-svc-stable"
+                    trafficRouting:
+                      istio:
+                        virtualService:
+                          name: "{{ .Values.app.name }}-vs"
+                          routes:
+                            - primary
+      patches:
+        - type: PatchSet
+          patchSetName: common-parameters
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rollout"
+        - fromFieldPath: spec.parameters.app.replicas
+          toFieldPath: spec.forProvider.manifest.replicas
+        - fromFieldPath: spec.parameters.app.revisionHistoryLimit
+          toFieldPath: spec.forProvider.manifest.revisionHistoryLimit
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.selector.matchLabels.app
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rollout"
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.template.metadata.labels.app
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-rollout"
+        - fromFieldPath: spec.parameters.app.version
+          toFieldPath: spec.forProvider.manifest.spec.template.metadata.labels.version
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].name
+        - fromFieldPath: spec.parameters.app.image
+          toFieldPath: spec.forProvider.manifest.spec.template.spec.containers[0].image
+
+
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.http[0].route[0].destination.host
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-stable"
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.manifest.spec.http[0].route[1].destination.host
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-svc-canary"
+
+
