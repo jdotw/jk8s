@@ -107,7 +107,6 @@ spec:
                         type: string
                         description: The namespace where ArgoCD is deployed
                 required:
-                  - name
                   - environments
                   - repository
             required:

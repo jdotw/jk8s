@@ -41,8 +41,13 @@ spec:
                     enum: [public, private]
                     default: private
                   templateRef:
-                    description: "The template repo to base this new repo on (format: owner/repo)"
-                    type: string
+                    type: object
+                    properties:
+                      name:
+                        description: "The template repo to base this new repo on (format: owner/repo)"
+                        type: string
+                    required: 
+                      - name
                 required:
                   - name
                   - owner

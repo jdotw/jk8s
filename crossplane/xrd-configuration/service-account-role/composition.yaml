@@ -82,8 +82,8 @@ spec:
                     ]
                 }
           toFieldPath: spec.forProvider.assumeRolePolicyDocument
-          policy:
-            fromFieldPath: Required
+          # policy:
+          #   fromFieldPath: Required
         - type: ToCompositeFieldPath
           fromFieldPath: status.atProvider.arn
           toFieldPath: status.roleARN

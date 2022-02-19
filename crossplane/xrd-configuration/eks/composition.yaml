@@ -20,6 +20,16 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.environment"
           toFieldPath: "spec.providerConfigRef.name"
+    - name: service-account-common-parameters
+      patches:
+        - fromFieldPath: "spec.parameters.environment"
+          toFieldPath: "spec.parameters.environment.providerConfigName"
+        - fromFieldPath: "spec.parameters.awsAccountNumber"
+          toFieldPath: "spec.parameters.environment.awsAccountNumber"
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.parameters.environment.region"
+        - fromFieldPath: "status.oidcIssuer"
+          toFieldPath: "spec.parameters.oidcIssuer"
 
   resources:
 
@@ -133,6 +143,8 @@ spec:
             - type: string
               string:
                 fmt: "https://%s"
+          policy:
+            fromFieldPath: Required            
         - fromFieldPath: spec.parameters.region
           toFieldPath: spec.forProvider.thumbprintList[0]
           transforms:
@@ -257,14 +269,8 @@ spec:
             namespace: cert-manager
             serviceAccount: cert-manager
       patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: CombineFromComposite
           combine:
             variables:
@@ -314,14 +320,8 @@ spec:
             namespace: external-dns
             serviceAccount: external-dns
       patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: CombineFromComposite
           combine:
             variables:
@@ -386,15 +386,9 @@ spec:
                       }
                   ]
               }              
-      patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+      patches:
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: ToCompositeFieldPath
           fromFieldPath: status.roleARN
           toFieldPath: status.argocdExternalSecretsServiceAccountRoleARN
@@ -423,15 +417,9 @@ spec:
                       }
                   ]
               }              
-      patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+      patches:
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: ToCompositeFieldPath
           fromFieldPath: status.roleARN
           toFieldPath: status.telemetryExternalSecretsServiceAccountRoleARN
@@ -461,14 +449,8 @@ spec:
                   ]
               }              
       patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: ToCompositeFieldPath
           fromFieldPath: status.roleARN
           toFieldPath: status.appExternalSecretsServiceAccountRoleARN
@@ -497,15 +479,9 @@ spec:
                       }
                   ]
               }              
-      patches:    
-        - fromFieldPath: "spec.parameters.environment"
-          toFieldPath: "spec.parameters.environment.providerConfigName"
-        - fromFieldPath: "spec.parameters.awsAccountNumber"
-          toFieldPath: "spec.parameters.environment.awsAccountNumber"
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.parameters.environment.region"
-        - fromFieldPath: "status.oidcIssuer"
-          toFieldPath: "spec.parameters.oidcIssuer"
+      patches:
+        - type: PatchSet
+          patchSetName: service-account-common-parameters
         - type: ToCompositeFieldPath
           fromFieldPath: status.roleARN
           toFieldPath: status.crossplaneExternalSecretsServiceAccountRoleARN

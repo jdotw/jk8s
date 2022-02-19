@@ -34,7 +34,7 @@ spec:
         - fromFieldPath: "spec.parameters.repository.org"
           toFieldPath: "spec.parameters.org"
         - fromFieldPath: "spec.parameters.repository.owner"
-          toFieldPath: "spec.parameters.templateRef"
+          toFieldPath: "spec.parameters.templateRef.name"
           transforms:
             - type: string
               string:

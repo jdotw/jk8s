@@ -92,6 +92,7 @@ spec:
                   - repository
             required:
               - parameters
+ 
           status:
             type: object 
             properties:
